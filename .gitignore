@@ -1,0 +1,23 @@
+# Arquivos originais pesados e documentos internos (repositório é público)
+_originais/
+
+# Dependências e builds
+node_modules/
+dist/
+.astro/
+.cache/
+.vercel/
+.netlify/
+
+# Sistema / editores
+.DS_Store
+Thumbs.db
+desktop.ini
+*.log
+.env
+.env.*
+!.env.example
+
+# Capturas de QA e screenshots de sites de terceiros (pesquisa)
+design-options/*/_qa/
+pesquisa/refs/

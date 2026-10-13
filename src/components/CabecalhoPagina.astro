@@ -34,6 +34,8 @@ interface Props {
   proporcao?: string;
   /** Mostra "Click para agendar" + telefone (padrão: sim). */
   cta?: boolean;
+  /** Mostra "ou ligue …" ao lado do CTA (padrão: sim; o Contato já lista o telefone). */
+  tel?: boolean;
   /** Letra desconstruída do logo como grafismo (atrás da foto ou à direita, nunca atrás do texto). */
   letra?: Letra;
   id?: string;
@@ -53,6 +55,7 @@ const {
   posicao,
   proporcao = '4/5',
   cta = true,
+  tel = true,
   letra,
   id = 'h1',
   class: classe,
@@ -74,9 +77,11 @@ const estiloLetra = vb ? `aspect-ratio:${vb[2]}/${vb[3]}` : undefined;
         cta && (
           <div class="acoes cab-acoes">
             <CtaAgendar origem={origem} heroi />
-            <a class="tel" href={telHref}>
-              ou ligue {CONTATO.telefone}
-            </a>
+            {tel && (
+              <a class="tel" href={telHref}>
+                ou ligue {CONTATO.telefone}
+              </a>
+            )}
           </div>
         )
       }
@@ -112,6 +117,8 @@ const estiloLetra = vb ? `aspect-ratio:${vb[2]}/${vb[3]}` : undefined;
   .cab-lead a{text-decoration-color:rgb(61 66 10/.45)}
   .cab-lead{margin-top:clamp(22px,2.4vw,32px);max-width:40ch}
   .cab-acoes{margin-top:36px}
+  .cab-nota{margin-top:24px;font-size:1rem;color:var(--verde-2)}
+  .cab-nota a{text-decoration-color:rgb(90 94 44/.45)}
   .cab-figw{position:relative;isolation:isolate;width:min(80%,440px);margin-left:auto}
   .g-cab{z-index:-2;top:-10%;left:-46%;height:74%;width:auto;fill:var(--polen);opacity:.85}
   .g-cab-solo{display:none}
@@ -121,8 +128,10 @@ const estiloLetra = vb ? `aspect-ratio:${vb[2]}/${vb[3]}` : undefined;
     .cab-figw{grid-column:8/13;width:auto;margin:0}
     .g-cab{left:auto;right:-34%;top:-6%;height:86%}
     .cab-sem-foto .cab-txt{grid-column:1/10;padding-bottom:0}
-    .g-cab-solo{display:block;z-index:-1;top:clamp(8px,2vw,32px);right:-2vw;height:clamp(220px,24vw,340px);width:auto;fill:var(--polen);opacity:.7}
+    .g-cab-solo{z-index:-1;top:clamp(8px,2vw,32px);right:-2vw;height:clamp(220px,24vw,340px);width:auto;fill:var(--polen);opacity:.7}
   }
+  /* a letra só entra quando sobra espaço à direita do texto (entre 1024 e 1199 px ela ficaria atrás do H1/lead) */
+  @media (min-width:1200px){.g-cab-solo{display:block}}
   @media (prefers-reduced-motion:no-preference){
     .cab .lamina-quadro::before{animation:phMoldura 1.6s .15s var(--ease-io) both}
     .g-cab,.g-cab-solo{animation:phLetra 2s .1s var(--ease) both}

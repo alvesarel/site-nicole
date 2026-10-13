@@ -1,11 +1,11 @@
 ---
 titulo: "Dra. Nicole Almeida, cirurgiã-dentista em Campinas"
 seoTitle: "Sobre a Dra. Nicole Almeida, cirurgiã-dentista em Campinas"
-description: "Conheça a Dra. Nicole Almeida, cirurgiã-dentista no Cambuí, em Campinas, com atuação em prótese e reabilitação oral: formação, propósito e atendimento."
+description: "Conheça a Dra. Nicole Almeida, cirurgiã-dentista (clínica geral) no Cambuí, Campinas, com atuação em prótese e reabilitação oral: formação e atendimento."
 atualizadoEm: 2026-10-13
 ---
 
-A Dra. Nicole Almeida é cirurgiã-dentista, inscrita no CRO-SP sob o nº [a confirmar], e atende no Cambuí, em Campinas. Na clínica geral, as áreas de atuação dela são a prótese e a reabilitação oral: repor dentes perdidos e devolver a mastigação, a fala e o conforto de sorrir. Ela atende sobretudo pessoas que perderam um ou vários dentes e querem entender as opções antes de decidir qualquer coisa.
+A Dra. Nicole Almeida é cirurgiã-dentista (CRO-SP nº [a confirmar]) e atende no Cambuí, em Campinas, sobretudo quem perdeu um ou vários dentes.
 
 ## Por que a odontologia
 
@@ -33,20 +33,13 @@ Esse jeito de trabalhar tem nome, "Um sorriso de cada vez", e as quatro etapas e
 
 ## Áreas de atuação
 
-Clínica geral, com áreas de atuação em prótese e reabilitação oral. Na prática, isso inclui a [prótese dentária](/servicos/protese-dentaria/) sobre dentes e sobre implantes, os [implantes dentários](/servicos/implantes-dentarios/) unitários e múltiplos e as cirurgias na gengiva ao redor de dentes e implantes, todos reunidos na página de [reabilitação oral](/servicos/reabilitacao-oral/).
+Clínica geral, com áreas de atuação em prótese e reabilitação oral: repor dentes perdidos e devolver a mastigação, a fala e o conforto de sorrir. Na prática, isso inclui a [prótese dentária](/servicos/protese-dentaria/) sobre dentes e sobre implantes, os [implantes dentários](/servicos/implantes-dentarios/) unitários e múltiplos e as cirurgias na gengiva ao redor de dentes e implantes, todos reunidos na página de [reabilitação oral](/servicos/reabilitacao-oral/).
 
 Ela também cuida da [prevenção e manutenção](/servicos/prevencao-e-manutencao/), com limpezas e consultas de revisão, e da [estética dental](/servicos/estetica-dental/), como clareamento e facetas.
 
 ## Formação
 
 - Graduação em Odontologia: [instituição e ano a confirmar].
-- Pós-graduação em Prótese, Implantes e Cirurgias Periodontais na Faculdade São Leopoldo Mandic, em Campinas: [em andamento ou concluída, a confirmar].
-
-A pós-graduação reúne as três frentes que mais aparecem no dia a dia do consultório: a prótese, os implantes que podem sustentá-la e o cuidado com a gengiva e o osso ao redor deles.
-
-## Ensino e mentorias
-
-Além do consultório, a Dra. Nicole tem interesse em educação e pretende compartilhar com outros dentistas o que aprende sobre planejamento e atendimento em reabilitação oral, em formato de mentoria. [Formato e datas a confirmar.]
 
 ## Uma primeira conversa
 

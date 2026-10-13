@@ -6,16 +6,19 @@ categoria: estetica-da-face
 ordem: 4
 seoTitle: "Toxina botulínica e preenchedores orofaciais em Campinas"
 description: "Toxina botulínica e preenchedores na região orofacial, com indicação após avaliação, no Cambuí, Campinas. Finalidades, contraindicações e cuidados."
-resumo: "A toxina botulínica relaxa músculos de forma temporária, e os preenchedores, em geral de ácido hialurônico, repõem volume ou dão suporte aos tecidos. Na região orofacial, podem ser usados em situações como dor muscular associada ao bruxismo, sorriso gengival e assimetrias do sorriso. A indicação é feita após avaliação."
+lead: "A toxina botulínica relaxa músculos de forma temporária, e os preenchedores, em geral de ácido hialurônico, dão suporte aos tecidos."
+resumo: "Na região orofacial, os dois podem ser usados em situações como dor muscular associada ao bruxismo, sorriso gengival e assimetrias do sorriso. A indicação é feita após avaliação."
+cartao: "Toxina botulínica e preenchedores na região orofacial, com indicação após avaliação."
 itens:
   - "Toxina botulínica e preenchedores na região orofacial"
 imagem: ../../assets/fotos/dra-nicole-almeida-detalhe.jpg
 imagemAlt: "Retrato em close do perfil da Dra. Nicole Almeida, cirurgiã-dentista em Campinas, com destaque para o cabelo e o brinco"
+legenda: "Retrato · perfil em close"
 indicacoes:
   - "Bruxismo ou apertamento com dor e cansaço nos músculos da mastigação, como complemento a outros tratamentos"
   - "Sorriso gengival causado por elevação excessiva do lábio superior"
   - "Assimetrias do sorriso de origem muscular"
-  - "Perda de contorno ou de suporte nos lábios e na região ao redor da boca"
+  - "Necessidade de suporte nos lábios e na região ao redor da boca, avaliada caso a caso"
 etapas:
   - titulo: "Avaliação e histórico de saúde"
     texto: "Conversa sobre a queixa, medicamentos, alergias, gestação e procedimentos anteriores, com exame da face, dos músculos da mastigação e da mordida."
@@ -45,7 +48,7 @@ prioridadeSeo: baixa
 
 A toxina botulínica bloqueia por alguns meses o sinal que o nervo envia ao músculo. Aplicada nos músculos da mastigação, pode reduzir a força do apertamento e a dor muscular de quem tem bruxismo, como complemento à placa de proteção. Nos músculos que elevam o lábio superior, pode diminuir o quanto da gengiva aparece ao sorrir.
 
-Os preenchedores de ácido hialurônico devolvem contorno e suporte aos lábios e à região ao redor da boca, com atenção ao equilíbrio do terço inferior do rosto.
+Os preenchedores de ácido hialurônico podem ser indicados para dar suporte aos lábios e à região ao redor da boca, quando a avaliação mostrar indicação.
 
 ## Quais são os riscos e as contraindicações?
 

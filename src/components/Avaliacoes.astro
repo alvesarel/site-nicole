@@ -4,9 +4,11 @@
  * - nunca depoimento fictício; só trechos reais do Google, sobre o atendimento, com autorização, sem foto;
  * - sem AggregateRating/Review no JSON-LD.
  * Sem trechos: convite para ler as avaliações de pacientes no Google (link para o perfil).
+ * Só renderize com AVALIACOES.googleUrl preenchido (a home testa isso): sem perfil, nada de link de busca, que
+ * poderia mostrar outro profissional ou a ficha do coworking.
  */
 import SecaoTitulo from './SecaoTitulo.astro';
-import { AVALIACOES, SITE, ENDERECO } from '../data/site';
+import { AVALIACOES } from '../data/site';
 import { dataCurta } from '../lib/format';
 
 interface Props {
@@ -18,10 +20,8 @@ interface Props {
 }
 const { titulo = 'Avaliações no *Google*.', eyebrow, id = 'aval-t', nivel = 2, class: classe } = Astro.props;
 
-// CONFIRMAR: AVALIACOES.googleUrl (link "ver avaliações" do Perfil da Empresa). Até lá, busca pelo nome no Google Maps.
-const url =
-  AVALIACOES.googleUrl ??
-  `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${SITE.nome} ${ENDERECO.cidade}`)}`;
+// CONFIRMAR: AVALIACOES.googleUrl (link "ver avaliações" do Perfil da Empresa no Google).
+const url = AVALIACOES.googleUrl;
 const temTrechos = AVALIACOES.trechos.length > 0;
 ---
 
@@ -47,7 +47,7 @@ const temTrechos = AVALIACOES.trechos.length > 0;
       <ul class="quotes" data-r>
         {AVALIACOES.trechos.map((t) => (
           <li>
-            <blockquote cite={url}>
+            <blockquote cite={url ?? undefined}>
               <p>{t.texto}</p>
             </blockquote>
             <p class="q-by">
@@ -68,10 +68,12 @@ const temTrechos = AVALIACOES.trechos.length > 0;
       </div>
     )
   }
+  {url && (
   <a class="lnk" href={url} target="_blank" rel="noopener" aria-label="Ler as avaliações no Google (abre em nova aba)">
     Ler as avaliações no Google
     <svg class="i i-ne" viewBox="0 0 10 10" aria-hidden="true" focusable="false"><use href="#i-ne"></use></svg>
   </a>
+  )}
 </div>
 
 <style is:global>
@@ -85,5 +87,6 @@ const temTrechos = AVALIACOES.trechos.length > 0;
   .q-by{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;margin-top:12px;padding-left:22px;font-size:.9375rem;color:var(--verde-2)}
   .aval-convite{margin:36px 0 16px;padding:26px 0 30px;border-block:1px solid var(--rule)}
   .aval-titulo{margin-bottom:14px;font:400 1rem/1.3 var(--caps);letter-spacing:.08em;color:var(--verde-2)}
-  .aval-convite p:not(.aval-titulo){max-width:30ch;padding-left:20px;border-left:2px solid var(--polen);font:400 clamp(1.5rem,1.25rem + .8vw,1.9rem)/1.3 var(--serif);letter-spacing:-.005em}
+  /* convite em texto do consultório (não em visual de citação: barra Pólen e Bodoni ficam só para trechos reais) */
+  .aval-convite p:not(.aval-titulo){max-width:36ch;padding-left:0;border-left:0;font:400 var(--lead)/1.5 var(--sans);letter-spacing:0}
 </style>

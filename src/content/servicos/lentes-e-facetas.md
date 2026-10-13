@@ -4,15 +4,18 @@ nome: "Lentes e facetas em cerâmica"
 tipo: servico
 categoria: estetica-dental
 ordem: 4
-seoTitle: "Lentes de contato dental e facetas em Campinas"
+seoTitle: "Lentes de contato dental e facetas em Campinas | Dra. Nicole"
 description: "Lentes de contato dental e facetas em cerâmica no Cambuí, Campinas: quem pode fazer, quando há desgaste, etapas, durabilidade e cuidados."
-resumo: "Lentes de contato dental e facetas são lâminas de cerâmica coladas na frente dos dentes para mudar cor, forma ou proporção. As lentes são as mais finas e, em casos selecionados, pedem pouco ou nenhum desgaste; as facetas são um pouco mais espessas e permitem mudanças maiores. O tratamento começa por uma avaliação e por um ensaio do sorriso na boca, antes de qualquer etapa irreversível."
+lead: "Lentes de contato dental e facetas são lâminas de cerâmica coladas na frente dos dentes para mudar cor, forma ou proporção."
+resumo: "As lentes são as mais finas e, em casos selecionados, pedem pouco ou nenhum desgaste; as facetas são um pouco mais espessas e permitem mudanças maiores. O tratamento começa por uma avaliação e por um ensaio do sorriso na boca, antes de qualquer etapa irreversível."
+cartao: "Lâminas de cerâmica para mudar a cor, a forma ou a proporção dos dentes."
 itens:
   - "Lentes de contato dental em cerâmica"
   - "Facetas em cerâmica"
   - "Planejamento digital e ensaio do sorriso (mock-up)"
 imagem: ../../assets/fotos/dra-nicole-almeida-poltrona.jpg
 imagemAlt: "Dra. Nicole Almeida, cirurgiã-dentista no Cambuí, em Campinas, sentada em uma poltrona, de blazer creme, olhando para a câmera"
+legenda: "Retrato · poltrona e blazer creme"
 indicacoes:
   - "Dentes com forma, tamanho ou proporção que incomodam ao sorrir"
   - "Pequenos espaços entre os dentes (diastemas)"

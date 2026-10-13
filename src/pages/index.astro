@@ -17,7 +17,7 @@ import Avaliacoes from '../components/Avaliacoes.astro';
 import Faq from '../components/Faq.astro';
 import MapaFacade from '../components/MapaFacade.astro';
 
-import { SITE, PROFISSIONAL, CONTATO, ENDERECO, HORARIO } from '../data/site';
+import { SITE, PROFISSIONAL, CONTATO, ENDERECO, HORARIO, AVALIACOES } from '../data/site';
 import { FAQ_HOME } from '../data/faq';
 import { faqPageNode } from '../lib/schema';
 import { dividirPalavras, enderecoLinhas, telHref } from '../lib/format';
@@ -31,14 +31,14 @@ import fotoAtendimento from '../assets/fotos/consultorio-cambui-sala-de-atendime
 const ORIGEM = 'página inicial';
 
 // hero: mesmos widths/sizes no <Picture> e no preload (mesmas URLs)
-const heroSizes = '(min-width: 1024px) 36vw, (min-width: 600px) min(76vw, 520px), 84vw';
+const heroSizes = '(min-width: 1440px) 500px, (min-width: 1024px) 36vw, (min-width: 600px) min(76vw, 520px), 70vw';
 const heroWidths = larguras(fotoHero, 1000, [360, 480, 640, 800, 1000]);
 const preload = await preloadImagem(fotoHero, heroSizes, heroWidths);
 
 const [end1, end2] = enderecoLinhas();
 const nome = `${PROFISSIONAL.tratamento} ${PROFISSIONAL.nome}`;
-const posGrad = PROFISSIONAL.formacao.find((f) => f.titulo.startsWith('Pós'));
-const statusPos = posGrad && 'status' in posGrad ? posGrad.status : undefined;
+// Avaliações só entram quando existir o Perfil da Empresa no Google (sem perfil, nada de link de busca)
+const temAvaliacoes = Boolean(AVALIACOES.googleUrl);
 ---
 
 <Base
@@ -62,7 +62,11 @@ const statusPos = posGrad && 'status' in posGrad ? posGrad.status : undefined;
               ></em
             >.</span
           >
-          <span class="h1-b">{nome}, {PROFISSIONAL.cargo.toLowerCase()}. Prótese e reabilitação oral no {ENDERECO.bairro}, {ENDERECO.cidade}.</span>
+          <span class="h1-b"
+            >{nome}, <span class="nw">{PROFISSIONAL.cargo.toLowerCase()}.</span> Clínica geral, com atuação em prótese e reabilitação oral no {
+              ENDERECO.bairro
+            }, {ENDERECO.cidade}.</span
+          >
         </h1>
         <p class="hero-p">
           Para quem perdeu dentes e quer voltar a sorrir sem pensar nisso: planejamento com escaneamento 3D, atendimento individual e
@@ -111,24 +115,13 @@ const statusPos = posGrad && 'status' in posGrad ? posGrad.status : undefined;
         <div class="sobre-txt">
           <p class="display" data-split set:html={dividirPalavras('Sorrisos reais, *sem pressa*.')} />
           <p class="manif" data-r>
-            Sorrir é um poder silencioso. Quem perdeu dentes sabe o quanto deixa de sorrir: numa foto, numa conversa, diante do
-            espelho. Por isso cada transformação é feita com precisão e carinho, numa experiência acolhedora e sem pressa. A técnica
-            transforma, mas só a leveza acolhe.
+            Sorrir é um poder silencioso. Por isso me dedico, com precisão e carinho, a realizar cada transformação com leveza. A
+            técnica transforma, mas só a leveza acolhe.
           </p>
           <p class="assina" data-r>— {nome}</p>
           <dl class="creds" data-r>
             <div><dt>Registro</dt><dd>{PROFISSIONAL.cargo} · <span class="nw">{PROFISSIONAL.cro}</span></dd></div>
             <div><dt>Atuação</dt><dd>{PROFISSIONAL.atuacao}</dd></div>
-            {
-              posGrad && (
-                <div>
-                  <dt>Formação</dt>
-                  <dd>
-                    {posGrad.titulo}, {posGrad.instituicao} {statusPos && <span class="ph">{statusPos}</span>}
-                  </dd>
-                </div>
-              )
-            }
             <div><dt>Planejamento</dt><dd>Escaneamento intraoral 3D antes de qualquer proposta</dd></div>
             <div><dt>Atendimento</dt><dd>Individual, com hora marcada, no {ENDERECO.bairro}</dd></div>
           </dl>
@@ -189,10 +182,10 @@ const statusPos = posGrad && 'status' in posGrad ? posGrad.status : undefined;
   </section>
 
   <!-- 5 · AVALIAÇÕES + PERGUNTAS FREQUENTES -->
-  <section class="sec af" id="perguntas" aria-label="Avaliações e perguntas frequentes">
-    <div class="wrap af-grid">
-      <p class="eyebrow af-eyebrow">Avaliações e dúvidas</p>
-      <Avaliacoes class="af-aval" />
+  <section class="sec af" id="perguntas" aria-label={temAvaliacoes ? 'Avaliações e perguntas frequentes' : 'Perguntas frequentes'}>
+    <div class:list={['wrap', 'af-grid', !temAvaliacoes && 'af-so-faq']}>
+      <p class="eyebrow af-eyebrow">{temAvaliacoes ? 'Avaliações e dúvidas' : 'Dúvidas'}</p>
+      {temAvaliacoes && <Avaliacoes class="af-aval" />}
       <Faq
         itens={FAQ_HOME}
         titulo="Perguntas *frequentes*."
@@ -309,6 +302,7 @@ const statusPos = posGrad && 'status' in posGrad ? posGrad.status : undefined;
     .af-grid>.af-eyebrow{grid-column:1/-1;margin-bottom:0}
     .af-aval{grid-column:1/6}
     .af-faq{grid-column:7/13}
+    .af-so-faq>.af-eyebrow,.af-so-faq .af-faq{grid-column:3/11}
   }
 
   /* ---------- 6 · endereço + mapa ---------- */

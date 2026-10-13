@@ -21,11 +21,12 @@ const caminhos = [
   path="/404/"
   origem="Página não encontrada"
   noindex
+  revisavel={false}
 >
   <CabecalhoPagina
     eyebrow="Erro 404"
     titulo="Esta página não está *aqui*."
-    lead="O endereço pode ter mudado ou ter sido digitado com algum detalhe diferente. Os caminhos abaixo levam ao que você procura, e o WhatsApp continua a um toque."
+    lead="O endereço pode ter mudado ou ter sido digitado com algum detalhe diferente. Os caminhos abaixo levam ao que você procura."
     origem="Página não encontrada"
     letra="M"
   >
@@ -42,7 +43,7 @@ const caminhos = [
       }
     </ul>
     <p class="nf-serv" slot="depois">
-      Áreas de atuação:
+      Serviços:
       {CATEGORIAS.map((c) => <a href={`/servicos/${c.slug}/`}>{c.nome}</a>)}
     </p>
   </CabecalhoPagina>

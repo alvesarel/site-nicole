@@ -1,5 +1,8 @@
 // Cloudflare Workers (static assets). Deploy: conectar o repositório em
-// Workers & Pages → Create → Import a repository; build "npm run build"; deploy "npx wrangler deploy".
+// Workers & Pages → Create → Import a repository.
+//   Build command:  npm run build && npm run check:placeholders   (a trava falha enquanto houver dado provisório)
+//   Deploy command: npx wrangler deploy
+// Localmente: npm run deploy (build + trava + wrangler deploy).
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "site-nicole",
@@ -9,4 +12,10 @@
     "not_found_handling": "404-page",
     "html_handling": "auto-trailing-slash"
   }
+  // QUANDO O DOMÍNIO ESTIVER NA CLOUDFLARE (PENDENCIAS.md §4), acrescente as 3 linhas abaixo (vírgula após o
+  // bloco "assets"). Elas tiram do ar o endereço *.workers.dev e as URLs de preview (cópias rastreáveis do site)
+  // e publicam no domínio próprio. Não ative antes: sem domínio, o site ficaria sem nenhum endereço.
+  //   "workers_dev": false,
+  //   "preview_urls": false,
+  //   "routes": [{ "pattern": "www.dranicolealmeida.com.br", "custom_domain": true }]
 }

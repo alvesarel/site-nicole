@@ -5,7 +5,9 @@ description: "Como o site da Dra. Nicole Almeida trata dados pessoais: sem formu
 atualizadoEm: 2026-10-13
 ---
 
-Esta política explica como o site da Dra. Nicole Almeida e o atendimento pelo WhatsApp tratam dados pessoais, de acordo com a Lei Geral de Proteção de Dados (Lei nº 13.709/2018, a LGPD). O site não tem formulário, não pede cadastro e não usa cookies de publicidade ou de rastreamento.
+Esta política explica como o site e o atendimento pelo WhatsApp tratam dados pessoais, de acordo com a LGPD (Lei nº 13.709/2018).
+
+O site não tem formulário, não pede cadastro e não usa cookies de publicidade ou de rastreamento.
 
 ## Quem é a responsável pelos dados
 
@@ -15,11 +17,11 @@ Para qualquer assunto de privacidade, escreva para contato@dranicolealmeida.com.
 
 ## Quais dados o site trata
 
-**Navegação.** Ao abrir uma página, o seu navegador envia à hospedagem dados técnicos, como endereço IP, data e hora, página visitada e tipo de navegador. Eles servem para entregar o site e protegê-lo contra ataques. O site usa apenas conexão criptografada (HTTPS), e fontes e imagens vêm dele mesmo, sem chamadas a outros serviços.
+**Navegação.** Ao abrir uma página, o seu navegador envia à hospedagem dados técnicos, como endereço IP, data e hora, página visitada e tipo de navegador. Eles servem para entregar o site e protegê-lo contra ataques. O site usa apenas conexão criptografada (HTTPS), e fontes e imagens vêm dele mesmo, sem chamadas a outros serviços (exceto o script de estatísticas da Cloudflare, se ativado).
 
-**Estatísticas de visita.** Se o site passar a medir audiência, será com uma ferramenta sem cookies que conta visitas de forma agregada, sem identificar ninguém (como o Cloudflare Web Analytics). [Ativação a confirmar.]
+**Estatísticas de visita.** Se o site passar a medir audiência, será com uma ferramenta sem cookies que conta visitas de forma agregada, sem identificar ninguém (como o Cloudflare Web Analytics, cujo script é carregado de static.cloudflareinsights.com e envia as contagens à Cloudflare). [Ativação a confirmar.]
 
-**WhatsApp.** O botão "Click para agendar" abre o WhatsApp com uma mensagem pronta, que inclui o nome da página de onde você veio. Nada é enviado até você tocar em enviar. Daí em diante, a conversa acontece no WhatsApp, da Meta, sob os termos e a política de privacidade dela. No consultório, o seu nome, o telefone e a mensagem servem só para responder e marcar a consulta.
+**WhatsApp.** Ao tocar em “Click para agendar”, o WhatsApp (Meta) abre com uma mensagem pronta, com um código curto da página de onde você veio (por exemplo, “ref. 05”), nunca o nome de um tratamento. Ao abrir o link, a Meta recebe dados técnicos de acesso, como o IP, e o texto dessa mensagem; ela só chega ao consultório se você tocar em enviar. Daí em diante, a conversa acontece no WhatsApp, da Meta, sob os termos e a política de privacidade dela. No consultório, o seu nome, o telefone e a mensagem servem só para responder e marcar a consulta.
 
 **Mapa.** O mapa aparece primeiro como uma ilustração do próprio site. Só se você clicar em "Ver mapa interativo" o navegador carrega os mapas do OpenFreeMap, com dados do OpenStreetMap (ou do Google Maps, se o primeiro falhar), e esses serviços recebem o seu IP. Os links de rota abrem o Google Maps, o Waze ou o Apple Maps, cada um com a sua política.
 
@@ -31,7 +33,7 @@ Para qualquer assunto de privacidade, escreva para contato@dranicolealmeida.com.
 
 ## Dados de saúde
 
-Informações sobre a sua saúde são dados pessoais sensíveis (art. 5º, II) e têm proteção reforçada. O site não pede nem recebe esse tipo de informação. Pelo WhatsApp, basta dizer o necessário para agendar; detalhes clínicos e exames podem ficar para a consulta.
+Informações sobre a sua saúde são dados pessoais sensíveis (art. 5º, II) e têm proteção reforçada. O site não pede informações de saúde. Pelo WhatsApp, basta dizer o necessário para agendar; detalhes clínicos e exames podem ficar para a consulta.
 
 No consultório, esses dados ficam no prontuário odontológico, que é obrigatório e sigiloso. A base legal é o art. 11, II, alíneas "a" e "f", da LGPD (obrigação legal e tutela da saúde por profissional de saúde), com as regras do Conselho Federal de Odontologia.
 

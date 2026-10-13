@@ -2,7 +2,8 @@
 /**
  * /perguntas-frequentes/ — perguntas gerais (FAQ_GERAL, agrupadas por tema) + as perguntas de cada
  * página de serviço (frontmatter `faq`), agrupadas por serviço com link para a página.
- * Índice no topo. JSON-LD: FAQPage com todas as perguntas visíveis.
+ * Índice no topo. JSON-LD: FAQPage só com as perguntas que não estão marcadas em outra página (cada pergunta
+ * é marcada uma única vez no site: as da home ficam no FAQPage da home; as de serviço, na página do serviço).
  */
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
@@ -29,6 +30,7 @@ const porServico = TODAS_AS_PAGINAS.map((p) => {
 }).filter((s) => s.itens.length > 0);
 
 const todas = [...FAQ_GERAL, ...porServico.flatMap((s) => s.itens)];
+const soDestaPagina = FAQ_GERAL.filter((q) => !q.home);
 const total = todas.length;
 const minusc = (s: string) => s.charAt(0).toLowerCase() + s.slice(1);
 ---
@@ -39,7 +41,7 @@ const minusc = (s: string) => s.charAt(0).toLowerCase() + s.slice(1);
   path={path}
   origem={ORIGEM}
   breadcrumbs={[{ nome: 'Perguntas frequentes', href: path }]}
-  jsonLd={[faqPageNode(todas, path)]}
+  jsonLd={[faqPageNode(soDestaPagina, path)]}
 >
   <CabecalhoPagina
     eyebrow={`Dúvidas · ${total} perguntas`}

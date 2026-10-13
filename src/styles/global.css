@@ -90,6 +90,10 @@ p{max-width:64ch}
 .lead{font-size:var(--lead);line-height:1.5;max-width:40ch}
 .sub{font-size:1rem;color:var(--verde-2)}
 
+/* quebras de linha: títulos equilibrados (sem viúva), parágrafos sem palavra sozinha na última linha */
+h1,h2,h3,h4,.card-t,.rel-t{text-wrap:balance}
+.lead,.prose p,.prose li,.passos p,.srv-ind-nota,.faq-a p{text-wrap:pretty}
+
 /* texto corrido vindo de Markdown */
 .prose{max-width:64ch}
 .prose>*+*{margin-top:1.1em}
@@ -105,7 +109,9 @@ p{max-width:64ch}
 .prose a{text-decoration-color:rgb(61 66 10/.45)}
 .prose a:hover{text-decoration-color:currentColor}
 .prose strong{font-weight:600}
-.prose blockquote{padding-left:20px;border-left:2px solid var(--polen);font-size:var(--lead);line-height:1.5}
+.prose blockquote{padding-left:20px;border-left:2px solid var(--polen);font:italic 400 clamp(1.5rem,1.2rem + 1vw,2rem)/1.3 var(--serif);letter-spacing:-.005em}
+.prose blockquote p{max-width:30ch}
+.prose blockquote p+p:last-child{margin-top:14px;font:400 .9375rem/1.4 var(--caps);font-style:normal;letter-spacing:.06em;color:var(--verde-2)}
 
 /* ---------- botões e links ---------- */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:16px;min-height:56px;padding:0 28px;border:0;background:var(--verde);color:var(--creme);font:400 1rem/1 var(--caps);letter-spacing:.08em;text-decoration:none;text-align:center;cursor:pointer;transition:background-color .3s,color .3s}
@@ -177,9 +183,10 @@ figcaption .fn{font:400 .9375rem/1.4 var(--caps);letter-spacing:.06em;color:var(
 
 /* ---------- breadcrumbs ---------- */
 .trilha{padding-top:clamp(20px,3vw,36px)}
-.trilha ol{display:flex;flex-wrap:wrap;align-items:center;gap:0 10px;font:400 .9375rem/1.4 var(--caps);letter-spacing:.06em;color:var(--verde-2)}
+.trilha ol{display:flex;flex-wrap:wrap;align-items:center;gap:0 10px;row-gap:0;font:400 .9375rem/1.4 var(--caps);letter-spacing:.06em;color:var(--verde-2)}
 .trilha li{display:inline-flex;align-items:center;gap:10px}
-.trilha li+li::before{content:"";width:14px;height:1px;background:currentColor;opacity:.6}
+/* separador no FIM do item: quando a trilha quebra, o traço fica no fim da linha, não no começo da seguinte */
+.trilha li:not(:last-child)::after{content:"";width:14px;height:1px;background:currentColor;opacity:.6}
 .trilha a{display:inline-flex;align-items:center;min-height:44px;text-decoration:underline;text-decoration-color:rgb(90 94 44/.35);text-underline-offset:.35em}
 .trilha a:hover{text-decoration-color:currentColor}
 .trilha [aria-current]{color:var(--verde)}

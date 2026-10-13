@@ -5,7 +5,9 @@ description: "O consultório da Dra. Nicole Almeida no Cambuí, em Campinas: hor
 atualizadoEm: 2026-10-13
 ---
 
-O consultório da Dra. Nicole Almeida fica no Cambuí, em Campinas, e funciona com hora marcada: um paciente por vez, com o tempo que cada consulta pede. O endereço completo, o horário e os links de rota estão na página de [contato](/contato/).
+O consultório da Dra. Nicole Almeida fica no Cambuí, em Campinas, e atende com hora marcada: um paciente por vez, com o tempo que cada consulta pede.
+
+O endereço completo, o horário e os links de rota estão na página de [contato](/contato/).
 
 ## Como é o espaço
 
@@ -30,7 +32,7 @@ Todo tratamento segue a mesma sequência.
 
 **Escaneamento intraoral 3D.** Uma ponteira com câmera percorre os dentes e monta, na tela, um modelo tridimensional da boca em poucos minutos. O modelo ajuda a planejar com precisão e a mostrar a você o que está acontecendo. Em muitos casos, dispensa a moldagem com massa, que costuma incomodar quem tem ânsia de vômito.
 
-**Air Flow.** Nas limpezas, um jato de ar, água e um pó bem fino remove a placa bacteriana e manchas superficiais, inclusive ao redor de implantes. Pode ser usado junto com o ultrassom ou no lugar dele, conforme o caso.
+**Air Flow.** Nas limpezas, um jato de ar, água e um pó bem fino remove a placa bacteriana e manchas superficiais, inclusive ao redor de implantes. Não remove tártaro: quando há tártaro, o ultrassom entra junto.
 
 Os dois recursos servem ao diagnóstico e à manutenção. As decisões sobre o tratamento continuam sendo tomadas no exame clínico e na conversa com você.
 

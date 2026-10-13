@@ -109,6 +109,9 @@ const rotas = [
   .pulse{transform-box:fill-box;transform-origin:center}
   .map-links{display:flex;flex-wrap:wrap;gap:0 28px;margin-top:8px}
   .map .maplibregl-ctrl-attrib{font:400 12px/1.4 var(--sans)}
+  /* alvos de toque ≥ 44 px nos controles do MapLibre */
+  .map .maplibregl-ctrl-group button{width:44px;height:44px}
+  .map .maplibregl-ctrl-attrib-button{width:44px;height:44px;background-position:center}
   @media (prefers-reduced-motion:no-preference){.pulse{animation:pulse 2.6s var(--ease) infinite}}
   @keyframes pulse{0%{transform:scale(.55);opacity:1}100%{transform:scale(1.7);opacity:0}}
   @media (min-width:700px){.map{aspect-ratio:16/11}}

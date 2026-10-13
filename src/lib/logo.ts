@@ -1,8 +1,10 @@
 /**
  * Logos vetoriais (src/assets/logo/*.svg, fill currentColor) lidos no build via ?raw.
- * - O logo horizontal vai uma única vez para o sprite do Base (<g id="lg-h">) e é reutilizado com <use>.
+ * - O logo horizontal vai para um sprite EXTERNO (/logo-<hash>.svg, gerado por src/pages/[sprite].svg.ts, cache
+ *   immutable) e é reutilizado com <use href="/logo-<hash>.svg#lg-h">: ~15 KB a menos em cada HTML (LCP mobile).
  * - As "letras desconstruídas" são recortes (viewBox) do logo horizontal.
  */
+import { createHash } from 'node:crypto';
 import horizontalRaw from '../assets/logo/logo-horizontal.svg?raw';
 import completoRaw from '../assets/logo/logo-completo.svg?raw';
 import monogramaRaw from '../assets/logo/logo-monograma.svg?raw';
@@ -29,13 +31,21 @@ export const LOGOS: Record<VarianteLogo, SvgParseado> = {
   monograma: parse(monogramaRaw),
 };
 
-/** id do <g> do logo horizontal no sprite do Base. */
+/** id do <g> do logo horizontal no sprite. */
 export const SPRITE_LOGO_ID = 'lg-h';
 
 /** Conteúdo do sprite: cada letra do logo horizontal ganha id próprio (lg-h-0…), para ser reutilizada com <use>. */
 export const SPRITE_LOGO_INNER = LOGOS.horizontal.paths
   .map((p, i) => p.replace('<path', `<path id="${SPRITE_LOGO_ID}-${i}"`))
   .join('');
+
+/** Arquivo do sprite (servido em /<SPRITE_ARQUIVO>.svg); o hash muda quando o logo muda. */
+export const SPRITE_SVG = `<svg xmlns="http://www.w3.org/2000/svg"><defs><g id="${SPRITE_LOGO_ID}">${SPRITE_LOGO_INNER}</g></defs></svg>`;
+export const SPRITE_ARQUIVO = `logo-${createHash('sha256').update(SPRITE_SVG).digest('hex').slice(0, 10)}`;
+export const SPRITE_URL = `/${SPRITE_ARQUIVO}.svg`;
+
+/** href para <use>: o logo inteiro (padrão) ou uma letra (`lg-h-N`). */
+export const spriteHref = (id: string = SPRITE_LOGO_ID) => `${SPRITE_URL}#${id}`;
 
 /**
  * Recortes de letras do logo horizontal (viewBox em coordenadas do logo, altura 128).
@@ -77,7 +87,7 @@ const ORDEM = Object.keys(MONTAGEM);
 
 /**
  * Letras do logo horizontal com os parâmetros da montagem, ordenadas pela entrada.
- * `href` aponta para a letra no sprite do Base (#lg-h-N): o nome montado não repete os paths no HTML.
+ * `href` aponta para a letra no sprite externo (…svg#lg-h-N): o nome montado não repete os paths no HTML.
  */
 export function letrasDoNome(): { href: string; path: string; estilo: string }[] {
   return LOGOS.horizontal.paths
@@ -89,7 +99,7 @@ export function letrasDoNome(): { href: string; path: string; estilo: string }[]
     })
     .sort((a, b) => a.o - b.o)
     .map(({ o, i, path, m }) => ({
-      href: `#${SPRITE_LOGO_ID}-${i}`,
+      href: spriteHref(`${SPRITE_LOGO_ID}-${i}`),
       path,
       estilo: `--o:${o};--x:${m.x}px;--y:${m.y}px;--r:${m.r}deg;--s:${m.s}`,
     }));

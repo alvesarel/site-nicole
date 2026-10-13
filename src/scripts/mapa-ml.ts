@@ -115,10 +115,11 @@ export async function abrir(caixa: HTMLElement) {
     avisar('Mapa carregado');
   };
 
+  let mapa: MapaML | undefined;
   try {
     const ml = await Promise.race([carregar(), limite(10000)]);
     tela.hidden = false;
-    const mapa = new ml.Map({
+    mapa = new ml.Map({
       container: tela,
       style: ESTILO,
       center: lngLat,
@@ -127,20 +128,40 @@ export async function abrir(caixa: HTMLElement) {
       attributionControl: { compact: true },
       locale: LOCALE,
     });
-    await Promise.race([new Promise((ok) => mapa.once('load', ok)), limite(12000)]);
-    tingir(mapa);
-    mapa.addControl(new ml.NavigationControl({ showCompass: false }), 'top-right');
+    // falha do estilo/tiles (bloqueador, firewall, queda do OpenFreeMap) cai na reserva na hora, sem esperar 12 s
+    const m = mapa;
+    await Promise.race([
+      new Promise<void>((ok, falha) => {
+        const erro = (e: { error?: unknown }) => {
+          if (!m.isStyleLoaded()) falha(e.error ?? new Error('estilo'));
+        };
+        m.on('error', erro);
+        m.once('load', () => {
+          m.off('error', erro);
+          ok();
+        });
+      }),
+      limite(12000),
+    ]);
+    tingir(m);
+    m.addControl(new ml.NavigationControl({ showCompass: false }), 'top-right');
     const pino = document.createElement('div');
     pino.className = 'map-pin';
     pino.setAttribute('role', 'img');
     pino.setAttribute('aria-label', nome);
-    new ml.Marker({ element: pino }).setLngLat(lngLat).addTo(mapa);
+    new ml.Marker({ element: pino }).setLngLat(lngLat).addTo(m);
     caixa.classList.add('is-live');
-    const canvas = mapa.getCanvas();
+    const canvas = m.getCanvas();
     canvas.setAttribute('aria-label', `Mapa interativo: ${rotulo}`);
     canvas.focus();
     avisar('Mapa carregado');
   } catch {
+    // libera o contexto WebGL e as requisições de tiles antes de mostrar o iframe
+    try {
+      mapa?.remove();
+    } catch {
+      /* ignora */
+    }
     reserva();
   }
 }

@@ -6,7 +6,9 @@ categoria: estetica-dental
 ordem: 3
 seoTitle: "Estética dental em Campinas | Dra. Nicole Almeida"
 description: "Clareamento, lentes e facetas em cerâmica e contorno com resina composta no Cambuí, Campinas, com planejamento digital do sorriso. Agende sua avaliação."
-resumo: "Estética dental reúne os tratamentos que mudam a cor, a forma e a proporção dos dentes: clareamento, lentes e facetas em cerâmica e contorno estético com resina composta. É para quem quer ajustar o sorriso de um jeito que ele continue parecendo seu. A escolha começa por uma avaliação da saúde da boca e por um planejamento digital, que permite ver a proposta antes de qualquer procedimento."
+lead: "Estética dental reúne os tratamentos que mudam a cor, a forma e a proporção dos dentes."
+resumo: "A estética dental inclui clareamento, lentes e facetas em cerâmica e contorno estético com resina composta, para quem quer ajustar o sorriso de um jeito que ele continue parecendo seu. A escolha começa por uma avaliação da saúde da boca e por um planejamento digital, que permite ver a proposta antes de qualquer procedimento."
+cartao: "Clareamento, lentes e facetas em cerâmica e contorno com resina composta."
 itens:
   - "Clareamento dental"
   - "Lentes e facetas em cerâmica"
@@ -14,6 +16,7 @@ itens:
   - "Planejamento digital do sorriso"
 imagem: ../../assets/fotos/dra-nicole-almeida-sorrindo-sofa.jpg
 imagemAlt: "Dra. Nicole Almeida, cirurgiã-dentista em Campinas, sorrindo, sentada em um sofá claro, de top preto e jeans"
+legenda: "Retrato · sofá claro"
 indicacoes:
   - "Dentes amarelados ou escurecidos de forma geral"
   - "Pequenos espaços entre os dentes (diastemas) ou bordas lascadas"
@@ -60,7 +63,7 @@ As três opções resolvem incômodos diferentes, e muitas vezes o plano combina
 
 O contorno estético usa resina composta, o mesmo material das restaurações da cor do dente, aplicado em camadas finas e modelado na boca. Costuma ser indicado para fechar pequenos espaços, reconstruir uma borda lascada, alongar um pouco um dente desgastado ou equilibrar o tamanho de dentes vizinhos.
 
-Na maioria dos casos não há desgaste do dente, ou ele é mínimo, e a mudança aparece ao fim da sessão. A resina é mais porosa que a cerâmica: com o tempo absorve pigmentos, perde brilho e pode lascar. Por isso pede repolimento nas revisões e, de tempos em tempos, reparos. É uma boa escolha para quem quer preservar ao máximo a estrutura do dente ou precisa de um ajuste pontual.
+Na maioria dos casos não há desgaste do dente, ou ele é mínimo, e o contorno é concluído na própria consulta, sem etapa de laboratório. A resina é mais porosa que a cerâmica: com o tempo absorve pigmentos, perde brilho e pode lascar. Por isso pede repolimento nas revisões e, de tempos em tempos, reparos. É uma boa escolha para quem quer preservar ao máximo a estrutura do dente ou precisa de um ajuste pontual.
 
 ## Como escolher entre as opções?
 

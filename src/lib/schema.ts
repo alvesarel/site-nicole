@@ -5,7 +5,7 @@
  * Páginas acrescentam Service, FAQPage etc. pela prop `jsonLd`.
  */
 import { SITE, PROFISSIONAL, CONTATO, ENDERECO, HORARIO } from '../data/site';
-import { dataIso, ehPlaceholder, horaSchema, semMarcacao } from './format';
+import { dataIso, ehPlaceholder, enderecoLinha1, horaSchema, semMarcacao } from './format';
 import { respostaTexto } from '../data/faq';
 
 export type NoJsonLd = Record<string, unknown>;
@@ -39,23 +39,33 @@ export function websiteNode(): NoJsonLd {
   };
 }
 
-export function dentistNode(): NoJsonLd {
-  const endereco = [ENDERECO.ruaCompleta, ENDERECO.complemento].filter(Boolean).join(', ');
+/** Fotos reais para o JSON-LD (URLs geradas no Base com getImage): retrato para Person, consultório para Dentist. */
+export interface FotosSchema {
+  retrato?: string;
+  consultorio?: string[];
+}
+
+export function dentistNode(fotos: FotosSchema = {}): NoJsonLd {
+  // dados ainda não confirmados (placeholders) ficam fora do JSON-LD: nunca publicar NAP falso
+  const temTelefone = !ehPlaceholder(CONTATO.telefoneE164);
+  const temHorario = !ehPlaceholder(HORARIO.texto);
+  const imagens = fotos.consultorio?.length ? fotos.consultorio : [urlAbsoluta(SITE.ogImagem)];
   return {
     '@type': 'Dentist',
     '@id': IDS.consultorio,
-    name: SITE.nomeCompleto,
+    // igual ao nome do Perfil da Empresa no Google (sem palavras-chave); o cargo vai em description/jobTitle
+    name: SITE.nome,
     description: `${PROFISSIONAL.cargo} no ${ENDERECO.bairro}, ${ENDERECO.cidade} – ${ENDERECO.uf}. ${PROFISSIONAL.atuacao}.`,
     url: `${BASE}/`,
-    image: urlAbsoluta(SITE.ogImagem),
+    image: imagens,
     logo: urlAbsoluta('/icon-512.png'),
-    telephone: CONTATO.telefoneE164,
+    ...(temTelefone ? { telephone: CONTATO.telefoneE164 } : {}),
     // e-mail fica de fora até ser confirmado (CONTATO.email está marcado CONFIRMAR em site.ts)
     medicalSpecialty: 'Dentistry',
     isAcceptingNewPatients: true,
     address: {
       '@type': 'PostalAddress',
-      streetAddress: endereco,
+      streetAddress: ehPlaceholder(ENDERECO.complemento) ? ENDERECO.ruaCompleta : enderecoLinha1(),
       addressLocality: ENDERECO.cidade,
       addressRegion: ENDERECO.uf,
       postalCode: ENDERECO.cep,
@@ -64,22 +74,27 @@ export function dentistNode(): NoJsonLd {
     geo: { '@type': 'GeoCoordinates', latitude: ENDERECO.geo.lat, longitude: ENDERECO.geo.lng },
     hasMap: ENDERECO.googleMapsUrl,
     areaServed: { '@type': 'City', name: ENDERECO.cidade },
-    openingHoursSpecification: [
-      {
-        '@type': 'OpeningHoursSpecification',
-        dayOfWeek: [...HORARIO.dias],
-        opens: horaSchema(HORARIO.abre),
-        closes: horaSchema(HORARIO.fecha),
-      },
-    ],
+    ...(temHorario
+      ? {
+          openingHoursSpecification: [
+            {
+              '@type': 'OpeningHoursSpecification',
+              dayOfWeek: [...HORARIO.dias],
+              opens: horaSchema(HORARIO.abre),
+              closes: horaSchema(HORARIO.fecha),
+            },
+          ],
+        }
+      : {}),
     founder: { '@id': IDS.nicole },
     employee: { '@id': IDS.nicole },
     ...(sameAs().length ? { sameAs: sameAs() } : {}),
   };
 }
 
-export function personNode(): NoJsonLd {
+export function personNode(fotos: FotosSchema = {}): NoJsonLd {
   const graduacao = PROFISSIONAL.formacao[0];
+  const temCro = !ehPlaceholder(PROFISSIONAL.cro);
   const ufCro = PROFISSIONAL.cro.match(/CRO-([A-Z]{2})/)?.[1] ?? ENDERECO.uf;
   return {
     '@type': 'Person',
@@ -89,21 +104,25 @@ export function personNode(): NoJsonLd {
     jobTitle: PROFISSIONAL.cargo,
     description: `${PROFISSIONAL.cargo}. ${PROFISSIONAL.atuacao}.`,
     url: urlAbsoluta('/dra-nicole-almeida/'),
-    image: urlAbsoluta(SITE.ogImagem),
+    image: fotos.retrato ?? urlAbsoluta(SITE.ogImagem),
     worksFor: { '@id': IDS.consultorio },
     knowsAbout: ['Prótese dentária', 'Reabilitação oral', 'Implantes dentários', 'Estética dental'],
     ...(graduacao && !ehPlaceholder(graduacao.instituicao)
       ? { alumniOf: { '@type': 'CollegeOrUniversity', name: graduacao.instituicao } }
       : {}),
-    hasCredential: {
-      '@type': 'EducationalOccupationalCredential',
-      credentialCategory: 'Inscrição profissional',
-      name: PROFISSIONAL.cro,
-      recognizedBy: {
-        '@type': 'Organization',
-        name: `Conselho Regional de Odontologia de ${UF_NOME[ufCro] ?? ufCro}`,
-      },
-    },
+    ...(temCro
+      ? {
+          hasCredential: {
+            '@type': 'EducationalOccupationalCredential',
+            credentialCategory: 'Inscrição profissional',
+            name: PROFISSIONAL.cro,
+            recognizedBy: {
+              '@type': 'Organization',
+              name: `Conselho Regional de Odontologia de ${UF_NOME[ufCro] ?? ufCro}`,
+            },
+          },
+        }
+      : {}),
     ...(sameAs().length ? { sameAs: sameAs() } : {}),
   };
 }
@@ -117,12 +136,18 @@ export interface OpcoesPagina {
   tipo?: string;
   /** @id da entidade principal da página (ex.: IDS.nicole no Sobre, IDS.consultorio no Contato). */
   principal?: string;
+  /** Página com conteúdo de saúde que a Dra. Nicole revisa (serviços, home, sobre, dúvidas, consultório). */
+  revisavel?: boolean;
 }
 
-/** Página atual (revisada pela Dra. Nicole: E-E-A-T de conteúdo de saúde). */
-export function webPageNode({ path, titulo, descricao, atualizadoEm, tipo = 'WebPage', principal }: OpcoesPagina): NoJsonLd {
+/**
+ * Página atual. lastReviewed/reviewedBy (E-E-A-T de conteúdo de saúde) só entram quando a Dra. Nicole de fato
+ * revisou os textos (SITE.revisadoEm preenchido) e só nas páginas com conteúdo de saúde (`revisavel`).
+ */
+export function webPageNode({ path, titulo, descricao, atualizadoEm, tipo = 'WebPage', principal, revisavel = false }: OpcoesPagina): NoJsonLd {
   const url = urlAbsoluta(path);
-  const data = dataIso(atualizadoEm ?? SITE.revisadoEm);
+  const data = dataIso(atualizadoEm ?? SITE.atualizadoEm);
+  const revisao = revisavel && SITE.revisadoEm ? dataIso(SITE.revisadoEm) : undefined;
   return {
     '@type': tipo,
     '@id': `${url}#webpage`,
@@ -134,8 +159,7 @@ export function webPageNode({ path, titulo, descricao, atualizadoEm, tipo = 'Web
     about: { '@id': principal ?? IDS.consultorio },
     ...(principal ? { mainEntity: { '@id': principal } } : {}),
     dateModified: data,
-    lastReviewed: data,
-    reviewedBy: { '@id': IDS.nicole },
+    ...(revisao ? { lastReviewed: revisao, reviewedBy: { '@id': IDS.nicole } } : {}),
   };
 }
 

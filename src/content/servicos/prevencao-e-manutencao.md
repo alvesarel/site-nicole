@@ -6,13 +6,16 @@ categoria: prevencao-e-manutencao
 ordem: 2
 seoTitle: "Limpeza dental e prevenção em Campinas | Dra. Nicole Almeida"
 description: "Limpeza com Air Flow ou ultrassom e consulta com escaneamento intraoral 3D no Cambuí, Campinas. Manutenção de próteses e implantes."
-resumo: "Prevenção e manutenção são as consultas periódicas que mantêm dentes, gengiva, próteses e implantes saudáveis ao longo dos anos. Valem tanto para quem não tem queixa nenhuma quanto para quem já tratou a gengiva ou fez implantes e próteses. Cada consulta une um exame criterioso, com escaneamento intraoral 3D, e uma limpeza profissional com Air Flow ou ultrassom, de acordo com o que o exame mostrar."
+lead: "Prevenção e manutenção são as consultas periódicas que mantêm dentes, gengiva, próteses e implantes saudáveis ao longo dos anos."
+resumo: "As consultas valem tanto para quem não tem queixa nenhuma quanto para quem já tratou a gengiva ou fez implantes e próteses. Cada consulta une um exame criterioso, com escaneamento intraoral 3D, e uma limpeza profissional (profilaxia) com Air Flow ou ultrassom, de acordo com o que o exame mostrar."
+cartao: "Limpeza profissional e consultas de revisão para dentes, gengiva, próteses e implantes."
 itens:
   - "Limpeza profissional com Air Flow ou ultrassom"
   - "Consulta criteriosa com escaneamento intraoral 3D"
   - "Manutenção de próteses e implantes"
 imagem: ../../assets/fotos/consultorio-cambui-sala-de-atendimento-6.jpg
 imagemAlt: "Sala de atendimento do consultório da Dra. Nicole Almeida no Cambuí, em Campinas, com cadeira odontológica e iluminação de LED"
+legenda: "Sala de atendimento com luz de LED"
 indicacoes:
   - "Revisão periódica para quem não tem queixa e quer manter dentes e gengiva saudáveis"
   - "Sangramento ao escovar ou passar o fio, gengiva inchada ou mau hálito persistente"

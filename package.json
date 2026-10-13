@@ -12,6 +12,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
+    "check:placeholders": "node scripts/check-placeholders.mjs dist",
+    "deploy": "npm run build && node scripts/check-placeholders.mjs dist && npx wrangler deploy",
     "astro": "astro"
   },
   "dependencies": {

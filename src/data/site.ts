@@ -5,39 +5,53 @@
  * Dra. Nicole antes de publicar. Veja PENDENCIAS.md na raiz do projeto.
  */
 
+import { SITE_URL, ATUALIZADO_EM } from './dominio.mjs';
+
 export const SITE = {
-  /** Domínio final (CONFIRMAR). Usado em canonical, sitemap, Open Graph e JSON-LD. */
-  url: 'https://www.dranicolealmeida.com.br',
+  /** Domínio final (CONFIRMAR): vem de src/data/dominio.mjs, a mesma fonte do sitemap (astro.config.mjs). */
+  url: SITE_URL,
   nome: 'Dra. Nicole Almeida',
   nomeCompleto: 'Dra. Nicole Almeida – Cirurgiã-Dentista',
   titulo: 'Dra. Nicole Almeida | Dentista no Cambuí, Campinas',
   descricao:
-    'Cirurgiã-dentista com atuação em prótese e reabilitação oral no Cambuí, Campinas. Planejamento com escaneamento 3D. Agende sua avaliação.',
+    'Cirurgiã-dentista, clínica geral com atuação em prótese e reabilitação oral no Cambuí, Campinas. Planejamento com escaneamento 3D. Agende sua avaliação.',
   idioma: 'pt-BR',
   ogImagem: '/og/og-dra-nicole-almeida.jpg',
-  /** Data da última revisão de conteúdo pela profissional (exibida no rodapé). */
-  revisadoEm: '2026-10-13',
+  /** Data da última atualização do conteúdo (rodapé "Atualizado em" e dateModified). */
+  atualizadoEm: ATUALIZADO_EM,
+  /**
+   * Data em que a Dra. Nicole LEU E APROVOU os textos (AAAA-MM-DD). Enquanto for null, o site NÃO diz
+   * "Conteúdo revisado por" nem emite reviewedBy/lastReviewed no JSON-LD (PENDENCIAS §5).
+   */
+  revisadoEm: null as string | null,
 } as const;
 
 export const PROFISSIONAL = {
   tratamento: 'Dra.',
   nome: 'Nicole Almeida',
   cargo: 'Cirurgiã-dentista',
-  /** CONFIRMAR: número de inscrição no CRO-SP (o mockup do receituário mostra CRO/MG 61102). */
-  cro: 'CRO-SP 00000',
+  /** CONFIRMAR: número de inscrição no CRO-SP (o mockup do receituário mostra CRO/MG 61102). Formato: 'CRO-SP 12345'. */
+  cro: 'CRO-SP [a confirmar]',
   /** Linha exigida pelo CFO (art. 43 §1º I) enquanto não houver especialidade registrada. */
   atuacao: 'Clínica geral · Áreas de atuação: prótese e reabilitação oral',
   /** Consulta pública de inscrição no CRO-SP. */
   croConsultaUrl: 'https://website.crosp.org.br/',
+  /**
+   * Formação. `publicar: false` = nota interna, NÃO aparece no site.
+   * Regra CFO (Código de Ética, art. 43 §1º III e art. 44 II): só se divulgam graduação, títulos stricto sensu
+   * (mestrado/doutorado), magistério e especialidade REGISTRADA no CRO ("Especialista em … — CRO-SP nº …").
+   * Pós lato sensu/aperfeiçoamento não entra, concluído ou não.
+   */
   formacao: [
     // CONFIRMAR instituição e ano da graduação
-    { periodo: '[ano]', titulo: 'Graduação em Odontologia', instituicao: '[instituição a confirmar]' },
-    // CONFIRMAR se concluída e se o título foi registrado no CFO
+    { periodo: '[ano]', titulo: 'Graduação em Odontologia', instituicao: '[instituição a confirmar]', publicar: true },
+    // Nota interna: só publicar se virar especialidade registrada no CRO-SP (PENDENCIAS item 9).
     {
       periodo: '[ano]',
       titulo: 'Pós-graduação em Prótese, Implantes e Cirurgias Periodontais',
       instituicao: 'Faculdade São Leopoldo Mandic, Campinas',
       status: '[em andamento ou concluída: a confirmar]',
+      publicar: false,
     },
   ],
 } as const;
@@ -75,9 +89,9 @@ export const ENDERECO = {
 } as const;
 
 export const HORARIO = {
-  /** CONFIRMAR */
-  texto: 'Segunda a sexta, das 9h às 18h',
-  textoCurto: 'Seg. a sex., 9h–18h',
+  /** CONFIRMAR (tire o "[a confirmar]" quando ela confirmar; enquanto houver, o JSON-LD não publica o horário). */
+  texto: 'Segunda a sexta, das 9h às 18h [a confirmar]',
+  textoCurto: 'Seg. a sex., 9h–18h [a confirmar]',
   dias: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
   abre: '09:00',
   fecha: '18:00',
@@ -101,9 +115,36 @@ export const AVALIACOES = {
   trechos: [] as { texto: string; autor: string; data?: string }[],
 };
 
-/** Monta o link do WhatsApp com mensagem pré-preenchida (a origem funciona como UTM). */
+/**
+ * Código neutro de cada origem de CTA (a página de onde a pessoa veio), usado no lugar do nome da página
+ * na mensagem do WhatsApp. Motivo (LGPD): o texto pré-preenchido vai à Meta assim que o link abre, e o nome
+ * do tratamento ("Implantes dentários", "Estética da face") sugeriria um dado de saúde.
+ * Tabela para o consultório: PENDENCIAS.md §7.
+ */
+export const ORIGEM_CODIGO: Record<string, string> = {
+  'página inicial': '01',
+  'Sobre a Dra. Nicole': '02',
+  'Serviços': '03',
+  'Reabilitação oral': '04',
+  'Prótese dentária': '05',
+  'Implantes dentários': '06',
+  'Prevenção e manutenção': '07',
+  'Estética dental': '08',
+  'Lentes e facetas em cerâmica': '09',
+  'Clareamento dental': '10',
+  'Estética da face': '11',
+  'Consultório': '12',
+  'Perguntas frequentes': '13',
+  'Contato': '14',
+  'Privacidade': '15',
+  'Página não encontrada': '16',
+  'link curto': '17',
+};
+
+/** Monta o link do WhatsApp com mensagem pré-preenchida; a origem vira um código neutro ("ref. 05"). */
 export function whatsappUrl(origem?: string, mensagem: string = CONTATO.mensagemPadrao): string {
-  const texto = origem ? `${mensagem} (${origem})` : mensagem;
+  const codigo = origem ? ORIGEM_CODIGO[origem] : undefined;
+  const texto = codigo ? `${mensagem} (ref. ${codigo})` : mensagem;
   return `https://wa.me/${CONTATO.whatsapp}?text=${encodeURIComponent(texto)}`;
 }
 

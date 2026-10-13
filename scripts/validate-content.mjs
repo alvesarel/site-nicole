@@ -23,10 +23,13 @@ const servicos = z.object({
   ordem: z.number(),
   seoTitle: z.string().max(60),
   description: z.string().max(158),
+  lead: z.string().max(220).optional(),
   resumo: z.string(),
+  cartao: z.string().max(110).optional(),
   itens: z.array(z.string()).default([]),
   imagem: z.string(),
   imagemAlt: z.string(),
+  legenda: z.string().optional(),
   indicacoes: z.array(z.string()).default([]),
   etapas: z.array(z.object({ titulo: z.string(), texto: z.string() })).default([]),
   faq: z.array(z.object({ pergunta: z.string(), resposta: z.string() })).default([]),
@@ -97,7 +100,7 @@ for (const f of files) {
   }
   if (/^#\s/m.test(body)) out.push('✗ o corpo não pode ter H1 (# ...): o H1 vem do campo titulo');
   const h2 = (body.match(/^##\s.+$/gm) || []).length;
-  const palavras = (body + ' ' + (data?.resumo || '') + ' ' + (data?.faq || []).map((q) => q.pergunta + ' ' + q.resposta).join(' '))
+  const palavras = (body + ' ' + (data?.lead || '') + ' ' + (data?.resumo || '') + ' ' + (data?.faq || []).map((q) => q.pergunta + ' ' + q.resposta).join(' '))
     .split(/\s+/).filter(Boolean).length;
   if (kind === 'servicos' && h2 < 3) out.push(`! poucos H2 (${h2}); use perguntas reais como H2`);
   const e = out.filter((x) => x.startsWith('✗')).length;

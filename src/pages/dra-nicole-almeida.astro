@@ -38,7 +38,9 @@ const citacao = sOrienta?.corpo.match(/<blockquote>([\s\S]*?)<\/blockquote>/);
 const [orientaAntes, orientaDepois] = citacao ? sOrienta!.corpo.split(citacao[0]) : [sOrienta?.corpo ?? '', ''];
 
 const nome = `${PROFISSIONAL.tratamento} ${PROFISSIONAL.nome}`;
-const [grad, pos] = PROFISSIONAL.formacao;
+// só o que pode ser divulgado (CFO art. 43 §1º III): pós lato sensu fica como nota interna em site.ts
+const [grad, ...outras] = PROFISSIONAL.formacao.filter((f) => f.publicar);
+const pos = outras[0];
 const statusPos = pos && 'status' in pos ? pos.status : undefined;
 const conversaTexto = sConversa ? semTags(sConversa.corpo) : undefined;
 ---
@@ -74,7 +76,7 @@ const conversaTexto = sConversa ? semTags(sConversa.corpo) : undefined;
             <div class="wrap sb-manif-grid">
               <div class="sb-manif-txt">
                 <p class="eyebrow">Manifesto</p>
-                <h2 class="h3 sb-manif-h" id={s.id}>
+                <h2 class="tx-h sb-manif-h" id={s.id}>
                   O que orienta o <em>trabalho</em>.
                 </h2>
                 <div class="prose" set:html={orientaAntes} />
@@ -124,7 +126,7 @@ const conversaTexto = sConversa ? semTags(sConversa.corpo) : undefined;
               )}
               {pos && (
                 <div>
-                  <dt>Pós-graduação</dt>
+                  <dt>Formação</dt>
                   <dd>
                     {pos.titulo}, {pos.instituicao} {statusPos && <span class="ph creds-st">{statusPos}</span>}
                   </dd>

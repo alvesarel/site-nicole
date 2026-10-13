@@ -6,13 +6,16 @@ categoria: estetica-dental
 ordem: 5
 seoTitle: "Clareamento dental em Campinas | Dra. Nicole Almeida"
 description: "Clareamento dental caseiro supervisionado, em consultório ou combinado no Cambuí, Campinas: sensibilidade, quem deve adiar e quanto tempo dura."
-resumo: "O clareamento dental deixa os dentes mais claros com géis à base de peróxido, que agem na cor do próprio dente sem desgastá-lo. Pode ser feito em casa, com moldeiras sob medida e acompanhamento, no consultório ou combinando os dois. A indicação vem depois de uma avaliação que confirma a saúde de dentes e gengiva e mostra quanto de mudança é possível no seu caso."
+lead: "O clareamento dental deixa os dentes mais claros com géis à base de peróxido, que agem na cor do próprio dente sem desgastá-lo."
+resumo: "O clareamento pode ser feito em casa, com moldeiras sob medida e acompanhamento, no consultório ou combinando os dois. A indicação vem depois de uma avaliação que confirma a saúde de dentes e gengiva e mostra quanto de mudança é possível no seu caso."
+cartao: "Caseiro supervisionado, em consultório ou combinado: como funciona cada um."
 itens:
   - "Clareamento caseiro supervisionado"
   - "Clareamento em consultório"
   - "Clareamento combinado"
 imagem: ../../assets/fotos/dra-nicole-almeida-sorrindo-estante.jpg
 imagemAlt: "Dra. Nicole Almeida, cirurgiã-dentista em Campinas, sorrindo, apoiada em uma estante, com luz de janela"
+legenda: "Retrato · estante e luz de janela"
 indicacoes:
   - "Dentes amarelados ou acinzentados de forma geral"
   - "Escurecimento gradual com a idade ou pelo consumo de café, chá, vinho e cigarro"
@@ -55,7 +58,7 @@ No **clareamento caseiro supervisionado**, você usa em casa moldeiras feitas so
 
 No **clareamento em consultório**, a dentista aplica um gel de peróxido de hidrogênio em concentração mais alta, com a gengiva protegida por uma barreira. Costumam ser de 1 a 3 sessões, e a mudança aparece mais rápido. A sensibilidade nas horas seguintes pode ser mais intensa.
 
-O **clareamento combinado** começa com uma sessão no consultório e continua com as moldeiras em casa. É uma opção para quem quer ver diferença logo no início e completar o tratamento com mais controle.
+O **clareamento combinado** começa com uma sessão no consultório e continua com as moldeiras em casa. É uma opção para quem prefere começar no consultório e continuar em casa, com mais controle.
 
 Quando bem conduzidos, caseiro e consultório chegam a resultados parecidos. O que muda é o ritmo, a rotina e a sensibilidade de cada pessoa, e é isso que orienta a escolha na avaliação.
 
@@ -63,7 +66,7 @@ Quando bem conduzidos, caseiro e consultório chegam a resultados parecidos. O q
 
 A sensibilidade é o efeito colateral mais comum. Aparece como pontadas ou incômodo ao frio durante o tratamento e costuma passar poucos dias depois de uma pausa ou do fim das aplicações.
 
-Ela é controlada ajustando a concentração do gel e o tempo de uso, espaçando as aplicações e usando géis ou cremes dessensibilizantes, à base de nitrato de potássio e flúor, antes e durante o tratamento. Quando necessário, uma pausa de um ou dois dias resolve. A gengiva também pode ficar irritada se sobrar gel na moldeira, por isso você aprende a dosar a quantidade. Quem já tem sensibilidade ou raízes expostas é avaliado com mais cuidado antes de começar.
+Ela é controlada ajustando a concentração do gel e o tempo de uso, espaçando as aplicações e usando géis ou cremes dessensibilizantes, à base de nitrato de potássio e flúor, antes e durante o tratamento. Quando necessário, uma pausa de um ou dois dias costuma aliviar. A gengiva também pode ficar irritada se sobrar gel na moldeira, por isso você aprende a dosar a quantidade. Quem já tem sensibilidade ou raízes expostas é avaliado com mais cuidado antes de começar.
 
 ## Quem não deve fazer clareamento ou deve adiar?
 

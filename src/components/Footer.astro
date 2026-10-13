@@ -1,27 +1,32 @@
 ---
 /**
  * Rodapé Verde: padronagem sutil de letras do logo, logo, navegação, serviços, contato
- * e a linha legal completa exigida pelo CFO (nome, cargo, CRO, atuação, responsável técnica, revisão).
+ * e a linha legal completa exigida pelo CFO (nome, cargo, CRO, atuação, responsável técnica, atualização).
+ * "Conteúdo revisado por" só aparece quando a Dra. Nicole de fato revisou (SITE.revisadoEm) e a página é `revisavel`.
  * `data-bar-stop`: a barra fixa do mobile some quando o rodapé chega.
  */
 import Logo from './Logo.astro';
 import CtaAgendar from './CtaAgendar.astro';
 import { SITE, PROFISSIONAL, CONTATO, HORARIO, NAV } from '../data/site';
 import { TODAS_AS_PAGINAS } from '../data/servicos';
-import { dataCurta, dataIso, enderecoLinhas, telHref } from '../lib/format';
-import { SPRITE_LOGO_ID } from '../lib/logo';
+import { dataCurta, dataIso, ehPlaceholder, enderecoLinhas, telHref } from '../lib/format';
+import { spriteHref } from '../lib/logo';
 
 interface Props {
   origem: string;
-  /** Data de atualização desta página (padrão: SITE.revisadoEm). */
+  /** Data de atualização desta página (padrão: SITE.atualizadoEm). */
   atualizadoEm?: Date | string;
+  /** Página com conteúdo de saúde (mostra "Conteúdo revisado por" quando houver revisão). */
+  revisavel?: boolean;
 }
-const { origem, atualizadoEm = SITE.revisadoEm } = Astro.props;
+const { origem, atualizadoEm = SITE.atualizadoEm, revisavel = false } = Astro.props;
+const temInstagram = !ehPlaceholder(CONTATO.instagramHandle);
+const revisado = revisavel && SITE.revisadoEm ? SITE.revisadoEm : null;
 const [linha1, linha2] = enderecoLinhas();
 const nomeCompleto = `${PROFISSIONAL.tratamento} ${PROFISSIONAL.nome}`;
 const atual = Astro.url.pathname;
 const cargoMin = PROFISSIONAL.cargo.toLowerCase();
-const href = `#${SPRITE_LOGO_ID}`;
+const href = spriteHref();
 ---
 
 <footer class="rod" data-bar-stop>
@@ -81,11 +86,15 @@ const href = `#${SPRITE_LOGO_ID}`;
       <address>{linha1}<br />{linha2}</address>
       <p><a href={telHref}>{CONTATO.telefone}</a></p>
       <p>{HORARIO.texto}</p>
-      <p>
-        <a href={CONTATO.instagramUrl} target="_blank" rel="noopener" aria-label={`Instagram ${CONTATO.instagramHandle} (abre em nova aba)`}>
-          Instagram {CONTATO.instagramHandle}
-        </a>
-      </p>
+      {
+        temInstagram && (
+          <p>
+            <a href={CONTATO.instagramUrl} target="_blank" rel="noopener" aria-label={`Instagram ${CONTATO.instagramHandle} (abre em nova aba)`}>
+              Instagram {CONTATO.instagramHandle}
+            </a>
+          </p>
+        )
+      }
       <CtaAgendar origem={origem} variante="inv" />
     </div>
   </div>
@@ -93,10 +102,19 @@ const href = `#${SPRITE_LOGO_ID}`;
   <div class="wrap rod-legal">
     <p class="strong">{nomeCompleto} · {PROFISSIONAL.cargo} · <span class="nw">{PROFISSIONAL.cro}</span> · {PROFISSIONAL.atuacao}</p>
     <p>Responsável técnica: {nomeCompleto} — <span class="nw">{PROFISSIONAL.cro}</span></p>
-    <p>
-      Conteúdo revisado por {nomeCompleto}, {cargoMin}, <span class="nw">{PROFISSIONAL.cro}</span> — atualizado em
-      <time datetime={dataIso(atualizadoEm)}>{dataCurta(atualizadoEm)}</time>
-    </p>
+    {
+      revisado ? (
+        <p>
+          Conteúdo revisado por {nomeCompleto}, {cargoMin}, <span class="nw">{PROFISSIONAL.cro}</span>, em{' '}
+          <time datetime={dataIso(revisado)}>{dataCurta(revisado)}</time> · atualizado em{' '}
+          <time datetime={dataIso(atualizadoEm)}>{dataCurta(atualizadoEm)}</time>
+        </p>
+      ) : (
+        <p>
+          Atualizado em <time datetime={dataIso(atualizadoEm)}>{dataCurta(atualizadoEm)}</time>
+        </p>
+      )
+    }
     <p class="links">
       <a href="/privacidade/">Política de privacidade</a>
       <a href={PROFISSIONAL.croConsultaUrl} target="_blank" rel="noopener" aria-label="Consultar inscrição no CRO-SP (abre em nova aba)">Consultar inscrição no CRO-SP</a>

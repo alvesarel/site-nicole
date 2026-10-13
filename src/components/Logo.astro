@@ -1,12 +1,12 @@
 ---
 /**
  * Logo SVG inline (fill = currentColor).
- * - variant "horizontal" usa o sprite do Base (<use href="#lg-h">): zero bytes repetidos.
+ * - variant "horizontal" usa o sprite externo (<use href="/logo-<hash>.svg#lg-h">): zero bytes repetidos no HTML.
  *   Com `recorte`, mostra só uma letra desconstruída (grafismo decorativo).
  * - "completo" e "monograma" são inseridos inline a partir do arquivo (import ?raw).
  * Sem `titulo`, o SVG é decorativo (aria-hidden); com `titulo`, vira role="img".
  */
-import { LOGOS, LETRAS, SPRITE_LOGO_ID, type Letra, type VarianteLogo } from '../lib/logo';
+import { LOGOS, LETRAS, spriteHref, type Letra, type VarianteLogo } from '../lib/logo';
 
 interface Props {
   variant?: VarianteLogo;
@@ -30,7 +30,7 @@ const a11y = titulo
 {
   usarSprite ? (
     <svg class={classe} viewBox={viewBox} fill="currentColor" style={style} {...a11y}>
-      <use href={`#${SPRITE_LOGO_ID}`} />
+      <use href={spriteHref()} />
     </svg>
   ) : (
     <svg class={classe} viewBox={viewBox} fill="currentColor" style={style} {...a11y} set:html={logo.inner} />

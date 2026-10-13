@@ -6,7 +6,9 @@ categoria: reabilitacao-oral
 ordem: 2
 seoTitle: "Prótese dentária em Campinas | Dra. Nicole Almeida"
 description: "Prótese fixa, sobre implantes, protocolo e dentadura: como funciona cada tipo, as etapas e os cuidados. Atendimento no Cambuí, em Campinas."
-resumo: "Prótese dentária é a peça que substitui dentes perdidos ou reconstrói dentes muito danificados. Ela pode ser fixa ou removível e se apoiar em dentes, em implantes ou na gengiva. O tipo é escolhido com você depois da avaliação e do escaneamento 3D, conforme o número de dentes que faltam, a saúde do osso e da gengiva e o que você espera do tratamento."
+lead: "Prótese dentária é a peça que substitui dentes perdidos ou reconstrói dentes muito danificados."
+resumo: "A prótese pode ser fixa ou removível e se apoiar em dentes, em implantes ou na gengiva. O tipo é escolhido com você depois da avaliação e do escaneamento 3D, conforme o número de dentes que faltam, a saúde do osso e da gengiva e o que você espera do tratamento."
+cartao: "Prótese fixa, sobre implantes, protocolo e dentadura: como funciona cada tipo."
 itens:
   - "Coroas e pontes fixas sobre dentes"
   - "Prótese fixa sobre implantes"
@@ -16,6 +18,7 @@ itens:
   - "Próteses provisórias"
 imagem: ../../assets/fotos/dra-nicole-almeida-acolhimento.jpg
 imagemAlt: "Dra. Nicole Almeida sentada no sofá do consultório, de blazer creme, com a mão junto ao peito e o olhar voltado para o lado"
+legenda: "Retrato · sofá do consultório"
 indicacoes:
   - "Falta de um ou mais dentes"
   - "Dente muito destruído, fraturado ou enfraquecido depois de um tratamento de canal"
@@ -71,7 +74,7 @@ Aqui quem sustenta a prótese é o implante, e os dentes vizinhos ficam intactos
 
 ### Protocolo sobre implantes
 
-É uma prótese fixa que repõe todos os dentes de uma arcada, presa a um conjunto de implantes, geralmente de quatro a seis. Tem os dentes e uma parte que imita a gengiva, e é parafusada sobre os implantes. Você não a retira em casa; nas revisões, ela pode ser removida para limpeza e ajustes.
+O protocolo, que muita gente chama de dentadura fixa, é uma prótese fixa que repõe todos os dentes de uma arcada, presa a um conjunto de implantes, geralmente de quatro a seis. Tem os dentes e uma parte que imita a gengiva, e é parafusada sobre os implantes. Você não a retira em casa; nas revisões, ela pode ser removida para limpeza e ajustes.
 
 ### Prótese parcial removível
 

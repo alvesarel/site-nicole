@@ -5,14 +5,17 @@ tipo: categoria
 categoria: reabilitacao-oral
 ordem: 1
 seoTitle: "Reabilitação oral em Campinas | Dra. Nicole Almeida"
-description: "Implantes, prótese dentária e cirurgias gengivais para quem perdeu dentes. Planejamento com escaneamento 3D no Cambuí, em Campinas."
-resumo: "Reabilitação oral é o conjunto de tratamentos que devolve a função e a forma de dentes perdidos ou muito desgastados: implantes, próteses e, quando preciso, cirurgias na gengiva e ao redor dos implantes. É indicada para quem perdeu um ou vários dentes ou já não mastiga com conforto. Tudo começa com uma avaliação e um escaneamento 3D da boca, a partir dos quais o plano é montado por etapas."
+description: "Reabilitação oral no Cambuí, Campinas: implantes, prótese dentária e cirurgias gengivais para quem perdeu dentes, com planejamento e escaneamento 3D."
+lead: "Reabilitação oral é o conjunto de tratamentos que devolve a função e a forma de dentes perdidos ou muito desgastados."
+resumo: "A reabilitação inclui implantes, próteses e, quando preciso, cirurgias na gengiva e ao redor dos implantes. É indicada para quem perdeu um ou vários dentes ou já não mastiga com conforto. Tudo começa com uma avaliação e um escaneamento 3D da boca, a partir dos quais o plano é montado por etapas."
+cartao: "Implantes, próteses e cirurgias gengivais para quem perdeu um ou vários dentes."
 itens:
   - "Implantes unitários e múltiplos"
   - "Prótese dentária"
   - "Cirurgia peri-implantar e plásticas gengivais"
 imagem: ../../assets/fotos/dra-nicole-almeida-planejamento.jpg
 imagemAlt: "Dra. Nicole Almeida, de terno creme, sentada à mesa redonda do consultório diante de uma parede de ripado claro"
+legenda: "Mesa redonda e parede de ripado"
 indicacoes:
   - "Perda de um ou mais dentes, recente ou antiga"
   - "Dificuldade para mastigar ou hábito de evitar alimentos por causa dos dentes"
@@ -79,9 +82,9 @@ Dessa fase sai um plano por escrito, com as alternativas possíveis, a ordem das
 >
 > — Dra. Nicole Almeida
 
-## O que são a cirurgia peri-implantar e as plásticas gengivais?
+## O que são a cirurgia <span class="nw">peri-implantar</span> e as plásticas gengivais?
 
-São cirurgias feitas no consultório, com anestesia local, que tratam a gengiva e os tecidos em volta dos dentes e dos implantes. Entram no plano quando a gengiva precisa de reforço para proteger um dente ou um implante, ou quando o contorno dela atrapalha a prótese ou a harmonia do sorriso.
+São cirurgias feitas no consultório, com anestesia local, que tratam a gengiva e os tecidos em volta dos dentes e dos implantes. Entram no plano quando a gengiva precisa de reforço para proteger um dente ou um implante, ou quando o contorno dela atrapalha a prótese ou a harmonia do sorriso. Entre as plásticas gengivais está a gengivoplastia, que corrige o contorno da gengiva.
 
 As plásticas gengivais (cirurgias periodontais plásticas) mais comuns são:
 

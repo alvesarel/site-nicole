@@ -27,7 +27,10 @@ const ORIGEM = 'Consultório';
 const preload = await preloadCabecalho(foto);
 
 const { intro, secoes } = secoesPorH2(pagina.rendered?.html ?? '');
-const leadHtml = ((intro.match(/<p>[\s\S]*?<\/p>/) ?? [''])[0]).replace(/^<p>|<\/p>$/g, '');
+// 1º parágrafo da introdução = lead (curto, acima da dobra); os demais viram uma nota depois do CTA
+const paragrafosIntro = intro.match(/<p>[\s\S]*?<\/p>/g) ?? [];
+const leadHtml = (paragrafosIntro[0] ?? '').replace(/^<p>|<\/p>$/g, '');
+const notaHtml = paragrafosIntro.slice(1).join('');
 
 const sEspaco = secao(secoes, 'espaço');
 const sEtapas = secao(secoes, 'etapas');
@@ -57,7 +60,9 @@ const conhecerTexto = sConhecer ? semTags(sConhecer.corpo) : undefined;
     legenda="Recepção"
     posicao="50% 55%"
     letra="co"
-  />
+  >
+    {notaHtml && <div class="cab-nota" slot="depois" set:html={notaHtml} />}
+  </CabecalhoPagina>
 
   {
     secoes.map((s) => {
@@ -93,7 +98,7 @@ const conhecerTexto = sConhecer ? semTags(sConhecer.corpo) : undefined;
                 alt="Sala de atendimento com cadeira odontológica azul-marinho e marcenaria em madeira"
                 fig={3}
                 legenda="Sala de atendimento"
-                sizes="(min-width: 1440px) 380px, (min-width: 1024px) 26vw, 64vw"
+                sizes="(min-width: 1440px) 304px, (min-width: 1024px) 21vw, 64vw"
                 proporcao="2/3"
                 atraso={150}
                 class="cs-f-atend"
@@ -111,7 +116,7 @@ const conhecerTexto = sConhecer ? semTags(sConhecer.corpo) : undefined;
                 alt="Detalhe da marcenaria do consultório, com nichos iluminados por LED"
                 fig={4}
                 legenda="Marcenaria com luz indireta"
-                sizes="(min-width: 1024px) 340px, 72vw"
+                sizes="(min-width: 1024px) 340px, min(72vw, 390px)"
                 proporcao="4/5"
                 moldura
                 class="cs-f-marc"

@@ -14,7 +14,7 @@ import Faq from '../../components/Faq.astro';
 import Figura from '../../components/Figura.astro';
 import BlocoCta from '../../components/BlocoCta.astro';
 import Sumario from '../../components/Sumario.astro';
-import { PROFISSIONAL } from '../../data/site';
+import { PROFISSIONAL, SITE } from '../../data/site';
 import { CATEGORIAS } from '../../data/servicos';
 import { serviceNode, faqPageNode, urlAbsoluta } from '../../lib/schema';
 import { preloadCabecalho } from '../../lib/imagem';
@@ -93,6 +93,12 @@ const nomeMin = d.nome.charAt(0).toLowerCase() + d.nome.slice(1);
 // Estética da face: página discreta (sem o bloco Pólen; Res. CFO-198/2019 em discussão judicial)
 const discreta = slug === 'estetica-da-face';
 
+// "O que inclui": itens que têm página própria viram link (casa pelo nome ou pela 1ª palavra do nome)
+const primeira = (t: string) => t.split(/\s+/)[0].toLowerCase();
+const linkDoItem = (item: string) => filhos.find((f) => f.data.nome === item || primeira(f.data.nome) === primeira(item));
+// "Conteúdo revisado por" só depois que a Dra. Nicole aprovar os textos (SITE.revisadoEm)
+const revisadoEm = SITE.revisadoEm;
+
 const jsonLd = [
   serviceNode({ nome: d.nome, path, descricao: d.description, categoria: ehCategoria ? undefined : cat.nome }),
   ...(d.faq.length ? [faqPageNode(d.faq, path)] : []),
@@ -110,15 +116,16 @@ const jsonLd = [
   atualizadoEm={d.atualizadoEm}
   tipoPagina="MedicalWebPage"
   principal={servicoId}
+  revisaoNoCorpo
 >
   <CabecalhoPagina
     eyebrow={eyebrow}
     titulo={comItalico(d.titulo, ITALICO[slug])}
-    lead={d.resumo}
+    lead={d.lead ?? d.resumo}
     origem={d.nome}
     foto={d.imagem}
     fotoAlt={d.imagemAlt}
-    legenda={d.nome}
+    legenda={d.legenda ?? d.nome}
     posicao={POSICAO[slug]}
   />
 
@@ -127,9 +134,11 @@ const jsonLd = [
       <section class:list={['sec-sm', 'srv-ind', discreta && 'srv-ind-discreta']} aria-labelledby="ind-t">
         <div class="wrap srv-ind-grid">
           <div class="srv-ind-head">
-            <SecaoTitulo texto="Indicado *para*." eyebrow="Indicações" id="ind-t" />
+            <SecaoTitulo texto="Para quem é *indicado*." eyebrow="Indicações" id="ind-t" />
             <p class="srv-ind-nota" data-r>
-              A indicação é sempre confirmada na avaliação, depois do exame clínico e do escaneamento 3D.
+              {discreta
+                ? 'A indicação é sempre confirmada na avaliação clínica.'
+                : 'A indicação é sempre confirmada na avaliação, depois do exame clínico e do escaneamento 3D.'}
             </p>
           </div>
           <div class="srv-ind-body">
@@ -149,9 +158,21 @@ const jsonLd = [
               <div class="srv-inclui" data-r>
                 <p class="srv-inclui-t">O que inclui</p>
                 <ul>
-                  {d.itens.map((it) => (
-                    <li>{it}</li>
-                  ))}
+                  {d.itens.map((it) => {
+                    const f = linkDoItem(it);
+                    return f ? (
+                      <li class="is-link">
+                        <a href={`/servicos/${f.id}/`}>
+                          {it}
+                          <svg class="i" viewBox="0 0 20 10" aria-hidden="true" focusable="false">
+                            <use href="#i-ar" />
+                          </svg>
+                        </a>
+                      </li>
+                    ) : (
+                      <li>{it}</li>
+                    );
+                  })}
                 </ul>
               </div>
             )}
@@ -166,12 +187,24 @@ const jsonLd = [
       {sumario.length > 2 && <Sumario itens={sumario} />}
       <article class="leitura-txt">
         <div class="prose">
+          {d.lead && <p>{d.resumo}</p>}
           <Content />
         </div>
-        <p class="revisao">
-          Conteúdo revisado por {nomeDra}, {PROFISSIONAL.cargo.toLowerCase()}, <span class="nw">{PROFISSIONAL.cro}</span> — atualizado em
-          <time datetime={dataIso(d.atualizadoEm)}>{dataCurta(d.atualizadoEm)}</time>
-        </p>
+        {
+          revisadoEm ? (
+            <p class="revisao">
+              Conteúdo revisado por <a href="/dra-nicole-almeida/">{nomeDra}</a>, {PROFISSIONAL.cargo.toLowerCase()},{' '}
+              <span class="nw">{PROFISSIONAL.cro}</span>, em <time datetime={dataIso(revisadoEm)}>{dataCurta(revisadoEm)}</time> ·
+              atualizado em <time datetime={dataIso(d.atualizadoEm)}>{dataCurta(d.atualizadoEm)}</time>
+            </p>
+          ) : (
+            <p class="revisao">
+              Responsável técnica: <a href="/dra-nicole-almeida/">{nomeDra}</a>, {PROFISSIONAL.cargo.toLowerCase()},{' '}
+              <span class="nw">{PROFISSIONAL.cro}</span> · atualizado em{' '}
+              <time datetime={dataIso(d.atualizadoEm)}>{dataCurta(d.atualizadoEm)}</time>
+            </p>
+          )
+        }
       </article>
     </div>
   </section>
@@ -206,6 +239,7 @@ const jsonLd = [
                   src={f.data.imagem}
                   alt={f.data.imagemAlt}
                   fig={i + 2}
+                  legenda={f.data.legenda}
                   sizes="(min-width: 1440px) 590px, (min-width: 800px) 42vw, calc(100vw - 40px)"
                   proporcao="5/4"
                   posicao="50% 28%"
@@ -214,7 +248,7 @@ const jsonLd = [
                 <h3 class="card-t">
                   <a href={`/servicos/${f.id}/`}>{f.data.nome}</a>
                 </h3>
-                <p>{f.data.description}</p>
+                <p>{f.data.cartao ?? f.data.description}</p>
                 <span class="lnk card-mais" aria-hidden="true">
                   Ler sobre {f.data.nome.toLowerCase()}
                   <svg class="i" viewBox="0 0 20 10" focusable="false">
@@ -259,7 +293,7 @@ const jsonLd = [
                 <h3 class="rel-t">
                   <a href={`/servicos/${r.id}/`}>{r.data.nome}</a>
                 </h3>
-                <p>{r.data.description}</p>
+                <p>{r.data.cartao ?? r.data.description}</p>
                 <span class="rel-go" aria-hidden="true">
                   <svg class="i" viewBox="0 0 20 10" focusable="false">
                     <use href="#i-ar" />
@@ -291,7 +325,12 @@ const jsonLd = [
   .srv-inclui{margin-top:32px}
   .srv-inclui-t{margin-bottom:12px;font:400 1rem/1.3 var(--caps);letter-spacing:.08em}
   .srv-inclui ul{display:flex;flex-wrap:wrap;gap:10px}
-  .srv-inclui li{padding:7px 12px 6px;border:1px solid rgb(38 42 5/.45);font-size:1rem;line-height:1.35}
+  .srv-inclui li{display:flex;align-items:center;min-height:44px;padding:4px 12px;border:1px solid rgb(38 42 5/.45);font-size:1rem;line-height:1.35}
+  .srv-inclui li.is-link{padding:0;border-color:var(--verde-escuro)}
+  .srv-inclui li.is-link a{display:flex;align-items:center;gap:10px;min-height:44px;padding:4px 12px;text-decoration:underline;text-decoration-color:rgb(38 42 5/.4);text-underline-offset:.22em}
+  .srv-inclui li.is-link a:hover{text-decoration-color:currentColor}
+  .srv-inclui li.is-link .i{transition:translate .45s var(--ease)}
+  .srv-inclui li.is-link a:hover .i{translate:4px 0}
   @media (min-width:1024px){
     .srv-ind-grid{grid-template-columns:repeat(12,minmax(0,1fr));column-gap:24px}
     .srv-ind-head{grid-column:1/6}
@@ -299,6 +338,7 @@ const jsonLd = [
   }
 
   /* corpo */
+  .revisao a{text-decoration-color:rgb(90 94 44/.45)}
   .revisao{margin-top:56px;padding-top:20px;border-top:1px solid var(--rule);font-size:.9375rem;line-height:1.6;color:var(--verde-2);max-width:64ch}
 
   /* etapas */

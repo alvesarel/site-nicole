@@ -19,3 +19,10 @@ jobs:
       - run: npm ci
       - run: npx astro check
       - run: npm run build
+      - run: node scripts/validate-content.mjs src/content/servicos servicos
+      - run: node scripts/validate-content.mjs src/content/paginas paginas
+      # Aviso (não bloqueia o CI): lista telefone, CRO ou "[a confirmar]" provisórios.
+      # O bloqueio real fica no build da Cloudflare: "npm run build && npm run check:placeholders".
+      - name: Dados provisórios (aviso)
+        continue-on-error: true
+        run: node scripts/check-placeholders.mjs dist

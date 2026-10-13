@@ -2,6 +2,7 @@
 /**
  * /contato/ — "Contato e endereço": NAP (site.ts), horário, telefone, CTA, links de rota, mapa (facade +
  * MapLibre sob demanda) e uma foto do consultório. Sem seção para quem vem de fora (pedido do cliente).
+ * No topo, o CTA vem logo depois da lead (fica na primeira tela do mobile); endereço/horário/telefone vêm abaixo.
  * JSON-LD: ContactPage (mainEntity = Dentist completo, já no Base) + BreadcrumbList.
  */
 import Base from '../layouts/Base.astro';
@@ -32,7 +33,7 @@ const temInstagram = !ehPlaceholder(CONTATO.instagramHandle);
   preload={preload}
   tipoPagina="ContactPage"
   principal={IDS.consultorio}
-  semBarraMobile
+  revisavel={false}
 >
   <CabecalhoPagina
     eyebrow={`${ENDERECO.bairro} · ${ENDERECO.cidade} – ${ENDERECO.uf}`}
@@ -43,8 +44,9 @@ const temInstagram = !ehPlaceholder(CONTATO.instagramHandle);
     fotoAlt="Nicho iluminado na sala de espera do consultório, com objetos de decoração e madeira clara"
     legenda="Sala de espera"
     posicao="50% 50%"
+    tel={false}
   >
-    <dl class="ct-dl">
+    <dl class="ct-dl" slot="depois">
       <div>
         <dt>Endereço</dt>
         <dd>
@@ -128,7 +130,7 @@ const temInstagram = !ehPlaceholder(CONTATO.instagramHandle);
             </dd>
           </div>
         </dl>
-        <div class="acoes ct-acoes" data-r>
+        <div class="acoes ct-acoes" data-r data-bar-stop>
           <CtaAgendar origem={ORIGEM} />
         </div>
       </div>

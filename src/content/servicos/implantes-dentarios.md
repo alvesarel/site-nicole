@@ -6,7 +6,9 @@ categoria: reabilitacao-oral
 ordem: 3
 seoTitle: "Implantes dentários em Campinas | Dra. Nicole Almeida"
 description: "Implantes unitários e múltiplos: quem pode fazer, como é a cirurgia, carga imediata, enxerto e cuidados. Atendimento no Cambuí, em Campinas."
-resumo: "O implante dentário é um pino, geralmente de titânio, colocado no osso no lugar da raiz de um dente perdido. Depois que se une ao osso, ele recebe a prótese: uma coroa, uma ponte ou uma arcada inteira. É indicado para quem perdeu um ou mais dentes e tem saúde geral e osso adequados, o que se confirma com exame clínico, escaneamento 3D e tomografia."
+lead: "O implante dentário é um pino, geralmente de titânio, colocado no osso no lugar da raiz de um dente perdido."
+resumo: "Depois que se une ao osso, o implante recebe a prótese: uma coroa, uma ponte ou uma arcada inteira. É indicado para quem perdeu um ou mais dentes e tem saúde geral e osso adequados, o que se confirma com exame clínico, escaneamento 3D e tomografia."
+cartao: "Implantes unitários e múltiplos, carga imediata, enxerto e os cuidados depois."
 itens:
   - "Implante unitário"
   - "Implantes múltiplos e pontes sobre implantes"
@@ -15,6 +17,7 @@ itens:
   - "Enxertos ósseos e gengivais"
 imagem: ../../assets/fotos/consultorio-cambui-sala-de-atendimento-2.jpg
 imagemAlt: "Sala de atendimento do consultório no Cambuí, com cadeira odontológica bege, painel de madeira clara e luz indireta"
+legenda: "Sala de atendimento: cadeira bege e madeira clara"
 indicacoes:
   - "Perda de um dente, com vizinhos saudáveis que você prefere não desgastar"
   - "Perda de vários dentes, seguidos ou em regiões diferentes da boca"

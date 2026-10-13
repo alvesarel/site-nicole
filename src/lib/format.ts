@@ -80,9 +80,17 @@ export function paragrafos(s: string): string[] {
     .filter(Boolean);
 }
 
+/**
+ * Linha 1 do endereço, numa forma única (rodapé, contato, JSON-LD, llms.txt): igual à do Perfil do Google.
+ * Ex.: "Rua Barreto Leme, 2281, sala 12".
+ */
+export function enderecoLinha1(): string {
+  return [ENDERECO.ruaCompleta, ENDERECO.complemento].filter(Boolean).join(', ');
+}
+
 /** Linhas do endereço para exibição. */
 export function enderecoLinhas(): [string, string] {
-  const l1 = ENDERECO.complemento ? `${ENDERECO.rua} — ${ENDERECO.complemento}` : ENDERECO.rua;
+  const l1 = enderecoLinha1();
   const l2 = `${ENDERECO.bairro}, ${ENDERECO.cidade} – ${ENDERECO.uf}, ${ENDERECO.cep}`;
   return [l1, l2];
 }

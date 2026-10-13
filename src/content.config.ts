@@ -24,12 +24,21 @@ const servicos = defineCollection({
       seoTitle: z.string().max(60),
       /** Meta description com até 158 caracteres. */
       description: z.string().max(158),
-      /** 2–3 frases de resposta direta (o que é, para quem, como funciona) — abre a página. */
+      /**
+       * Lead do cabeçalho: 1–2 frases (até ~35 palavras) com a resposta direta "o que é". Fica acima da dobra
+       * com o CTA, então precisa ser curto (até 5 linhas em 390 px).
+       */
+      lead: z.string().max(220).optional(),
+      /** Continuação da resposta direta (para quem, como funciona): abre o corpo da página, em texto corrido. */
       resumo: z.string(),
+      /** Texto curto dos cartões "Nesta área" e "Veja também" (até ~90 caracteres, sem CTA e sem bairro). */
+      cartao: z.string().max(110).optional(),
       /** Tratamentos incluídos (aparecem no índice da home e no hub). */
       itens: z.array(z.string()).default([]),
       imagem: image(),
       imagemAlt: z.string(),
+      /** Legenda da foto (FIG. 0X): descreve a imagem, não repete o H1. Ex.: "Retrato · sala com ripado". */
+      legenda: z.string().optional(),
       /** Situações em que o tratamento costuma ser indicado (sem promessa de resultado). */
       indicacoes: z.array(z.string()).default([]),
       /** Etapas do tratamento, na ordem. */

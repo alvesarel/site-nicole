@@ -30,12 +30,13 @@ const corpo = primeiro ? html.replace(primeiro, '') : html;
   origem="Privacidade"
   breadcrumbs={[{ nome: 'Privacidade', href: path }]}
   atualizadoEm={d.atualizadoEm}
+  revisavel={false}
 >
   <CabecalhoPagina eyebrow="LGPD" titulo="Política de *privacidade*" leadHtml={leadHtml} origem="Privacidade" cta={false} letra="da">
     <p class="pv-data">Atualizada em <time datetime={dataIso(d.atualizadoEm)}>{dataCurta(d.atualizadoEm)}</time></p>
   </CabecalhoPagina>
 
-  <section class="sec pv" aria-label="Política de privacidade">
+  <section class="sec pv" aria-label="Texto da política">
     <div class="wrap leitura">
       <Sumario itens={sumario} />
       <div class="leitura-txt">

@@ -57,7 +57,7 @@ export const FAQ_GERAL: PerguntaFrequente[] = [
     tema: 'tratamentos',
     pergunta: 'Quanto tempo leva uma reabilitação oral?',
     resposta:
-      'Depende do ponto de partida. Uma prótese sobre dentes que já estão saudáveis pode ficar pronta em algumas semanas. Com implantes, costuma ser preciso esperar de 3 a 6 meses para que eles se integrem ao osso, e enxertos podem somar alguns meses. Em alguns casos, quando há indicação, uma prótese provisória fixa é instalada logo após os implantes. O cronograma do seu caso faz parte do plano entregue por escrito.',
+      'Depende do ponto de partida. Uma prótese sobre dentes que já estão saudáveis pode ficar pronta em algumas semanas. Com implantes, costuma ser preciso esperar de 2 a 6 meses para que eles se integrem ao osso, e enxertos podem somar alguns meses. Em alguns casos, quando há indicação, uma prótese provisória fixa é instalada logo após os implantes. O cronograma do seu caso faz parte do plano entregue por escrito.',
   },
   {
     tema: 'valores-e-pagamento',
@@ -76,7 +76,7 @@ export const FAQ_GERAL: PerguntaFrequente[] = [
     tema: 'primeira-consulta',
     pergunta: 'Como faço para agendar uma consulta?',
     resposta:
-      'Pelo WhatsApp. Toque em "Click para agendar" em qualquer página do site: a conversa abre com uma mensagem pronta, que você pode completar antes de enviar. Diga os dias e horários que funcionam para você e, se quiser, conte em poucas palavras o motivo da consulta. O consultório responde com as opções de agenda, e todo atendimento é com hora marcada.',
+      'Pelo WhatsApp. Toque em “Click para agendar” em qualquer página do site: a conversa abre com uma mensagem pronta, que você pode completar antes de enviar. Diga os dias e horários que funcionam para você e, se quiser, conte em poucas palavras o motivo da consulta. O consultório responde com as opções de agenda, e todo atendimento é com hora marcada.',
   },
   {
     tema: 'consultorio',
@@ -88,7 +88,7 @@ export const FAQ_GERAL: PerguntaFrequente[] = [
     tema: 'tratamentos',
     pergunta: 'A Dra. Nicole atende crianças?',
     resposta:
-      'Atende. O foco do consultório é o adulto, principalmente quem precisa de prótese, implantes ou reabilitação oral, mas crianças também são recebidas [idade e tipos de atendimento a confirmar]. Quando o caso pede acompanhamento de odontopediatria ou de ortodontia, a família recebe orientação e a indicação de um profissional dessa área.',
+      '[A confirmar: atende crianças? A partir de que idade e com quais tipos de atendimento?] O foco do consultório é o adulto, principalmente quem precisa de prótese, implantes ou reabilitação oral. Quando o caso pede acompanhamento de odontopediatria ou de ortodontia, a família recebe orientação e a indicação de um profissional dessa área.',
   },
   {
     tema: 'conforto',

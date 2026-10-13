@@ -14,7 +14,8 @@
     "check": "astro check",
     "check:placeholders": "node scripts/check-placeholders.mjs dist",
     "deploy": "npm run build && node scripts/check-placeholders.mjs dist && npx wrangler deploy",
-    "astro": "astro"
+    "astro": "astro",
+    "build:previa": "astro build --mode previa"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.4",

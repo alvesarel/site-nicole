@@ -20,6 +20,10 @@ const BOTS_IA = [
 
 export const GET: APIRoute = () => {
   const base = SITE.url.replace(/\/$/, '');
+  // prévia (PUBLIC_PREVIEW=1): bloqueia indexação do endereço temporário
+  if (import.meta.env.PUBLIC_PREVIEW === '1') {
+    return new Response('User-agent: *\nDisallow: /\n', { headers: { 'Content-Type': 'text/plain; charset=utf-8' } });
+  }
   const corpo = [
     'User-agent: *',
     'Allow: /',

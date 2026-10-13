@@ -27,3 +27,4 @@ conteudo-staging/
 
 # Capturas de QA do site
 qa/
+!.env.previa

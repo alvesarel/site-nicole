@@ -4,7 +4,7 @@
  * O Base.astro já inclui WebSite + Dentist + Person + WebPage em toda página (e BreadcrumbList quando há breadcrumbs).
  * Páginas acrescentam Service, FAQPage etc. pela prop `jsonLd`.
  */
-import { SITE, PROFISSIONAL, CONTATO, ENDERECO, HORARIO } from '../data/site';
+import { SITE, PROFISSIONAL, CONTATO, ENDERECO, HORARIO, EMPRESA, AVALIACOES } from '../data/site';
 import { dataIso, ehPlaceholder, enderecoLinha1, horaSchema, semMarcacao } from './format';
 import { respostaTexto } from '../data/faq';
 
@@ -24,7 +24,11 @@ export const IDS = {
   nicole: `${BASE}/#nicole`,
 } as const;
 
-const sameAs = (): string[] => [CONTATO.instagramUrl].filter((u) => !ehPlaceholder(u));
+/** Perfis oficiais da profissional (Person). */
+const sameAsPessoa = (): string[] => [CONTATO.instagramUrl, CONTATO.linkedinUrl].filter((u) => !ehPlaceholder(u));
+/** Perfis do consultório (Dentist): Instagram + Perfil da Empresa no Google. */
+const sameAs = (): string[] =>
+  [CONTATO.instagramUrl, AVALIACOES.googleUrl ?? ''].filter((u) => u && !ehPlaceholder(u));
 
 const UF_NOME: Record<string, string> = { SP: 'São Paulo', MG: 'Minas Gerais', RJ: 'Rio de Janeiro', PR: 'Paraná' };
 
@@ -48,7 +52,7 @@ export interface FotosSchema {
 export function dentistNode(fotos: FotosSchema = {}): NoJsonLd {
   // dados ainda não confirmados (placeholders) ficam fora do JSON-LD: nunca publicar NAP falso
   const temTelefone = !ehPlaceholder(CONTATO.telefoneE164);
-  const temHorario = !ehPlaceholder(HORARIO.texto);
+  const temHorario = !ehPlaceholder(HORARIO.texto) && HORARIO.dias.length > 0 && !!HORARIO.abre && !!HORARIO.fecha;
   const imagens = fotos.consultorio?.length ? fotos.consultorio : [urlAbsoluta(SITE.ogImagem)];
   return {
     '@type': 'Dentist',
@@ -60,7 +64,9 @@ export function dentistNode(fotos: FotosSchema = {}): NoJsonLd {
     image: imagens,
     logo: urlAbsoluta('/icon-512.png'),
     ...(temTelefone ? { telephone: CONTATO.telefoneE164 } : {}),
-    // e-mail fica de fora até ser confirmado (CONTATO.email está marcado CONFIRMAR em site.ts)
+    ...(!ehPlaceholder(CONTATO.email) ? { email: CONTATO.email } : {}),
+    legalName: EMPRESA.razaoSocial,
+    taxID: EMPRESA.cnpj,
     medicalSpecialty: 'Dentistry',
     isAcceptingNewPatients: true,
     address: {
@@ -94,12 +100,21 @@ export function dentistNode(fotos: FotosSchema = {}): NoJsonLd {
 
 export function personNode(fotos: FotosSchema = {}): NoJsonLd {
   const graduacao = PROFISSIONAL.formacao[0];
-  const temCro = !ehPlaceholder(PROFISSIONAL.cro);
-  const ufCro = PROFISSIONAL.cro.match(/CRO-([A-Z]{2})/)?.[1] ?? ENDERECO.uf;
+  const cros = [PROFISSIONAL.cro, ...PROFISSIONAL.crosAdicionais].filter((c) => !ehPlaceholder(c));
+  const credencial = (cro: string) => {
+    const uf = cro.match(/CRO-([A-Z]{2})/)?.[1] ?? ENDERECO.uf;
+    return {
+      '@type': 'EducationalOccupationalCredential',
+      credentialCategory: 'Inscrição profissional',
+      name: cro,
+      recognizedBy: { '@type': 'Organization', name: `Conselho Regional de Odontologia de ${UF_NOME[uf] ?? uf}` },
+    };
+  };
   return {
     '@type': 'Person',
     '@id': IDS.nicole,
     name: PROFISSIONAL.nome,
+    alternateName: PROFISSIONAL.nomeCivil,
     honorificPrefix: PROFISSIONAL.tratamento,
     jobTitle: PROFISSIONAL.cargo,
     description: `${PROFISSIONAL.cargo}. ${PROFISSIONAL.atuacao}.`,
@@ -110,20 +125,8 @@ export function personNode(fotos: FotosSchema = {}): NoJsonLd {
     ...(graduacao && !ehPlaceholder(graduacao.instituicao)
       ? { alumniOf: { '@type': 'CollegeOrUniversity', name: graduacao.instituicao } }
       : {}),
-    ...(temCro
-      ? {
-          hasCredential: {
-            '@type': 'EducationalOccupationalCredential',
-            credentialCategory: 'Inscrição profissional',
-            name: PROFISSIONAL.cro,
-            recognizedBy: {
-              '@type': 'Organization',
-              name: `Conselho Regional de Odontologia de ${UF_NOME[ufCro] ?? ufCro}`,
-            },
-          },
-        }
-      : {}),
-    ...(sameAs().length ? { sameAs: sameAs() } : {}),
+    ...(cros.length ? { hasCredential: cros.map(credencial) } : {}),
+    ...(sameAsPessoa().length ? { sameAs: sameAsPessoa() } : {}),
   };
 }
 

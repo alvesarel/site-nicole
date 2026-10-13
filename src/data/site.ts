@@ -8,7 +8,7 @@
 import { SITE_URL, ATUALIZADO_EM } from './dominio.mjs';
 
 export const SITE = {
-  /** Domínio final (CONFIRMAR): vem de src/data/dominio.mjs, a mesma fonte do sitemap (astro.config.mjs). */
+  /** Domínio final: vem de src/data/dominio.mjs, a mesma fonte do sitemap (astro.config.mjs). */
   url: SITE_URL,
   nome: 'Dra. Nicole Almeida',
   nomeCompleto: 'Dra. Nicole Almeida – Cirurgiã-Dentista',
@@ -23,15 +23,19 @@ export const SITE = {
    * Data em que a Dra. Nicole LEU E APROVOU os textos (AAAA-MM-DD). Enquanto for null, o site NÃO diz
    * "Conteúdo revisado por" nem emite reviewedBy/lastReviewed no JSON-LD (PENDENCIAS §5).
    */
-  revisadoEm: null as string | null,
+  revisadoEm: '2026-10-13' as string | null,
 } as const;
 
 export const PROFISSIONAL = {
   tratamento: 'Dra.',
   nome: 'Nicole Almeida',
   cargo: 'Cirurgiã-dentista',
-  /** CONFIRMAR: número de inscrição no CRO-SP (o mockup do receituário mostra CRO/MG 61102). Formato: 'CRO-SP 12345'. */
-  cro: 'CRO-SP [a confirmar]',
+  /** Inscrição principal (onde atende). Formato: 'CRO-SP 12345'. */
+  cro: 'CRO-SP 180131',
+  /** Outras inscrições ativas (aparecem no Sobre e no JSON-LD). */
+  crosAdicionais: ['CRO-MG 61102'],
+  /** Nome civil completo (JSON-LD alternateName). */
+  nomeCivil: 'Nicole Ingrid de Almeida',
   /** Linha exigida pelo CFO (art. 43 §1º I) enquanto não houver especialidade registrada. */
   atuacao: 'Clínica geral · Áreas de atuação: prótese e reabilitação oral',
   /** Consulta pública de inscrição no CRO-SP. */
@@ -43,60 +47,68 @@ export const PROFISSIONAL = {
    * Pós lato sensu/aperfeiçoamento não entra, concluído ou não.
    */
   formacao: [
-    // CONFIRMAR instituição e ano da graduação
-    { periodo: '[ano]', titulo: 'Graduação em Odontologia', instituicao: '[instituição a confirmar]', publicar: true },
+    { periodo: '2021', titulo: 'Graduação em Odontologia', instituicao: 'Universidade Nove de Julho (UNINOVE)', publicar: true },
     // Nota interna: só publicar se virar especialidade registrada no CRO-SP (PENDENCIAS item 9).
     {
-      periodo: '[ano]',
+      periodo: '2024–2027',
       titulo: 'Pós-graduação em Prótese, Implantes e Cirurgias Periodontais',
       instituicao: 'Faculdade São Leopoldo Mandic, Campinas',
-      status: '[em andamento ou concluída: a confirmar]',
+      status: 'em andamento (conclusão prevista em 2027)',
       publicar: false,
     },
   ],
 } as const;
 
+/** Pessoa jurídica (Código de Ética Odontológica, art. 43): razão social, CNPJ e responsável técnica no rodapé. */
+export const EMPRESA = {
+  razaoSocial: 'NICOLE INGRID DE ALMEIDA LTDA',
+  cnpj: '66.942.205/0001-02',
+  /** Nº de inscrição da empresa no CRO-SP (pendente: PENDENCIAS.md). Vazio = não exibe. */
+  croEmpresa: '',
+};
+
 export const CONTATO = {
-  /** CONFIRMAR: telefone/WhatsApp da Dra. Nicole. */
-  telefone: '(19) 90000-0000',
-  telefoneE164: '+5519900000000',
-  whatsapp: '5519900000000',
+  /** Telefone e WhatsApp (mesmo número). */
+  telefone: '(11) 93744-8481',
+  telefoneE164: '+5511937448481',
+  whatsapp: '5511937448481',
   mensagemPadrao: 'Olá, Dra. Nicole! Vim pelo site e gostaria de agendar uma avaliação.',
-  /** CONFIRMAR */
-  email: 'contato@dranicolealmeida.com.br',
-  /** CONFIRMAR */
-  instagramUrl: 'https://www.instagram.com/PERFIL',
-  instagramHandle: '@PERFIL',
+  email: 'dranicolealmeida@gmail.com',
+  instagramUrl: 'https://www.instagram.com/dranicolealmeida/',
+  instagramHandle: '@dranicolealmeida',
+  linkedinUrl: 'https://br.linkedin.com/in/nicole-almeida-5319161a0',
 } as const;
 
 export const ENDERECO = {
-  /** Provável (ficha "Allevare Coworking Odontológico" no Google Maps). CONFIRMAR sala. */
+  /** Confirmado pela cliente (Allevare Coworking Odontológico, Edifício Santa Apolônia). */
   rua: 'R. Barreto Leme, 2281',
   ruaCompleta: 'Rua Barreto Leme, 2281',
-  complemento: 'sala [a confirmar]',
+  /** Sala/conjunto (opcional; vazio = não exibe). */
+  complemento: '',
   predio: 'Edifício Santa Apolônia',
   bairro: 'Cambuí',
   cidade: 'Campinas',
   uf: 'SP',
   cep: '13025-085',
   pais: 'BR',
-  /** Aproximadas. CONFIRMAR com o pin do Google Maps (5 casas decimais). */
+  /** Do Plus Code do Google Maps (589J4W2X+WX). */
   geo: { lat: -22.89769, lng: -47.05006 },
-  /** CONFIRMAR: link do Perfil da Empresa no Google (maps.google.com/?cid=...). */
+  /** Rota pelo endereço (o Perfil no Google ainda mostra o endereço antigo; ver AVALIACOES.googleUrl). */
   googleMapsUrl: 'https://www.google.com/maps/search/?api=1&query=Rua+Barreto+Leme+2281+Campinas+SP',
   wazeUrl: 'https://waze.com/ul?q=Rua%20Barreto%20Leme%202281%20Campinas&navigate=yes',
   appleMapsUrl: 'https://maps.apple.com/?q=Rua+Barreto+Leme+2281&address=Rua+Barreto+Leme,+2281,+Campinas+-+SP,+13025-085',
 } as const;
 
 export const HORARIO = {
-  /** CONFIRMAR (tire o "[a confirmar]" quando ela confirmar; enquanto houver, o JSON-LD não publica o horário). */
-  texto: 'Segunda a sexta, das 9h às 18h [a confirmar]',
-  textoCurto: 'Seg. a sex., 9h–18h [a confirmar]',
-  dias: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
-  abre: '09:00',
-  fecha: '18:00',
-  observacao: 'Atendimento com hora marcada.',
-} as const;
+  /** Horário fixo ainda não informado: o site mostra só "com hora marcada" e o JSON-LD não publica horário. */
+  texto: 'Atendimento com hora marcada',
+  textoCurto: 'Com hora marcada',
+  /** Preencha (ex.: ['Monday', …], '09:00', '18:00') para publicar openingHoursSpecification. */
+  dias: [] as string[],
+  abre: '',
+  fecha: '',
+  observacao: 'Agende pelo WhatsApp ou por telefone.',
+};
 
 /**
  * Avaliações. Regras (CFO + diretrizes do Google), ver pesquisa/03:
@@ -107,8 +119,8 @@ export const HORARIO = {
  * Enquanto `trechos` estiver vazio, o site mostra apenas o convite para ler as avaliações no Google.
  */
 export const AVALIACOES = {
-  /** CONFIRMAR: link "ver avaliações" do Perfil da Empresa no Google. */
-  googleUrl: null as string | null,
+  /** Perfil da Empresa no Google (link de compartilhamento). */
+  googleUrl: 'https://share.google/i4g3LAwug0wx83GpG' as string | null,
   /** Nota e total exibidos como texto (opcional; atualizar manualmente). */
   nota: null as string | null,
   total: null as number | null,

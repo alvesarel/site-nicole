@@ -42,8 +42,8 @@ Os instrumentos são lavados, embalados e esterilizados em autoclave antes de ca
 
 ## Acessibilidade e estacionamento
 
-- Acesso para cadeira de rodas e elevador: [a confirmar].
-- Estacionamento: [no prédio ou nas proximidades, a confirmar].
+- O prédio tem acesso para cadeira de rodas.
+- O prédio tem estacionamento.
 
 Se você tem alguma necessidade de acesso ou de mobilidade, conte ao agendar, para que a visita seja preparada com antecedência.
 

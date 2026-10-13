@@ -47,28 +47,3 @@ if (menu && botaoMenu) {
   });
 }
 
-/* barra fixa do mobile: aparece sempre que o CTA do topo está fora da tela (acima OU abaixo da dobra, como
-   numa lead longa em 360 px), some perto do rodapé/contato. Sem CTA no topo, usa .mbar-ref (após ~1 tela). */
-const barra = $('[data-mbar]');
-if (barra) {
-  let passou = false;
-  const perto = new Set<Element>();
-  const atualizar = () => barra.classList.toggle('on', passou && perto.size === 0);
-  const ref = $('[data-hero-cta]') ?? $('.mbar-ref');
-  if (ref)
-    io(([e]) => {
-      passou = !e.isIntersecting && (e.target.matches('[data-hero-cta]') || e.boundingClientRect.top < 0);
-      atualizar();
-    }).observe(ref);
-  const paradas = $$('[data-bar-stop]');
-  if (paradas.length) {
-    const obs = io(
-      (es) => {
-        es.forEach((e) => (e.isIntersecting || e.boundingClientRect.top < 0 ? perto.add(e.target) : perto.delete(e.target)));
-        atualizar();
-      },
-      { rootMargin: '0px 0px -15% 0px' },
-    );
-    paradas.forEach((p) => obs.observe(p));
-  }
-}

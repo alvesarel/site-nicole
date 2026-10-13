@@ -3,11 +3,10 @@
  * Rodapé Verde: padronagem sutil de letras do logo, logo, navegação, serviços, contato
  * e a linha legal completa exigida pelo CFO (nome, cargo, CRO, atuação, responsável técnica, atualização).
  * "Conteúdo revisado por" só aparece quando a Dra. Nicole de fato revisou (SITE.revisadoEm) e a página é `revisavel`.
- * `data-bar-stop`: a barra fixa do mobile some quando o rodapé chega.
  */
 import Logo from './Logo.astro';
 import CtaAgendar from './CtaAgendar.astro';
-import { SITE, PROFISSIONAL, CONTATO, HORARIO, NAV } from '../data/site';
+import { SITE, PROFISSIONAL, CONTATO, HORARIO, NAV, EMPRESA } from '../data/site';
 import { TODAS_AS_PAGINAS } from '../data/servicos';
 import { dataCurta, dataIso, ehPlaceholder, enderecoLinhas, telHref } from '../lib/format';
 import { spriteHref } from '../lib/logo';
@@ -29,7 +28,7 @@ const cargoMin = PROFISSIONAL.cargo.toLowerCase();
 const href = spriteHref();
 ---
 
-<footer class="rod" data-bar-stop>
+<footer class="rod">
   <svg class="rod-pad" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
     <defs>
       <pattern id="pad" width="640" height="190" patternUnits="userSpaceOnUse">
@@ -85,6 +84,7 @@ const href = spriteHref();
       <p class="rod-h">Contato</p>
       <address>{linha1}<br />{linha2}</address>
       <p><a href={telHref}>{CONTATO.telefone}</a></p>
+      {!ehPlaceholder(CONTATO.email) && <p><a href={`mailto:${CONTATO.email}`}>{CONTATO.email}</a></p>}
       <p>{HORARIO.texto}</p>
       {
         temInstagram && (
@@ -102,6 +102,7 @@ const href = spriteHref();
   <div class="wrap rod-legal">
     <p class="strong">{nomeCompleto} · {PROFISSIONAL.cargo} · <span class="nw">{PROFISSIONAL.cro}</span> · {PROFISSIONAL.atuacao}</p>
     <p>Responsável técnica: {nomeCompleto} — <span class="nw">{PROFISSIONAL.cro}</span></p>
+    <p>{EMPRESA.razaoSocial} · <span class="nw">CNPJ {EMPRESA.cnpj}</span>{EMPRESA.croEmpresa && <> · <span class="nw">{EMPRESA.croEmpresa}</span></>}</p>
     {
       revisado ? (
         <p>

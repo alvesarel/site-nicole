@@ -5,7 +5,7 @@ description: "Conheça a Dra. Nicole Almeida, cirurgiã-dentista (clínica geral
 atualizadoEm: 2026-10-13
 ---
 
-A Dra. Nicole Almeida é cirurgiã-dentista (CRO-SP nº [a confirmar]) e atende no Cambuí, em Campinas, sobretudo quem perdeu um ou vários dentes.
+A Dra. Nicole Almeida é cirurgiã-dentista (CRO-SP 180131 e CRO-MG 61102) e atende no Cambuí, em Campinas, sobretudo quem perdeu um ou vários dentes.
 
 ## Por que a odontologia
 
@@ -39,7 +39,7 @@ Ela também cuida da [prevenção e manutenção](/servicos/prevencao-e-manutenc
 
 ## Formação
 
-- Graduação em Odontologia: [instituição e ano a confirmar].
+- Graduação em Odontologia pela Universidade Nove de Julho (UNINOVE), em 2021.
 
 ## Uma primeira conversa
 

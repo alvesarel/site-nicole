@@ -11,15 +11,15 @@ O site não tem formulário, não pede cadastro e não usa cookies de publicidad
 
 ## Quem é a responsável pelos dados
 
-A controladora dos dados é Nicole Almeida, cirurgiã-dentista, [CPF ou CNPJ a confirmar], com consultório no Cambuí, em Campinas–SP. O endereço completo está na página de [contato](/contato/).
+A controladora dos dados é NICOLE INGRID DE ALMEIDA LTDA (CNPJ 66.942.205/0001-02), empresa da Dra. Nicole Almeida, cirurgiã-dentista, com consultório no Cambuí, em Campinas–SP. O endereço completo está na página de [contato](/contato/).
 
-Para qualquer assunto de privacidade, escreva para contato@dranicolealmeida.com.br [e-mail a confirmar] ou mande uma mensagem pelo WhatsApp do consultório. Como agente de tratamento de pequeno porte, a Dra. Nicole usa esse canal de comunicação no lugar da indicação de um encarregado, como permite a Resolução CD/ANPD nº 2/2022 [enquadramento a confirmar com assessoria jurídica].
+Para qualquer assunto de privacidade, escreva para dranicolealmeida@gmail.com ou mande uma mensagem pelo WhatsApp do consultório. Como agente de tratamento de pequeno porte, a Dra. Nicole usa esse canal de comunicação no lugar da indicação de um encarregado, como permite a Resolução CD/ANPD nº 2/2022.
 
 ## Quais dados o site trata
 
 **Navegação.** Ao abrir uma página, o seu navegador envia à hospedagem dados técnicos, como endereço IP, data e hora, página visitada e tipo de navegador. Eles servem para entregar o site e protegê-lo contra ataques. O site usa apenas conexão criptografada (HTTPS), e fontes e imagens vêm dele mesmo, sem chamadas a outros serviços (exceto o script de estatísticas da Cloudflare, se ativado).
 
-**Estatísticas de visita.** Se o site passar a medir audiência, será com uma ferramenta sem cookies que conta visitas de forma agregada, sem identificar ninguém (como o Cloudflare Web Analytics, cujo script é carregado de static.cloudflareinsights.com e envia as contagens à Cloudflare). [Ativação a confirmar.]
+**Estatísticas de visita.** Hoje o site não mede audiência. Se passar a medir, será com uma ferramenta sem cookies que conta visitas de forma agregada, sem identificar ninguém (como o Cloudflare Web Analytics, cujo script é carregado de static.cloudflareinsights.com e envia as contagens à Cloudflare). Nesse caso, esta política será atualizada antes da ativação.
 
 **WhatsApp.** Ao tocar em “Click para agendar”, o WhatsApp (Meta) abre com uma mensagem pronta, com um código curto da página de onde você veio (por exemplo, “ref. 05”), nunca o nome de um tratamento. Ao abrir o link, a Meta recebe dados técnicos de acesso, como o IP, e o texto dessa mensagem; ela só chega ao consultório se você tocar em enviar. Daí em diante, a conversa acontece no WhatsApp, da Meta, sob os termos e a política de privacidade dela. No consultório, o seu nome, o telefone e a mensagem servem só para responder e marcar a consulta.
 
@@ -49,8 +49,8 @@ Os dados pessoais não são vendidos nem cedidos para publicidade. Participam do
 
 ## Por quanto tempo os dados ficam guardados
 
-- Registros técnicos de acesso: pelo prazo de retenção da hospedagem [prazo a confirmar].
-- Conversas de agendamento: enquanto forem necessárias para o atendimento [prazo a confirmar].
+- Registros técnicos de acesso: pelo prazo de retenção definido pela hospedagem, usados só para segurança e funcionamento do site.
+- Conversas de agendamento: pelo tempo necessário para marcar e acompanhar o atendimento.
 - Prontuário: pelo prazo exigido pela legislação e pelas normas do CFO. A Lei nº 13.787/2018 só permite descartar um prontuário depois de, no mínimo, 20 anos do último registro.
 
 ## Os seus direitos

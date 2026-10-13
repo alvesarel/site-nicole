@@ -17,5 +17,5 @@
   // e publicam no domínio próprio. Não ative antes: sem domínio, o site ficaria sem nenhum endereço.
   //   "workers_dev": false,
   //   "preview_urls": false,
-  //   "routes": [{ "pattern": "www.dranicolealmeida.com.br", "custom_domain": true }]
+  //   "routes": [{ "pattern": "nicolealmeida.com.br", "custom_domain": true }, { "pattern": "www.nicolealmeida.com.br", "custom_domain": true }]
 }

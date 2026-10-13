@@ -49,6 +49,15 @@ _originais/            (fora do git) fotos em alta, vídeo e brand book
   O validador aponta campos inválidos e termos vetados pelo CFO ("especialista", "garantido", "sem dor", preços etc.).
 - **Avaliações:** só trechos reais do Google, sobre o atendimento, com autorização do autor, em `AVALIACOES` (`src/data/site.ts`). Nunca usar depoimentos fictícios.
 
+## Prévia ao vivo
+
+https://site-nicole.site-nicole.workers.dev — conta Cloudflare temporária, com `noindex` e `robots.txt` bloqueando buscadores.
+
+```bash
+npm run build:previa      # build com PUBLIC_PREVIEW=1 (.env.previa): noindex + robots Disallow
+npx wrangler deploy       # publica o dist/ no workers.dev da conta logada no wrangler
+```
+
 ## Publicar (Cloudflare Workers, gratuito)
 
 1. Criar conta na Cloudflare → **Workers & Pages → Create → Import a repository** → escolher `alvesarel/site-nicole`.

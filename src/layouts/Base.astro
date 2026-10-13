@@ -12,7 +12,7 @@ import { getImage } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import MobileBar from '../components/MobileBar.astro';
+import WhatsappFixo from '../components/WhatsappFixo.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import { SITE } from '../data/site';
 import { dataIso } from '../lib/format';
@@ -133,6 +133,8 @@ if (import.meta.env.DEV) {
   if (title.length > 60) console.warn(`[Base] title com ${title.length} caracteres (> 60): ${title}`);
   if (description.length > 155) console.warn(`[Base] description com ${description.length} caracteres (> 155): ${path}`);
 }
+/** Build de prévia (PUBLIC_PREVIEW=1): não indexar o endereço temporário (workers.dev). */
+const PREVIA = import.meta.env.PUBLIC_PREVIEW === '1';
 ---
 
 <!doctype html>
@@ -144,6 +146,7 @@ if (import.meta.env.DEV) {
     <meta name="description" content={description} />
     {!noindex && <link rel="canonical" href={canonical} />}
     {noindex && <meta name="robots" content="noindex, follow" />}
+    {!noindex && PREVIA && <meta name="robots" content="noindex, nofollow" />}
     <meta name="theme-color" content="#FFFDEE" />
     <meta name="format-detection" content="telephone=no" />
     <script is:inline>document.documentElement.classList.add('js')</script>
@@ -196,7 +199,6 @@ if (import.meta.env.DEV) {
       </defs>
     </svg>
     <span class="sentinel" aria-hidden="true"></span>
-    <span class="mbar-ref" aria-hidden="true"></span>
     <a class="skip" href="#conteudo">Pular para o conteúdo</a>
 
     <Header origem={origem} />
@@ -213,7 +215,7 @@ if (import.meta.env.DEV) {
     </main>
 
     <Footer origem={origem} atualizadoEm={atualizadoEm} revisavel={revisavel && !noindex && !revisaoNoCorpo} />
-    {!semBarraMobile && <MobileBar origem={origem} />}
+    {!semBarraMobile && <WhatsappFixo origem={origem} />}
 
     <script>
       import '../scripts/site';

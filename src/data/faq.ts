@@ -5,7 +5,6 @@
  * - As respostas podem ter links internos em Markdown: [texto](/caminho/).
  *   No HTML, use `respostaHtml()`; no JSON-LD (FAQPage), use `respostaTexto()`.
  * - Nada de links de WhatsApp aqui: o botão "Click para agendar" vem do template.
- * - Trechos com "[a confirmar]" dependem de resposta da Dra. Nicole antes de publicar.
  * - Revisado contra as regras de publicidade do CFO (sem valores, sem promessa de resultado).
  */
 
@@ -70,7 +69,7 @@ export const FAQ_GERAL: PerguntaFrequente[] = [
     tema: 'valores-e-pagamento',
     pergunta: 'A Dra. Nicole atende convênios?',
     resposta:
-      '[A confirmar: atendimento particular ou lista de convênios aceitos.] Se você tem plano odontológico, mencione ao agendar, para saber de antemão como funciona no seu caso. Quando o plano oferece reembolso, o consultório fornece os documentos do atendimento que costumam ser exigidos, como recibo e relatório [a confirmar].',
+      'O atendimento é particular: a Dra. Nicole não trabalha com convênios odontológicos. Se o seu plano prevê reembolso, confira as regras com a operadora; os documentos do atendimento, como o recibo, podem ser solicitados no consultório.',
   },
   {
     tema: 'primeira-consulta',
@@ -88,7 +87,7 @@ export const FAQ_GERAL: PerguntaFrequente[] = [
     tema: 'tratamentos',
     pergunta: 'A Dra. Nicole atende crianças?',
     resposta:
-      '[A confirmar: atende crianças? A partir de que idade e com quais tipos de atendimento?] O foco do consultório é o adulto, principalmente quem precisa de prótese, implantes ou reabilitação oral. Quando o caso pede acompanhamento de odontopediatria ou de ortodontia, a família recebe orientação e a indicação de um profissional dessa área.',
+      'Sim, a Dra. Nicole também atende crianças, mas o foco do consultório é o adulto, principalmente quem precisa de prótese, implantes ou reabilitação oral. Quando o caso pede acompanhamento de odontopediatria ou de ortodontia, a família recebe orientação e a indicação de um profissional dessa área.',
   },
   {
     tema: 'conforto',

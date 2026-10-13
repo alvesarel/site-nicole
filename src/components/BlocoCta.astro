@@ -3,7 +3,7 @@
  * Faixa de convite final para as páginas internas (antes do rodapé).
  * Título com *itálico*, texto curto, CTA "Click para agendar", telefone, endereço, horário e link para /contato/.
  * tom: "creme" (padrão, Creme 2) ou "nuvem" (Azul Nuvem, acento raro: no máximo uma por página).
- * Marca data-bar-stop: a barra fixa do mobile some quando esta faixa aparece (o CTA já está nela).
+ * Marca: a barra fixa do mobile some quando esta faixa aparece (o CTA já está nela).
  */
 import SecaoTitulo from './SecaoTitulo.astro';
 import CtaAgendar from './CtaAgendar.astro';
@@ -34,7 +34,7 @@ const {
 const [l1, l2] = enderecoLinhas();
 ---
 
-<section class:list={['sec-sm', 'convite', `convite-${tom}`, classe]} id={id} aria-labelledby={`${id}-t`} data-bar-stop>
+<section class:list={['sec-sm', 'convite', `convite-${tom}`, classe]} id={id} aria-labelledby={`${id}-t`}>
   <div class="wrap convite-grid">
     <div class="convite-txt">
       <SecaoTitulo texto={titulo} eyebrow={eyebrow} id={`${id}-t`} />

@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Conceitos de design — Dra. Nicole Almeida</title>
+<meta name="robots" content="noindex">
+<style>
+  @font-face { font-family: "Arsenal SC"; src: url("_shared/fonts/arsenal-sc-regular.woff2") format("woff2"); font-display: swap; }
+  :root {
+    --verde: #3D420A; --polen: #DBCB79; --nuvem: #DEE2FF; --creme: #FFFDEE;
+    --verde-2: #5A5E2C; --creme-2: #F5F1DA; --linha: rgba(61,66,10,.16);
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--creme); color: var(--verde); font: 17px/1.6 Georgia, "Times New Roman", serif; }
+  a { color: inherit; }
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 0 24px; }
+  header { padding: 48px 0 32px; border-bottom: 1px solid var(--linha); }
+  .logo { width: 220px; color: var(--verde); display: block; }
+  .eyebrow { font-family: "Arsenal SC", serif; letter-spacing: .16em; font-size: 13px; color: var(--verde-2); }
+  h1 { font-weight: 400; font-size: clamp(2rem, 4.5vw, 3.4rem); line-height: 1.08; margin: 28px 0 12px; }
+  .lead { max-width: 64ch; color: var(--verde-2); margin: 0; }
+  .legend { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+  .legend span { font-family: "Arsenal SC", serif; font-size: 13px; letter-spacing: .1em; border: 1px solid var(--linha); border-radius: 99px; padding: 4px 12px; }
+  .opt { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 40px; padding: 64px 0; border-bottom: 1px solid var(--linha); }
+  .shots { position: relative; }
+  .shots .d { width: 100%; height: auto; aspect-ratio: 1440 / 900; display: block; border: 1px solid var(--linha); box-shadow: 0 24px 60px rgba(61,66,10,.12); }
+  .shots .m { aspect-ratio: 390 / 844; height: auto; position: absolute; right: -18px; bottom: -28px; width: 26%; min-width: 110px; border-radius: 18px; border: 6px solid var(--verde); background: var(--verde); box-shadow: 0 18px 40px rgba(61,66,10,.25); }
+  .num { font-family: "Arsenal SC", serif; font-size: 64px; line-height: 1; color: var(--polen); -webkit-text-stroke: 1px var(--verde); }
+  h2 { font-weight: 400; font-size: 2rem; margin: 6px 0 12px; line-height: 1.1; }
+  .info p { margin: 0 0 14px; }
+  dl { margin: 18px 0 24px; display: grid; gap: 10px; }
+  dt { font-family: "Arsenal SC", serif; font-size: 12px; letter-spacing: .16em; color: var(--verde-2); }
+  dd { margin: 0; font-size: 15px; line-height: 1.5; }
+  .btn { display: inline-flex; align-items: center; gap: 10px; background: var(--verde); color: var(--creme); text-decoration: none; padding: 14px 22px; font-family: "Arsenal SC", serif; letter-spacing: .12em; font-size: 14px; }
+  .btn:hover { background: #262A05; }
+  .btn:focus-visible { outline: 2px solid var(--verde); outline-offset: 3px; }
+  footer { padding: 48px 0 80px; color: var(--verde-2); font-size: 15px; }
+  footer ul { padding-left: 18px; }
+  @media (max-width: 900px) {
+    .opt { grid-template-columns: 1fr; gap: 48px; }
+    .shots .m { right: 8px; width: 22%; max-width: 150px; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <img class="logo" src="_shared/logo/logo-horizontal.svg" alt="Nicole Almeida" width="220" height="22">
+    <h1>Cinco caminhos para o site<br>da Dra. Nicole Almeida</h1>
+    <p class="lead">Todos usam a paleta oficial, o logo, a Arsenal SC e o texto do brand book, e seguem as regras de publicidade do CFO. O que muda é a personalidade: cor dominante, tipografia, layout e animação. Abra cada um, role a página e veja também no celular.</p>
+    <div class="legend"><span>Paleta oficial</span><span>Click para agendar fixo</span><span>Mapa interativo</span><span>Avaliações · FAQ</span><span>~550–800 KB</span></div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="opt">
+    <div class="shots"><img class="d" src="opcao-1-editorial-creme/preview-desktop.jpg" alt="Conceito 1, Editorial Creme, versão desktop" width="1440" height="900" loading="lazy"><img class="m" src="opcao-1-editorial-creme/preview-mobile.jpg" alt="Conceito 1 no celular" width="390" height="844" loading="lazy"></div>
+    <div class="info">
+      <div class="num">01</div>
+      <h2>Editorial Creme</h2>
+      <p>A home como uma revista de design e bem-estar, com a Dra. Nicole como autora. Retratos grandes, muito respiro e leitura sem pressa.</p>
+      <dl>
+        <dt>Tema</dt><dd>Claro e quente: Creme Pérola dominante, Verde Colina no texto</dd>
+        <dt>Tipografia</dt><dd>Bodoni Moda + Arsenal SC</dd>
+        <dt>Assinatura</dt><dd>Capa de revista: as chamadas ao lado do retrato são o menu. Folios "p. 07", legendas "FIG.", manifesto com capitular</dd>
+        <dt>Movimento</dt><dd>Fotos abrem como cortina, títulos sobem palavra por palavra</dd>
+      </dl>
+      <a class="btn" href="opcao-1-editorial-creme/" target="_blank" rel="noopener">Abrir conceito ↗</a>
+    </div>
+  </section>
+
+  <section class="opt">
+    <div class="shots"><img class="d" src="opcao-2-verde-noturno/preview-desktop.jpg" alt="Conceito 2, Verde Noturno, versão desktop" width="1440" height="900" loading="lazy"><img class="m" src="opcao-2-verde-noturno/preview-mobile.jpg" alt="Conceito 2 no celular" width="390" height="844" loading="lazy"></div>
+    <div class="info">
+      <div class="num">02</div>
+      <h2>Verde Noturno</h2>
+      <p>Luxo silencioso e cinematográfico. O Verde Colina vira uma sala escura acolhedora, e o terno creme da Nicole se destaca sobre ele.</p>
+      <dl>
+        <dt>Tema</dt><dd>Escuro: Verde Colina dominante, acentos em Amarelo Pólen</dd>
+        <dt>Tipografia</dt><dd>Arsenal SC como título + Hanken Grotesk</dd>
+        <dt>Assinatura</dt><dd>Cena em formato de cinema que se abre com o scroll; logo desenhado em traço dourado; "Sobre" contado em legendas</dd>
+        <dt>Movimento</dt><dd>Letterbox que vira tela cheia, créditos finais com o logo</dd>
+      </dl>
+      <a class="btn" href="opcao-2-verde-noturno/" target="_blank" rel="noopener">Abrir conceito ↗</a>
+    </div>
+  </section>
+
+  <section class="opt">
+    <div class="shots"><img class="d" src="opcao-3-nuvem-acolhimento/preview-desktop.jpg" alt="Conceito 3, Nuvem, versão desktop" width="1440" height="900" loading="lazy"><img class="m" src="opcao-3-nuvem-acolhimento/preview-mobile.jpg" alt="Conceito 3 no celular" width="390" height="844" loading="lazy"></div>
+    <div class="info">
+      <div class="num">03</div>
+      <h2>Nuvem</h2>
+      <p>Aéreo, suave e acolhedor, pensado para quem perdeu dentes e chega fragilizado. Arcos, pílulas e cards que flutuam.</p>
+      <dl>
+        <dt>Tema</dt><dd>Claro e leve: Azul Nuvem + Creme, Verde nos textos e botões</dd>
+        <dt>Tipografia</dt><dd>Fraunces (versão suave) + Arsenal SC</dd>
+        <dt>Assinatura</dt><dd>"Você se reconhece?": o paciente marca situações e a mensagem do WhatsApp já sai personalizada</dd>
+        <dt>Movimento</dt><dd>Arco do hero que "respira", caminho pontilhado entre as etapas</dd>
+      </dl>
+      <a class="btn" href="opcao-3-nuvem-acolhimento/" target="_blank" rel="noopener">Abrir conceito ↗</a>
+    </div>
+  </section>
+
+  <section class="opt">
+    <div class="shots"><img class="d" src="opcao-4-galeria-tipografica/preview-desktop.jpg" alt="Conceito 4, Galeria Tipográfica, versão desktop" width="1440" height="900" loading="lazy"><img class="m" src="opcao-4-galeria-tipografica/preview-mobile.jpg" alt="Conceito 4 no celular" width="390" height="844" loading="lazy"></div>
+    <div class="info">
+      <div class="num">04</div>
+      <h2>Galeria Tipográfica</h2>
+      <p>A marca como exposição de arte. As letras do logo aparecem enormes, cortadas pelas bordas, e se montam no nome com o scroll: "uma letra de cada vez".</p>
+      <dl>
+        <dt>Tema</dt><dd>Claro com blocos de cor: Creme, Amarelo Pólen e Verde</dd>
+        <dt>Tipografia</dt><dd>Bricolage Grotesque + Arsenal SC</dd>
+        <dt>Assinatura</dt><dd>A padronagem da marca que se organiza em "Nicole Almeida"; etiquetas de galeria; selo giratório "Click para agendar"</dd>
+        <dt>Movimento</dt><dd>Letras com parallax, cor entrando em círculo a partir da letra</dd>
+      </dl>
+      <a class="btn" href="opcao-4-galeria-tipografica/" target="_blank" rel="noopener">Abrir conceito ↗</a>
+    </div>
+  </section>
+
+  <section class="opt">
+    <div class="shots"><img class="d" src="opcao-5-precisao-serena/preview-desktop.jpg" alt="Conceito 5, Precisão Serena, versão desktop" width="1440" height="900" loading="lazy"><img class="m" src="opcao-5-precisao-serena/preview-mobile.jpg" alt="Conceito 5 no celular" width="390" height="844" loading="lazy"></div>
+    <div class="info">
+      <div class="num">05</div>
+      <h2>Precisão Serena</h2>
+      <p>Transparência e método: o atendimento explicado como um bom manual, para o paciente que quer entender antes de decidir. O calor vem das fotos e da madeira clara.</p>
+      <dl>
+        <dt>Tema</dt><dd>Claro com painel escuro: Creme + Verde Colina, fichas em Azul Nuvem</dd>
+        <dt>Tipografia</dt><dd>Geist + Arsenal SC</dd>
+        <dt>Assinatura</dt><dd>Protocolo com painel verde fixo e números 01→04; fichas técnicas por serviço; tecnologia explicada</dd>
+        <dt>Movimento</dt><dd>Linha de "escaneamento" que revela cada foto, ecoando o scanner 3D</dd>
+      </dl>
+      <a class="btn" href="opcao-5-precisao-serena/" target="_blank" rel="noopener">Abrir conceito ↗</a>
+    </div>
+  </section>
+
+</main>
+
+<footer class="wrap">
+  <p><strong>Ainda são placeholders em todos os conceitos:</strong></p>
+  <ul>
+    <li>CRO-SP, telefone/WhatsApp, Instagram, sala e horário</li>
+    <li>Endereço provável: R. Barreto Leme, 2281, Cambuí (Allevare Coworking Odontológico), a confirmar</li>
+    <li>Nota e trechos de avaliações (marcados "Exemplo de layout"; no site final só entram avaliações reais do Google, com autorização)</li>
+    <li>Páginas internas de cada serviço (serão criadas depois da escolha)</li>
+  </ul>
+</footer>
+</body>
+</html>

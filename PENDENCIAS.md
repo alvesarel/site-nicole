@@ -5,8 +5,9 @@ Tudo abaixo está como placeholder no site. Os dados ficam centralizados em
 basta trocar ali que o site inteiro se atualiza, inclusive o link curto `/agendar` (o `_redirects` é gerado no build).
 
 **Trava de publicação:** `node scripts/check-placeholders.mjs dist` (ou `npm run check:placeholders`) falha
-enquanto o build tiver telefone `90000-0000`, CRO ou qualquer trecho `[a confirmar]`. Ela roda no CI da `main` e
-no comando de deploy; só some quando todos os itens abaixo estiverem preenchidos.
+enquanto o build tiver telefone `90000-0000`, CRO ou qualquer trecho `[a confirmar]`. No CI do GitHub ela só avisa
+(não bloqueia); o bloqueio real fica no build da Cloudflare (`npm run build && npm run check:placeholders`) e no
+`npm run deploy`. Só some quando todos os itens abaixo estiverem preenchidos.
 
 ## 1. Dados obrigatórios (CFO e Google)
 

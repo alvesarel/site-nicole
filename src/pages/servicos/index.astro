@@ -1,0 +1,97 @@
+---
+/**
+ * /servicos/ — hub dos serviços: cabeçalho editorial, índice I–IV (bloco Pólen) com as páginas filhas,
+ * como começa (etapas) e convite final. JSON-LD: CollectionPage + ItemList das 8 páginas.
+ */
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import CabecalhoPagina from '../../components/CabecalhoPagina.astro';
+import IndiceServicos from '../../components/IndiceServicos.astro';
+import SecaoTitulo from '../../components/SecaoTitulo.astro';
+import Etapas from '../../components/Etapas.astro';
+import BlocoCta from '../../components/BlocoCta.astro';
+import { TODAS_AS_PAGINAS } from '../../data/servicos';
+import { urlAbsoluta } from '../../lib/schema';
+import { preloadCabecalho } from '../../lib/imagem';
+import foto from '../../assets/fotos/dra-nicole-almeida-caminhando.jpg';
+
+const ORIGEM = 'Serviços';
+const path = '/servicos/';
+const preload = await preloadCabecalho(foto);
+
+const servicos = await getCollection('servicos');
+const porSlug = new Map(servicos.map((s) => [s.id, s]));
+const itemList = {
+  '@type': 'ItemList',
+  '@id': `${urlAbsoluta(path)}#lista`,
+  name: 'Serviços',
+  itemListElement: TODAS_AS_PAGINAS.map((p, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: p.nome,
+    url: urlAbsoluta(`/servicos/${p.slug}/`),
+    ...(porSlug.get(p.slug) ? { description: porSlug.get(p.slug)!.data.description } : {}),
+  })),
+};
+---
+
+<Base
+  title="Serviços odontológicos no Cambuí, Campinas | Dra. Nicole"
+  description="Prótese, implantes e reabilitação oral, prevenção, estética dental e estética da face com a Dra. Nicole Almeida, cirurgiã-dentista no Cambuí, Campinas."
+  path={path}
+  origem={ORIGEM}
+  breadcrumbs={[{ nome: 'Serviços', href: path }]}
+  preload={preload}
+  tipoPagina="CollectionPage"
+  jsonLd={[itemList]}
+>
+  <CabecalhoPagina
+    eyebrow="Serviços"
+    titulo="Serviços odontológicos no *Cambuí*, em Campinas"
+    lead="A prótese e a reabilitação oral estão no centro do trabalho da Dra. Nicole Almeida. Em volta delas, os cuidados que mantêm o sorriso saudável e em harmonia com o rosto: prevenção, estética dental e estética da face."
+    origem={ORIGEM}
+    foto={foto}
+    fotoAlt="Dra. Nicole Almeida caminhando no consultório, de terno creme, em um ambiente claro e amplo"
+    legenda="Atendimento no Cambuí"
+    posicao="50% 40%"
+    letra="N"
+  />
+
+  <IndiceServicos
+    titulo="Quatro áreas de *cuidado*."
+    eyebrow="Índice"
+    lead="Cada área reúne os tratamentos que costumam andar juntos. Toque em uma delas para ver indicações, etapas e perguntas frequentes."
+    mostrarPaginas
+  />
+
+  <section class="sec hub-comeco" aria-labelledby="comeco-t">
+    <div class="wrap">
+      <div class="hub-comeco-head">
+        <SecaoTitulo texto="Não sabe por onde *começar*?" eyebrow="Primeira consulta" id="comeco-t" />
+        <p class="lead" data-r>
+          Você não precisa chegar sabendo qual tratamento procurar. Todo atendimento segue as mesmas quatro etapas, e a decisão vem
+          depois da conversa, do exame e do plano por escrito.
+        </p>
+        <p class="hub-links" data-r>
+          <a class="lnk" href="/consultorio/"
+            >Como funciona o consultório
+            <svg class="i" viewBox="0 0 20 10" aria-hidden="true" focusable="false"><use href="#i-ar"></use></svg></a
+          >
+          <a class="lnk" href="/perguntas-frequentes/"
+            >Perguntas frequentes
+            <svg class="i" viewBox="0 0 20 10" aria-hidden="true" focusable="false"><use href="#i-ar"></use></svg></a
+          >
+        </p>
+      </div>
+      <Etapas colunas={4} />
+    </div>
+  </section>
+
+  <BlocoCta origem={ORIGEM} />
+</Base>
+
+<style is:global>
+  .hub-comeco-head{max-width:46rem;margin-bottom:clamp(48px,6vw,88px)}
+  .hub-comeco-head .lead{margin-top:24px}
+  .hub-links{display:flex;flex-wrap:wrap;gap:0 32px;margin-top:20px;max-width:none}
+</style>

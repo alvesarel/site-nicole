@@ -24,3 +24,6 @@ pesquisa/refs/
 
 # Conteúdo em produção paralela (movido para src/ pelo integrador)
 conteudo-staging/
+
+# Capturas de QA do site
+qa/

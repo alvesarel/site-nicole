@@ -1,0 +1,51 @@
+---
+/**
+ * /privacidade/ — Política de privacidade (conteúdo: src/content/paginas/privacidade.md), em .prose com sumário.
+ */
+import { getEntry, render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import CabecalhoPagina from '../components/CabecalhoPagina.astro';
+import Sumario from '../components/Sumario.astro';
+import { secoesPorH2 } from '../lib/conteudo';
+import { dataCurta, dataIso } from '../lib/format';
+
+const pagina = (await getEntry('paginas', 'privacidade'))!;
+const d = pagina.data;
+const path = '/privacidade/';
+const { headings } = await render(pagina);
+const sumario = headings.filter((h) => h.depth === 2);
+
+// o primeiro parágrafo vira o lead; o resto do Markdown segue no corpo
+const html = pagina.rendered?.html ?? '';
+const { intro } = secoesPorH2(html);
+const primeiro = intro.match(/<p>[\s\S]*?<\/p>/)?.[0] ?? '';
+const leadHtml = primeiro.replace(/^<p>|<\/p>$/g, '');
+const corpo = primeiro ? html.replace(primeiro, '') : html;
+---
+
+<Base
+  title={d.seoTitle}
+  description={d.description}
+  path={path}
+  origem="Privacidade"
+  breadcrumbs={[{ nome: 'Privacidade', href: path }]}
+  atualizadoEm={d.atualizadoEm}
+>
+  <CabecalhoPagina eyebrow="LGPD" titulo="Política de *privacidade*" leadHtml={leadHtml} origem="Privacidade" cta={false} letra="da">
+    <p class="pv-data">Atualizada em <time datetime={dataIso(d.atualizadoEm)}>{dataCurta(d.atualizadoEm)}</time></p>
+  </CabecalhoPagina>
+
+  <section class="sec pv" aria-label="Política de privacidade">
+    <div class="wrap leitura">
+      <Sumario itens={sumario} />
+      <div class="leitura-txt">
+        <div class="prose" set:html={corpo} />
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style is:global>
+  .pv{padding-top:0}
+  .pv-data{margin-top:20px;font-size:1rem;color:var(--verde-2)}
+</style>

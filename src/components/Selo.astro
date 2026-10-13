@@ -1,0 +1,43 @@
+---
+/**
+ * Selo giratório "Click para agendar" com o monograma (só na home, sobre a lâmina do hero).
+ * Posicionado pelo contêiner (classe .selo; ajuste left/bottom no contexto). O giro para no hover/foco
+ * e não acontece com prefers-reduced-motion.
+ */
+import Logo from './Logo.astro';
+import { whatsappUrl, CTA_TEXTO, CTA_ARIA } from '../data/site';
+
+interface Props {
+  origem: string;
+  class?: string;
+}
+const { origem, class: classe } = Astro.props;
+// O texto do anel precisa estar contido no nome acessível (CTA_ARIA), senão falha "label-content-name-mismatch".
+// "•" é pontuação para o axe (ignorada na comparação); "·" não é.
+const anel = `${CTA_TEXTO.toUpperCase()} • PELO WHATSAPP •`;
+---
+
+<a class:list={['selo', classe]} href={whatsappUrl(origem)} target="_blank" rel="noopener" aria-label={CTA_ARIA}>
+  <svg class="selo-anel" viewBox="0 0 120 120" aria-hidden="true" focusable="false">
+    <defs><path id="selo-anel-p" d="M60 60m-45 0a45 45 0 1 1 90 0a45 45 0 1 1-90 0"></path></defs>
+    <text><textPath href="#selo-anel-p" textLength="280" lengthAdjust="spacing">{anel}</textPath></text>
+  </svg>
+  <Logo variant="monograma" class="selo-mono" />
+</a>
+
+<style is:global>
+  .selo{position:absolute;z-index:3;display:grid;place-items:center;width:118px;height:118px;border-radius:50%;background:var(--verde);color:var(--creme);text-decoration:none;box-shadow:inset 0 0 0 5px var(--verde),inset 0 0 0 6px rgb(219 203 121/.55),0 18px 36px -18px rgb(38 42 5/.7);transition:background-color .3s,scale .5s var(--ease)}
+  .selo:hover{background:var(--verde-escuro);scale:1.04}
+  .selo:focus-visible{outline:2px solid var(--verde);outline-offset:4px}
+  .selo-anel{position:absolute;inset:0;width:100%;height:100%;fill:var(--creme);font:400 13.4px var(--caps);letter-spacing:0}
+  .selo-mono{width:44%;height:auto;aspect-ratio:423.43/208.02;fill:var(--polen)}
+  @media (min-width:600px){.selo{width:124px;height:124px}}
+  @media (min-width:1024px){.selo{width:132px;height:132px}}
+  @media (prefers-reduced-motion:no-preference){
+    .selo{animation:seloIn 1.2s .7s var(--ease) both}
+    .selo-anel{animation:gira 26s linear infinite}
+    .selo:hover .selo-anel,.selo:focus-visible .selo-anel{animation-play-state:paused}
+  }
+  @keyframes seloIn{from{opacity:0;scale:.6;rotate:-30deg}}
+  @keyframes gira{to{rotate:360deg}}
+</style>

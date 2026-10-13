@@ -1,0 +1,132 @@
+---
+/**
+ * Cabeçalho editorial das páginas internas: eyebrow + H1 (uma palavra em *itálico*) + lead + CTA,
+ * ao lado de UMA foto em lâmina com moldura deslocada (FIG. 01), que é o LCP da página.
+ * Tudo aparece no primeiro paint: nada de reveal aqui (H1, lead, CTA e foto não dependem de animação).
+ *
+ * Na página, gere o preload com os mesmos sizes/widths:
+ *   const preload = await preloadCabecalho(foto);   // src/lib/imagem.ts
+ * Slots: padrão (entre o lead e o CTA) e "depois" (abaixo do CTA).
+ * Sem `foto`, o texto ocupa a largura maior e (opcional) uma letra do logo entra como grafismo à direita.
+ */
+import type { ImageMetadata } from 'astro';
+import Figura from './Figura.astro';
+import Logo from './Logo.astro';
+import CtaAgendar from './CtaAgendar.astro';
+import { CONTATO } from '../data/site';
+import { italico, telHref } from '../lib/format';
+import { HERO_INTERNO, larguras } from '../lib/imagem';
+import { LETRAS, type Letra } from '../lib/logo';
+
+interface Props {
+  eyebrow: string;
+  /** H1 com uma palavra entre asteriscos para o itálico: "Prótese *dentária* em Campinas". */
+  titulo: string;
+  lead?: string;
+  /** Lead em HTML (ex.: parágrafo de Markdown com link). Tem prioridade sobre `lead`. */
+  leadHtml?: string;
+  origem: string;
+  foto?: ImageMetadata;
+  fotoAlt?: string;
+  legenda?: string;
+  /** object-position da foto (ex.: "50% 30%"). */
+  posicao?: string;
+  proporcao?: string;
+  /** Mostra "Click para agendar" + telefone (padrão: sim). */
+  cta?: boolean;
+  /** Letra desconstruída do logo como grafismo (atrás da foto ou à direita, nunca atrás do texto). */
+  letra?: Letra;
+  id?: string;
+  class?: string;
+}
+
+const props = Astro.props;
+const {
+  eyebrow,
+  titulo,
+  lead,
+  leadHtml,
+  origem,
+  foto,
+  fotoAlt = '',
+  legenda,
+  posicao,
+  proporcao = '4/5',
+  cta = true,
+  letra,
+  id = 'h1',
+  class: classe,
+} = props;
+// proporção da letra (viewBox "x y w h") para o SVG absoluto não depender do cálculo implícito
+const vb = letra ? LETRAS[letra].split(' ').map(Number) : undefined;
+const estiloLetra = vb ? `aspect-ratio:${vb[2]}/${vb[3]}` : undefined;
+---
+
+<section class:list={['cab', !foto && 'cab-sem-foto', classe]} aria-labelledby={id}>
+  {!foto && letra && <Logo recorte={letra} class="g g-cab-solo" style={estiloLetra} />}
+  <div class="wrap cab-grid">
+    <div class="cab-txt">
+      <p class="eyebrow">{eyebrow}</p>
+      <h1 class="cab-h1" id={id} set:html={italico(titulo)} />
+      {leadHtml ? <p class="lead cab-lead" set:html={leadHtml} /> : lead && <p class="lead cab-lead">{lead}</p>}
+      <slot />
+      {
+        cta && (
+          <div class="acoes cab-acoes">
+            <CtaAgendar origem={origem} heroi />
+            <a class="tel" href={telHref}>
+              ou ligue {CONTATO.telefone}
+            </a>
+          </div>
+        )
+      }
+      <slot name="depois" />
+    </div>
+    {
+      foto && (
+        <div class="cab-figw">
+          {letra && <Logo recorte={letra} class="g g-cab" style={estiloLetra} />}
+          <Figura
+            src={foto}
+            alt={fotoAlt}
+            fig={1}
+            legenda={legenda}
+            sizes={HERO_INTERNO.sizes}
+            widths={larguras(foto, 1000, [...HERO_INTERNO.widths])}
+            proporcao={proporcao}
+            posicao={posicao}
+            moldura
+            prioridade
+          />
+        </div>
+      )
+    }
+  </div>
+</section>
+
+<style is:global>
+  .cab{position:relative;isolation:isolate;overflow:clip;padding:clamp(28px,2.4vw,32px) 0 clamp(64px,8vw,120px)}
+  .cab-grid{display:grid;gap:56px}
+  .cab-h1{font:400 clamp(2.5rem,1.55rem + 3.2vw,4.5rem)/1.06 var(--serif);letter-spacing:-.015em;text-wrap:balance;max-width:17ch}
+  .cab-h1 em{font-style:italic}
+  .cab-lead a{text-decoration-color:rgb(61 66 10/.45)}
+  .cab-lead{margin-top:clamp(22px,2.4vw,32px);max-width:40ch}
+  .cab-acoes{margin-top:36px}
+  .cab-figw{position:relative;isolation:isolate;width:min(80%,440px);margin-left:auto}
+  .g-cab{z-index:-2;top:-10%;left:-46%;height:74%;width:auto;fill:var(--polen);opacity:.85}
+  .g-cab-solo{display:none}
+  @media (min-width:1024px){
+    .cab-grid{grid-template-columns:repeat(12,minmax(0,1fr));column-gap:24px;align-items:center}
+    .cab-txt{grid-column:1/8;padding-bottom:24px}
+    .cab-figw{grid-column:8/13;width:auto;margin:0}
+    .g-cab{left:auto;right:-34%;top:-6%;height:86%}
+    .cab-sem-foto .cab-txt{grid-column:1/10;padding-bottom:0}
+    .g-cab-solo{display:block;z-index:-1;top:clamp(8px,2vw,32px);right:-2vw;height:clamp(220px,24vw,340px);width:auto;fill:var(--polen);opacity:.7}
+  }
+  @media (prefers-reduced-motion:no-preference){
+    .cab .lamina-quadro::before{animation:phMoldura 1.6s .15s var(--ease-io) both}
+    .g-cab,.g-cab-solo{animation:phLetra 2s .1s var(--ease) both}
+  }
+  @keyframes phMoldura{from{translate:0 0;opacity:0}}
+  @keyframes phLetra{from{opacity:0;translate:5% 4%;rotate:4deg}}
+</style>

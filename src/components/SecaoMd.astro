@@ -1,0 +1,79 @@
+---
+/**
+ * Seção de texto institucional (Sobre, Consultório): título Bodoni à esquerda (última palavra em itálico),
+ * texto vindo do Markdown à direita, com a tipografia de leitura (.prose).
+ * - `html`: corpo da seção (de secoesPorH2() em src/lib/conteudo.ts). Conteúdo extra entra pelo slot padrão.
+ * - slot "midia": fotos abaixo do texto (no máximo 2 por seção).
+ * - slot "lateral": uma foto na coluna do título, abaixo dele (no mobile, depois do texto).
+ * - O `id` é o mesmo que o Astro gera para o H2 no Markdown (âncoras e links continuam valendo).
+ */
+import SecaoTitulo from './SecaoTitulo.astro';
+
+interface Props {
+  id: string;
+  titulo: string;
+  html?: string;
+  eyebrow?: string;
+  /** Fundo Creme 2 (alterna o ritmo da página). */
+  creme2?: boolean;
+  class?: string;
+}
+const { id, titulo, html, eyebrow, creme2 = false, class: classe } = Astro.props;
+
+// "Como é o espaço" → "Como é o *espaço*." · perguntas mantêm o "?"
+const limpo = titulo.trim();
+const final = /[?!.]$/.test(limpo) ? limpo.slice(-1) : '.';
+const base = /[?!.]$/.test(limpo) ? limpo.slice(0, -1) : limpo;
+const i = base.lastIndexOf(' ');
+const texto = i > 0 ? `${base.slice(0, i + 1)}*${base.slice(i + 1)}*${final}` : `*${base}*${final}`;
+---
+
+<section class:list={['tx', creme2 && 'tx-c2', classe]} aria-labelledby={id}>
+  <div class="wrap">
+    <div class="tx-grid">
+      <div class="tx-head">
+        <SecaoTitulo texto={texto} eyebrow={eyebrow} id={id} tamanho="h3" class="tx-h" />
+      </div>
+      <div class="tx-body">
+        {html && <div class="prose" set:html={html} />}
+        <slot />
+      </div>
+      {
+        Astro.slots.has('lateral') && (
+          <div class="tx-lat">
+            <slot name="lateral" />
+          </div>
+        )
+      }
+    </div>
+    {
+      Astro.slots.has('midia') && (
+        <div class="tx-midia">
+          <slot name="midia" />
+        </div>
+      )
+    }
+  </div>
+</section>
+
+<style is:global>
+  .tx{position:relative;padding-block:clamp(56px,6.5vw,96px)}
+  .tx:not(.tx-c2)+.tx:not(.tx-c2)>.wrap>.tx-grid{border-top:1px solid var(--rule);padding-top:clamp(48px,5vw,72px)}
+  .tx:not(.tx-c2)+.tx:not(.tx-c2),.cab+.tx:not(.tx-c2){padding-top:0}
+  .cab+.tx:not(.tx-c2)>.wrap>.tx-grid{border-top:1px solid var(--rule);padding-top:clamp(48px,5vw,72px)}
+  .tx-c2{background:var(--creme-2)}
+  .tx-grid{display:grid;gap:20px}
+  .tx-h{font:450 clamp(2rem,1.55rem + 1.5vw,2.9rem)/1.1 var(--serif);letter-spacing:-.012em;text-wrap:balance}
+  .tx-body .prose blockquote{margin-block:1.6em;padding-left:24px;font:italic 400 clamp(1.5rem,1.25rem + .9vw,2rem)/1.35 var(--serif);letter-spacing:-.005em;max-width:30ch}
+  .tx-body .prose blockquote p{max-width:none}
+  .tx-midia{display:grid;gap:40px;margin-top:clamp(48px,6vw,88px)}
+  .tx-lat{margin-top:28px}
+  @media (min-width:1024px){.tx-lat{margin-top:0}}
+  @media (min-width:1024px){
+    .tx-grid{grid-template-columns:repeat(12,minmax(0,1fr));column-gap:24px}
+    .tx-head{grid-column:1/5;grid-row:1}
+    .tx-body{grid-column:6/13;grid-row:1/span 2}
+    .tx-lat{grid-column:1/5;grid-row:2;align-self:start;padding-top:24px}
+    .tx-h{max-width:12ch}
+  }
+</style>

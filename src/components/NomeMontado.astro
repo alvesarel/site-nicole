@@ -1,0 +1,54 @@
+---
+/**
+ * "Nicole Almeida" montado letra a letra (as letras do logo chegam soltas, em Pólen, e se encaixam em Verde).
+ * - Navegadores com animation-timeline: montagem ligada ao scroll.
+ * - Demais: IntersectionObserver (data-io → .is-in) com transição.
+ * - Sem JS ou com reduced motion: o nome já aparece montado.
+ * O texto acessível fica em .sr; o SVG é decorativo. As letras vêm do sprite do Base (<use href="#lg-h-N">).
+ */
+import { letrasDoNome, LOGOS } from '../lib/logo';
+import { SITE } from '../data/site';
+
+interface Props {
+  /** Elemento raiz: h2 (padrão, vira o título da seção), h1, p ou div. */
+  as?: 'h1' | 'h2' | 'p' | 'div';
+  id?: string;
+  texto?: string;
+  class?: string;
+}
+const { as: Tag = 'h2', id, texto = SITE.nome, class: classe } = Astro.props;
+const letras = letrasDoNome();
+---
+
+<Tag class:list={['nome', classe]} id={id} data-io>
+  <span class="sr">{texto}</span>
+  <svg class="nome-svg" viewBox={LOGOS.horizontal.viewBox} aria-hidden="true" focusable="false">
+    {
+      letras.map((l) => (
+        <g class="lt" style={l.estilo}>
+          <use href={l.href} />
+        </g>
+      ))
+    }
+  </svg>
+</Tag>
+
+<style is:global>
+  .nome{position:relative;margin:0}
+  .nome-svg{display:block;width:100%;height:auto;aspect-ratio:1298.85/127.86;overflow:visible;fill:var(--verde)}
+  .lt{transform-box:fill-box;transform-origin:50% 50%}
+  @media (prefers-reduced-motion:no-preference){
+    .js .nome .lt{translate:var(--x) var(--y);rotate:var(--r);scale:var(--s);fill:var(--polen);opacity:.45;transition:opacity 1s var(--ease) calc(var(--o)*45ms),translate 1.5s var(--ease-io) calc(var(--o)*45ms),rotate 1.5s var(--ease-io) calc(var(--o)*45ms),scale 1.5s var(--ease-io) calc(var(--o)*45ms),fill .9s var(--ease) calc(var(--o)*45ms + .6s)}
+    .js .nome.is-in .lt{translate:0 0;rotate:0deg;scale:1;fill:var(--verde);opacity:1}
+    @supports (animation-timeline:view()){
+      .nome{view-timeline:--nome block}
+      /* longhands de propósito: o minificador funde 'animation' + 'animation-timeline' num shorthand que o Chrome rejeita */
+      .nome .lt,.js .nome .lt,.js .nome.is-in .lt{transition:none;animation-name:monta;animation-timing-function:linear;animation-fill-mode:both;animation-timeline:--nome;animation-range:cover 0% cover calc(32% + var(--o) * 1.2%)}
+    }
+  }
+  @keyframes monta{
+    0%{translate:var(--x) var(--y);rotate:var(--r);scale:var(--s);fill:var(--polen);opacity:.45;animation-timing-function:cubic-bezier(.35,.1,.25,1)}
+    60%{fill:var(--polen);opacity:1}
+    100%{translate:0 0;rotate:0deg;scale:1;fill:var(--verde);opacity:1}
+  }
+</style>

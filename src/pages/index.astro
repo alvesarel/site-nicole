@@ -1,0 +1,326 @@
+---
+/**
+ * HOME — conceito 6 (Editorial Galeria), aprovado.
+ * 1 Hero · 2 Sobre + manifesto (nome montado) · 3 Serviços (bloco Pólen I–IV) ·
+ * 4 Consultório + "Um sorriso de cada vez" · 5 Avaliações + Perguntas frequentes · 6 Endereço + mapa.
+ */
+import Base from '../layouts/Base.astro';
+import Logo from '../components/Logo.astro';
+import Figura from '../components/Figura.astro';
+import Selo from '../components/Selo.astro';
+import CtaAgendar from '../components/CtaAgendar.astro';
+import NomeMontado from '../components/NomeMontado.astro';
+import SecaoTitulo from '../components/SecaoTitulo.astro';
+import IndiceServicos from '../components/IndiceServicos.astro';
+import Etapas from '../components/Etapas.astro';
+import Avaliacoes from '../components/Avaliacoes.astro';
+import Faq from '../components/Faq.astro';
+import MapaFacade from '../components/MapaFacade.astro';
+
+import { SITE, PROFISSIONAL, CONTATO, ENDERECO, HORARIO } from '../data/site';
+import { FAQ_HOME } from '../data/faq';
+import { faqPageNode } from '../lib/schema';
+import { dividirPalavras, enderecoLinhas, telHref } from '../lib/format';
+import { larguras, preloadImagem } from '../lib/imagem';
+
+import fotoHero from '../assets/fotos/dra-nicole-almeida-dentista-campinas.jpg';
+import fotoSobre from '../assets/fotos/dra-nicole-almeida-sorrindo-consultorio.jpg';
+import fotoEspera from '../assets/fotos/consultorio-cambui-sala-de-espera.jpg';
+import fotoAtendimento from '../assets/fotos/consultorio-cambui-sala-de-atendimento.jpg';
+
+const ORIGEM = 'página inicial';
+
+// hero: mesmos widths/sizes no <Picture> e no preload (mesmas URLs)
+const heroSizes = '(min-width: 1024px) 36vw, (min-width: 600px) min(76vw, 520px), 84vw';
+const heroWidths = larguras(fotoHero, 1000, [360, 480, 640, 800, 1000]);
+const preload = await preloadImagem(fotoHero, heroSizes, heroWidths);
+
+const [end1, end2] = enderecoLinhas();
+const nome = `${PROFISSIONAL.tratamento} ${PROFISSIONAL.nome}`;
+const posGrad = PROFISSIONAL.formacao.find((f) => f.titulo.startsWith('Pós'));
+const statusPos = posGrad && 'status' in posGrad ? posGrad.status : undefined;
+---
+
+<Base
+  title={SITE.titulo}
+  description={SITE.descricao}
+  path="/"
+  origem={ORIGEM}
+  preload={preload}
+  jsonLd={[faqPageNode(FAQ_HOME, '/')]}
+>
+  <!-- 1 · HERO -->
+  <section class="hero" aria-labelledby="h1">
+    <div class="hero-in wrap">
+      <div class="hero-txt">
+        <p class="eyebrow">{ENDERECO.bairro} · {ENDERECO.cidade} – {ENDERECO.uf}</p>
+        <h1 id="h1">
+          <span class="h1-a"
+            >Sorrir é sobre se permitir ser <em
+              >visto<svg class="swash" viewBox="0 0 120 12" preserveAspectRatio="none" aria-hidden="true" focusable="false"
+                ><path d="M3 8.5C34 3.5 78 2.5 117 6"></path></svg
+              ></em
+            >.</span
+          >
+          <span class="h1-b">{nome}, {PROFISSIONAL.cargo.toLowerCase()}. Prótese e reabilitação oral no {ENDERECO.bairro}, {ENDERECO.cidade}.</span>
+        </h1>
+        <p class="hero-p">
+          Para quem perdeu dentes e quer voltar a sorrir sem pensar nisso: planejamento com escaneamento 3D, atendimento individual e
+          tempo para conversar.
+        </p>
+        <div class="acoes hero-acts">
+          <CtaAgendar origem={ORIGEM} heroi />
+          <a class="tel" href={telHref}>ou ligue {CONTATO.telefone}</a>
+        </div>
+      </div>
+      <div class="hero-figw">
+        <Logo recorte="A" class="g g-hero" />
+        <Figura
+          src={fotoHero}
+          alt={`${nome} de perfil, em terno creme, olhando para a câmera diante de uma parede clara`}
+          fig={1}
+          legenda="Retrato · terno creme"
+          sizes={heroSizes}
+          widths={heroWidths}
+          proporcao="4/5"
+          posicao="56% 24%"
+          moldura
+          prioridade
+          class="hero-fig"
+        />
+        <Selo origem={ORIGEM} class="hero-selo" />
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 · SOBRE + MANIFESTO -->
+  <section class="sec sobre" id="sobre" aria-labelledby="sobre-t">
+    <div class="wrap">
+      <NomeMontado id="sobre-t" texto={nome} class="sobre-nome" />
+      <div class="sobre-grid">
+        <Figura
+          src={fotoSobre}
+          alt={`${nome} sorrindo, apoiada em uma estante clara do consultório, com luz natural da janela`}
+          fig={2}
+          legenda="Apaixonada por dentes e por pessoas"
+          sizes="(min-width: 1440px) 500px, (min-width: 900px) 36vw, calc(100vw - 40px)"
+          proporcao="4/5"
+          posicao="40% 30%"
+          class="sobre-fig"
+        />
+        <div class="sobre-txt">
+          <p class="display" data-split set:html={dividirPalavras('Sorrisos reais, *sem pressa*.')} />
+          <p class="manif" data-r>
+            Sorrir é um poder silencioso. Quem perdeu dentes sabe o quanto deixa de sorrir: numa foto, numa conversa, diante do
+            espelho. Por isso cada transformação é feita com precisão e carinho, numa experiência acolhedora e sem pressa. A técnica
+            transforma, mas só a leveza acolhe.
+          </p>
+          <p class="assina" data-r>— {nome}</p>
+          <dl class="creds" data-r>
+            <div><dt>Registro</dt><dd>{PROFISSIONAL.cargo} · <span class="nw">{PROFISSIONAL.cro}</span></dd></div>
+            <div><dt>Atuação</dt><dd>{PROFISSIONAL.atuacao}</dd></div>
+            {
+              posGrad && (
+                <div>
+                  <dt>Formação</dt>
+                  <dd>
+                    {posGrad.titulo}, {posGrad.instituicao} {statusPos && <span class="ph">{statusPos}</span>}
+                  </dd>
+                </div>
+              )
+            }
+            <div><dt>Planejamento</dt><dd>Escaneamento intraoral 3D antes de qualquer proposta</dd></div>
+            <div><dt>Atendimento</dt><dd>Individual, com hora marcada, no {ENDERECO.bairro}</dd></div>
+          </dl>
+          <p class="sobre-mais" data-r>
+            <a class="lnk" href="/dra-nicole-almeida/"
+              >Conheça a Dra. Nicole Almeida
+              <svg class="i" viewBox="0 0 20 10" aria-hidden="true" focusable="false"><use href="#i-ar"></use></svg></a
+            >
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 · SERVIÇOS (bloco Pólen) -->
+  <IndiceServicos />
+
+  <!-- 4 · CONSULTÓRIO + UM SORRISO DE CADA VEZ -->
+  <section class="sec consult" id="consultorio" aria-labelledby="cons-t">
+    <div class="wrap">
+      <div class="cons-a">
+        <div class="cons-txt">
+          <SecaoTitulo texto="Um sorriso de cada *vez*." eyebrow="O consultório" id="cons-t" />
+          <p class="lead" data-r>
+            Um consultório no {ENDERECO.bairro} pensado como uma sala de estar: madeira clara, luz indireta, poltronas creme. Um
+            atendimento por vez, com hora marcada, em quatro etapas.
+          </p>
+          <p class="cons-mais" data-r>
+            <a class="lnk" href="/consultorio/"
+              >Conheça o consultório
+              <svg class="i" viewBox="0 0 20 10" aria-hidden="true" focusable="false"><use href="#i-ar"></use></svg></a
+            >
+          </p>
+        </div>
+        <Figura
+          src={fotoEspera}
+          alt="Sala de espera do consultório, com poltronas creme, marcenaria em madeira clara e luz indireta"
+          fig={3}
+          legenda="Sala de espera: poltronas creme e luz indireta"
+          sizes="(min-width: 1440px) 740px, (min-width: 1024px) 52vw, calc(100vw - 40px)"
+          proporcao="3/2"
+          class="cons-f1"
+        />
+      </div>
+      <div class="cons-b">
+        <Etapas class="cons-passos" />
+        <Figura
+          src={fotoAtendimento}
+          alt="Sala de atendimento com cadeira odontológica bege, armários claros e luz natural"
+          fig={4}
+          legenda="Sala de atendimento"
+          sizes="(min-width: 1440px) 410px, (min-width: 1024px) 28vw, 72vw"
+          proporcao="2/3"
+          class="cons-f2"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 · AVALIAÇÕES + PERGUNTAS FREQUENTES -->
+  <section class="sec af" id="perguntas" aria-label="Avaliações e perguntas frequentes">
+    <div class="wrap af-grid">
+      <p class="eyebrow af-eyebrow">Avaliações e dúvidas</p>
+      <Avaliacoes class="af-aval" />
+      <Faq
+        itens={FAQ_HOME}
+        titulo="Perguntas *frequentes*."
+        id="faq-t"
+        class="af-faq"
+        mais={{ href: '/perguntas-frequentes/', texto: 'Ver todas as perguntas frequentes' }}
+      />
+    </div>
+  </section>
+
+  <!-- 6 · ENDEREÇO + MAPA -->
+  <section class="sec endereco" id="endereco" aria-labelledby="end-t" data-bar-stop>
+    <div class="wrap end-grid">
+      <div class="end-txt">
+        <SecaoTitulo texto="Como chegar ao *consultório*." eyebrow="Endereço" id="end-t" />
+        <dl class="end-dl" data-r>
+          <div>
+            <dt>Endereço</dt>
+            <dd><address>{end1}<br />{end2}</address></dd>
+          </div>
+          <div><dt>Horário</dt><dd>{HORARIO.texto}</dd></div>
+          <div>
+            <dt>Telefone</dt>
+            <dd><a href={telHref}>{CONTATO.telefone}</a></dd>
+          </div>
+        </dl>
+        <div class="acoes" data-r>
+          <CtaAgendar origem={ORIGEM} />
+          <a class="lnk" href="/contato/"
+            >Contato e horários
+            <svg class="i" viewBox="0 0 20 10" aria-hidden="true" focusable="false"><use href="#i-ar"></use></svg></a
+          >
+        </div>
+      </div>
+      <MapaFacade class="end-map" />
+    </div>
+  </section>
+</Base>
+
+<style is:global>
+  /* ---------- 1 · hero ---------- */
+  .hero{position:relative;overflow:clip;padding:clamp(24px,4vw,48px) 0 clamp(32px,3vw,48px)}
+  .hero-in{display:grid;gap:64px}
+  .h1-a{display:block;font:400 clamp(2.75rem,1.45rem + 4.3vw,5.5rem)/1.04 var(--serif);letter-spacing:-.015em;text-wrap:balance}
+  .h1-a em{position:relative;font-style:italic;white-space:nowrap}
+  .swash{position:absolute;left:-2%;bottom:-.1em;width:104%;height:.16em;overflow:visible;fill:none;stroke:var(--polen);stroke-width:2.2;stroke-linecap:round}
+  .h1-b{display:block;max-width:34ch;margin-top:clamp(22px,2.4vw,32px);font:400 var(--lead)/1.5 var(--sans);letter-spacing:0}
+  .hero-p{max-width:40ch;margin-top:14px}
+  .hero-acts{margin-top:36px}
+  .hero-figw{position:relative;isolation:isolate;width:84%;margin-left:auto}
+  .g-hero{z-index:-2;top:-12%;left:-58%;height:92%;width:auto;aspect-ratio:113/128;fill:var(--polen)}
+  .hero-selo{left:-58px;bottom:14%}
+  @media (min-width:600px){.hero-figw{width:min(76%,520px)}.hero-selo{left:-62px}}
+  @media (min-width:1024px){
+    .hero-in{grid-template-columns:repeat(12,minmax(0,1fr));column-gap:24px;align-items:center;min-height:calc(100svh - var(--hdr) - 72px)}
+    .hero-txt{grid-column:1/8;padding-bottom:24px}
+    .hero-figw{grid-column:8/13;width:auto;margin:0}
+    .g-hero{left:auto;right:-40%;top:-7%;height:98%}
+    .hero-selo{left:-66px;bottom:16%}
+  }
+  @media (min-width:1024px) and (max-width:1199px){.hero-txt{grid-column:1/7}.hero-selo{left:-40px;bottom:12%}}
+  @media (prefers-reduced-motion:no-preference){
+    .hero-fig .fig-in img{animation:heroImg 2s var(--ease) both}
+    .hero-fig .lamina-quadro::before{animation:moldura 1.6s .2s var(--ease-io) both}
+    .g-hero{animation:gIn 2.2s .1s var(--ease) both}
+    .swash path{stroke-dasharray:130;stroke-dashoffset:130;animation:traco 1.4s .6s var(--ease) forwards}
+  }
+  @keyframes heroImg{from{transform:scale(1.045)}}
+  @keyframes moldura{from{translate:0 0;opacity:0}}
+  @keyframes gIn{from{opacity:0;translate:6% 4%;rotate:5deg}}
+  @keyframes traco{to{stroke-dashoffset:0}}
+
+  /* ---------- 2 · sobre + manifesto ---------- */
+  .sobre{overflow:clip;padding-top:clamp(64px,7.5vw,112px)}
+  .sobre-nome{margin-bottom:clamp(56px,7vw,104px)}
+  .sobre-grid{display:grid;gap:56px}
+  .sobre-txt .display{margin-bottom:32px}
+  .manif{font-size:var(--lead);line-height:1.55;max-width:36ch}
+  .manif::first-letter{float:left;margin:.08em .12em 0 0;font:400 4.15em/.8 var(--serif);color:var(--verde)}
+  .assina{margin-top:20px;font:400 1rem/1.4 var(--caps);letter-spacing:.08em;color:var(--verde-2)}
+  .creds{margin-top:44px;border-top:1px solid var(--rule)}
+  .creds>div{display:grid;gap:2px;padding:16px 0;border-bottom:1px solid var(--rule)}
+  .creds dt{font:400 .9375rem/1.5 var(--caps);letter-spacing:.06em;color:var(--verde-2)}
+  .creds .ph{display:block;margin-top:2px}
+  .sobre-mais{margin-top:28px}
+  @media (min-width:600px){.creds>div{grid-template-columns:8.5rem minmax(0,1fr);gap:20px;align-items:baseline}}
+  @media (min-width:900px){
+    .sobre-grid{grid-template-columns:minmax(0,5fr) minmax(0,1fr) minmax(0,6fr);align-items:start}
+    .sobre-fig{grid-column:1;position:sticky;top:calc(var(--hdr) + 32px)}
+    .sobre-txt{grid-column:3;padding-top:8px}
+  }
+
+  /* ---------- 4 · consultório + protocolo ---------- */
+  .cons-a{display:grid;gap:48px;margin-bottom:clamp(72px,9vw,128px)}
+  .cons-txt .lead{margin-top:24px}
+  .cons-mais{margin-top:20px}
+  .cons-b{display:grid;gap:64px}
+  .cons-f2{width:72%;margin-left:auto}
+  @media (min-width:1024px){
+    .cons-a{grid-template-columns:repeat(12,minmax(0,1fr));column-gap:24px;align-items:end}
+    .cons-txt{grid-column:1/6;padding-bottom:40px}
+    .cons-f1{grid-column:6/13}
+    .cons-b{grid-template-columns:repeat(12,minmax(0,1fr));column-gap:24px;align-items:start}
+    .cons-passos{grid-column:1/8}
+    .cons-f2{grid-column:9/13;width:auto;margin:0}
+  }
+
+  /* ---------- 5 · avaliações + perguntas ---------- */
+  .af{background:var(--creme-2)}
+  .af-grid{display:grid;gap:80px}
+  .af-grid>.af-eyebrow{margin-bottom:-52px}
+  @media (min-width:1024px){
+    .af-grid{grid-template-columns:repeat(12,minmax(0,1fr));column-gap:24px;row-gap:28px}
+    .af-grid>.af-eyebrow{grid-column:1/-1;margin-bottom:0}
+    .af-aval{grid-column:1/6}
+    .af-faq{grid-column:7/13}
+  }
+
+  /* ---------- 6 · endereço + mapa ---------- */
+  .end-grid{display:grid;gap:56px}
+  .end-dl{margin:32px 0 36px;border-top:1px solid var(--rule)}
+  .end-dl>div{display:grid;gap:2px;padding:16px 0;border-bottom:1px solid var(--rule)}
+  .end-dl dt{font:400 .9375rem/1.5 var(--caps);letter-spacing:.06em;color:var(--verde-2)}
+  .end-dl dd a{display:inline-flex;align-items:center;min-height:44px}
+  @media (min-width:600px){.end-dl>div{grid-template-columns:7.5rem minmax(0,1fr);gap:20px;align-items:baseline}}
+  @media (min-width:1024px){
+    .end-grid{grid-template-columns:repeat(12,minmax(0,1fr));column-gap:24px;align-items:center}
+    .end-txt{grid-column:1/6}
+    .end-map{grid-column:7/13}
+  }
+</style>

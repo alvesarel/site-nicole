@@ -1,0 +1,147 @@
+---
+/**
+ * /consultorio/ — o consultório no Cambuí (conteúdo: src/content/paginas/consultorio.md).
+ * O Markdown é dividido por H2: a lista das quatro etapas vira o componente Etapas e as fotos do
+ * consultório entram entre as seções (4 no total, no máximo 2 por seção). Sem vídeo.
+ */
+import { getEntry } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import CabecalhoPagina from '../components/CabecalhoPagina.astro';
+import SecaoMd from '../components/SecaoMd.astro';
+import SecaoTitulo from '../components/SecaoTitulo.astro';
+import Etapas from '../components/Etapas.astro';
+import Figura from '../components/Figura.astro';
+import BlocoCta from '../components/BlocoCta.astro';
+import { IDS } from '../lib/schema';
+import { preloadCabecalho } from '../lib/imagem';
+import { secoesPorH2, secao, etapasDaLista, semTags } from '../lib/conteudo';
+import foto from '../assets/fotos/consultorio-cambui-recepcao.jpg';
+import fotoEspera from '../assets/fotos/consultorio-cambui-sala-de-espera-2.jpg';
+import fotoAtendimento from '../assets/fotos/consultorio-cambui-sala-de-atendimento-3.jpg';
+import fotoMarcenaria from '../assets/fotos/consultorio-cambui-marcenaria.jpg';
+
+const pagina = (await getEntry('paginas', 'consultorio'))!;
+const d = pagina.data;
+const path = '/consultorio/';
+const ORIGEM = 'Consultório';
+const preload = await preloadCabecalho(foto);
+
+const { intro, secoes } = secoesPorH2(pagina.rendered?.html ?? '');
+const leadHtml = ((intro.match(/<p>[\s\S]*?<\/p>/) ?? [''])[0]).replace(/^<p>|<\/p>$/g, '');
+
+const sEspaco = secao(secoes, 'espaço');
+const sEtapas = secao(secoes, 'etapas');
+const sTecnologia = secao(secoes, 'tecnologia');
+const sConhecer = secao(secoes, 'conhecer');
+const { etapas, resto: introEtapas } = etapasDaLista(sEtapas?.corpo ?? '');
+const conhecerTexto = sConhecer ? semTags(sConhecer.corpo) : undefined;
+---
+
+<Base
+  title={d.seoTitle}
+  description={d.description}
+  path={path}
+  origem={ORIGEM}
+  breadcrumbs={[{ nome: 'Consultório', href: path }]}
+  preload={preload}
+  atualizadoEm={d.atualizadoEm}
+  principal={IDS.consultorio}
+>
+  <CabecalhoPagina
+    eyebrow="O consultório"
+    titulo="O consultório no *Cambuí*, em Campinas"
+    leadHtml={leadHtml}
+    origem={ORIGEM}
+    foto={foto}
+    fotoAlt="Recepção do consultório no Cambuí, com poltrona dourada e marcenaria em madeira"
+    legenda="Recepção"
+    posicao="50% 55%"
+    letra="co"
+  />
+
+  {
+    secoes.map((s) => {
+      if (s === sConhecer) return null;
+      if (s === sEtapas) {
+        return (
+          <section class="sec sec-creme2 cs-etapas" aria-labelledby={s.id}>
+            <div class="wrap">
+              <div class="cs-etapas-head">
+                <SecaoTitulo texto="Um sorriso de cada *vez*." eyebrow="As quatro etapas" id={s.id} />
+                {introEtapas && <div class="lead cs-etapas-lead" data-r set:html={introEtapas} />}
+              </div>
+              <Etapas itens={etapas.length ? etapas : undefined} colunas={4} />
+            </div>
+          </section>
+        );
+      }
+      if (s === sEspaco) {
+        return (
+          <SecaoMd id={s.id} titulo={s.titulo} html={s.corpo}>
+            <Fragment slot="midia">
+              <Figura
+                src={fotoEspera}
+                alt="Sala de espera do consultório, com poltronas creme, madeira clara e luz indireta"
+                fig={2}
+                legenda="Sala de espera"
+                sizes="(min-width: 1440px) 820px, (min-width: 1024px) 58vw, calc(100vw - 40px)"
+                proporcao="3/2"
+                class="cs-f-espera"
+              />
+              <Figura
+                src={fotoAtendimento}
+                alt="Sala de atendimento com cadeira odontológica azul-marinho e marcenaria em madeira"
+                fig={3}
+                legenda="Sala de atendimento"
+                sizes="(min-width: 1440px) 380px, (min-width: 1024px) 26vw, 64vw"
+                proporcao="2/3"
+                atraso={150}
+                class="cs-f-atend"
+              />
+            </Fragment>
+          </SecaoMd>
+        );
+      }
+      if (s === sTecnologia) {
+        return (
+          <SecaoMd id={s.id} titulo={s.titulo} html={s.corpo} class="cs-tec">
+            <Fragment slot="lateral">
+              <Figura
+                src={fotoMarcenaria}
+                alt="Detalhe da marcenaria do consultório, com nichos iluminados por LED"
+                fig={4}
+                legenda="Marcenaria com luz indireta"
+                sizes="(min-width: 1024px) 340px, 72vw"
+                proporcao="4/5"
+                moldura
+                class="cs-f-marc"
+              />
+            </Fragment>
+          </SecaoMd>
+        );
+      }
+      return <SecaoMd id={s.id} titulo={s.titulo} html={s.corpo} />;
+    })
+  }
+
+  <BlocoCta
+    origem={ORIGEM}
+    titulo={sConhecer ? 'Para conhecer o *consultório*.' : undefined}
+    texto={conhecerTexto}
+    id={sConhecer?.id ?? 'agendar'}
+  />
+</Base>
+
+<style is:global>
+  .cs-etapas-head{max-width:46rem;margin-bottom:clamp(48px,6vw,88px)}
+  .cs-etapas-lead{margin-top:24px}
+  .cs-etapas-lead p{max-width:40ch}
+  .cs-f-atend{width:64%;margin-left:auto}
+  .cs-f-marc{width:min(72%,380px);margin-left:auto}
+  @media (min-width:1024px){
+    .tx-midia:has(.cs-f-espera){grid-template-columns:repeat(12,minmax(0,1fr));column-gap:24px;align-items:end}
+    .cs-f-espera{grid-column:1/9}
+    .cs-f-atend{grid-column:10/13;width:auto;margin:0 0 -64px}
+    .cs-f-marc{width:auto;max-width:340px;margin:0}
+  }
+</style>

@@ -1,0 +1,67 @@
+---
+/**
+ * Header sticky: logo, navegação principal (NAV de site.ts), CTA e menu mobile (<dialog> modal).
+ * Ganha fundo ao rolar (IntersectionObserver no .sentinel do Base; script em src/scripts/site.ts).
+ */
+import Logo from './Logo.astro';
+import CtaAgendar from './CtaAgendar.astro';
+import { NAV, CONTATO, SITE } from '../data/site';
+import { CATEGORIAS } from '../data/servicos';
+import { telHref } from '../lib/format';
+
+interface Props {
+  origem: string;
+}
+const { origem } = Astro.props;
+const atual = Astro.url.pathname.endsWith('/') ? Astro.url.pathname : `${Astro.url.pathname}/`;
+const estado = (href: string) => (atual === href ? 'page' : atual.startsWith(href) ? 'true' : undefined);
+---
+
+<header class="hdr">
+  <div class="hdr-in wrap">
+    <a class="hdr-logo" href="/" aria-label={`${SITE.nome}, página inicial`}><Logo /></a>
+    <nav class="hdr-nav" aria-label="Principal">
+      <ul>
+        {
+          NAV.map((item) => (
+            <li>
+              <a href={item.href} aria-current={estado(item.href)}>
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+    <CtaAgendar origem={origem} variante="sm" class="hdr-cta" />
+    <button class="hdr-menu" type="button" aria-haspopup="dialog" aria-controls="menu" aria-expanded="false">
+      Menu <span class="burger" aria-hidden="true"></span>
+    </button>
+  </div>
+</header>
+
+<dialog class="menu" id="menu" aria-label="Menu">
+  <div class="menu-in wrap">
+    <div class="menu-top">
+      <a class="hdr-logo" href="/" aria-label={`${SITE.nome}, página inicial`}><Logo /></a>
+      <button class="menu-close" type="button" data-close>Fechar</button>
+    </div>
+    <nav class="menu-nav" aria-label="Menu principal">
+      {
+        NAV.map((item) => (
+          <a href={item.href} aria-current={estado(item.href)}>
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+    <div class="menu-serv">
+      <p>Serviços</p>
+      {CATEGORIAS.map((c) => <a href={`/servicos/${c.slug}/`}>{c.nome}</a>)}
+    </div>
+    <div class="menu-foot">
+      <CtaAgendar origem={origem} />
+      <a class="lnk" href={telHref}>ou ligue {CONTATO.telefone}</a>
+    </div>
+  </div>
+</dialog>

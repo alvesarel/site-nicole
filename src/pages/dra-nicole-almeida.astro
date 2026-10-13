@@ -1,0 +1,171 @@
+---
+/**
+ * /dra-nicole-almeida/ — Sobre (conteúdo: src/content/paginas/dra-nicole-almeida.md).
+ * O Markdown é dividido por H2 para intercalar fotos (no máximo 2 por seção), o manifesto em destaque
+ * e as credenciais em lista (dados de PROFISSIONAL em site.ts, fonte única).
+ * JSON-LD: ProfilePage (mainEntity = Person) + BreadcrumbList.
+ */
+import { getEntry } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import CabecalhoPagina from '../components/CabecalhoPagina.astro';
+import SecaoMd from '../components/SecaoMd.astro';
+import Figura from '../components/Figura.astro';
+import BlocoCta from '../components/BlocoCta.astro';
+import { PROFISSIONAL, ENDERECO } from '../data/site';
+import { IDS } from '../lib/schema';
+import { preloadCabecalho } from '../lib/imagem';
+import { secoesPorH2, secao, semPrimeiraLista, semTags } from '../lib/conteudo';
+import foto from '../assets/fotos/dra-nicole-almeida-janela.jpg';
+import fotoRipado from '../assets/fotos/dra-nicole-almeida-retrato-ripado.jpg';
+
+const pagina = (await getEntry('paginas', 'dra-nicole-almeida'))!;
+const d = pagina.data;
+const path = '/dra-nicole-almeida/';
+const ORIGEM = 'Sobre a Dra. Nicole';
+const preload = await preloadCabecalho(foto);
+
+const { intro, secoes } = secoesPorH2(pagina.rendered?.html ?? '');
+const paragrafosIntro = intro.match(/<p>[\s\S]*?<\/p>/g) ?? [];
+const leadHtml = (paragrafosIntro[0] ?? '').replace(/^<p>|<\/p>$/g, '');
+
+const sOrienta = secao(secoes, 'orienta');
+const sFormacao = secao(secoes, 'formação');
+const sConversa = secao(secoes, 'primeira conversa');
+const especiais = new Set([sOrienta, sFormacao, sConversa].filter(Boolean));
+
+// manifesto: o blockquote da seção "O que orienta o trabalho" vira a citação em destaque
+const citacao = sOrienta?.corpo.match(/<blockquote>([\s\S]*?)<\/blockquote>/);
+const [orientaAntes, orientaDepois] = citacao ? sOrienta!.corpo.split(citacao[0]) : [sOrienta?.corpo ?? '', ''];
+
+const nome = `${PROFISSIONAL.tratamento} ${PROFISSIONAL.nome}`;
+const [grad, pos] = PROFISSIONAL.formacao;
+const statusPos = pos && 'status' in pos ? pos.status : undefined;
+const conversaTexto = sConversa ? semTags(sConversa.corpo) : undefined;
+---
+
+<Base
+  title={d.seoTitle}
+  description={d.description}
+  path={path}
+  origem={ORIGEM}
+  breadcrumbs={[{ nome: 'Sobre', href: path }]}
+  preload={preload}
+  atualizadoEm={d.atualizadoEm}
+  tipoPagina="ProfilePage"
+  principal={IDS.nicole}
+>
+  <CabecalhoPagina
+    eyebrow={`Sobre · ${ENDERECO.bairro}, ${ENDERECO.cidade}`}
+    titulo="Dra. Nicole Almeida, *cirurgiã-dentista* em Campinas"
+    leadHtml={leadHtml}
+    origem={ORIGEM}
+    foto={foto}
+    fotoAlt={`${nome} sentada no parapeito da janela do consultório, de terno creme, com luz natural`}
+    legenda="Consultório no Cambuí"
+    posicao="50% 30%"
+    letra="e"
+  />
+
+  {
+    secoes.map((s) => {
+      if (s === sOrienta) {
+        return (
+          <section class="tx tx-c2 sb-manif" aria-labelledby={s.id}>
+            <div class="wrap sb-manif-grid">
+              <div class="sb-manif-txt">
+                <p class="eyebrow">Manifesto</p>
+                <h2 class="h3 sb-manif-h" id={s.id}>
+                  O que orienta o <em>trabalho</em>.
+                </h2>
+                <div class="prose" set:html={orientaAntes} />
+                {citacao && <blockquote class="sb-citacao" data-r set:html={citacao[1]} />}
+                {citacao && <p class="sb-assina">— {nome}</p>}
+                {orientaDepois && <div class="prose sb-manif-prose" set:html={orientaDepois} />}
+              </div>
+              <Figura
+                src={fotoRipado}
+                alt={`${nome} em pé diante de um painel de madeira escura, de vestido preto e blazer creme`}
+                fig={2}
+                legenda="Precisão e leveza"
+                sizes="(min-width: 1440px) 410px, (min-width: 1024px) 28vw, (min-width: 600px) 420px, 72vw"
+                proporcao="4/5"
+                posicao="50% 25%"
+                moldura
+                class="sb-manif-fig"
+              />
+            </div>
+          </section>
+        );
+      }
+      if (s === sFormacao) {
+        return (
+          <SecaoMd id={s.id} titulo={s.titulo}>
+            <dl class="creds-lista" data-r>
+              <div>
+                <dt>Registro</dt>
+                <dd>
+                  {PROFISSIONAL.cargo} · <span class="nw">{PROFISSIONAL.cro}</span>
+                  <a class="creds-link" href={PROFISSIONAL.croConsultaUrl} target="_blank" rel="noopener" aria-label="Consultar inscrição no CRO-SP (abre em nova aba)">
+                    Consultar inscrição no CRO-SP
+                  </a>
+                </dd>
+              </div>
+              <div>
+                <dt>Atuação</dt>
+                <dd>{PROFISSIONAL.atuacao}</dd>
+              </div>
+              {grad && (
+                <div>
+                  <dt>Graduação</dt>
+                  <dd>
+                    {grad.titulo}, <span class="ph">{grad.instituicao}</span> <span class="ph">({grad.periodo})</span>
+                  </dd>
+                </div>
+              )}
+              {pos && (
+                <div>
+                  <dt>Pós-graduação</dt>
+                  <dd>
+                    {pos.titulo}, {pos.instituicao} {statusPos && <span class="ph creds-st">{statusPos}</span>}
+                  </dd>
+                </div>
+              )}
+            </dl>
+            <div class="prose creds-prose" set:html={semPrimeiraLista(s.corpo)} />
+          </SecaoMd>
+        );
+      }
+      if (especiais.has(s)) return null;
+      return <SecaoMd id={s.id} titulo={s.titulo} html={s.corpo} />;
+    })
+  }
+
+  <BlocoCta
+    origem={ORIGEM}
+    titulo={sConversa ? 'Uma primeira *conversa*.' : undefined}
+    texto={conversaTexto}
+    id={sConversa?.id ?? 'agendar'}
+  />
+</Base>
+
+<style is:global>
+  .sb-manif-grid{display:grid;gap:56px}
+  .sb-manif-h{margin-bottom:28px}
+  .sb-citacao{margin:36px 0 0;font:italic 400 clamp(1.75rem,1.35rem + 1.5vw,2.6rem)/1.3 var(--serif);letter-spacing:-.01em;max-width:24ch}
+  .sb-citacao p{max-width:none}
+  .sb-assina{margin-top:20px;font:400 1rem/1.4 var(--caps);letter-spacing:.08em;color:var(--verde-2)}
+  .sb-manif-prose{margin-top:40px}
+  .sb-manif-fig{width:min(80%,420px);margin-left:auto}
+  @media (min-width:1024px){
+    .sb-manif-grid{grid-template-columns:repeat(12,minmax(0,1fr));column-gap:24px;align-items:center}
+    .sb-manif-txt{grid-column:1/8}
+    .sb-manif-fig{grid-column:9/13;width:auto;margin:0}
+  }
+  .creds-lista{border-top:1px solid var(--rule)}
+  .creds-lista>div{display:grid;gap:2px;padding:16px 0;border-bottom:1px solid var(--rule)}
+  .creds-lista dt{font:400 .9375rem/1.5 var(--caps);letter-spacing:.06em;color:var(--verde-2)}
+  .creds-link{display:flex;align-items:center;min-height:44px;width:fit-content;font-size:1rem;text-decoration-color:rgb(61 66 10/.45)}
+  .creds-st{display:block;margin-top:2px}
+  .creds-prose{margin-top:28px}
+  @media (min-width:600px){.creds-lista>div{grid-template-columns:9.5rem minmax(0,1fr);gap:20px;align-items:baseline}}
+</style>

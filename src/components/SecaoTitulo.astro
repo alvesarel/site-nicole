@@ -1,0 +1,29 @@
+---
+/**
+ * Eyebrow (Arsenal SC com fio) + título Bodoni com uma palavra em itálico.
+ * Marque o itálico com asteriscos: texto="Índice de *cuidados*."
+ * A divisão em palavras para a animação é feita no build (sem JS, sem CLS); desligue com animar={false}
+ * quando o título estiver acima da dobra.
+ */
+import { dividirPalavras, italico } from '../lib/format';
+
+interface Props {
+  texto: string;
+  eyebrow?: string;
+  id?: string;
+  /** Nível do heading (padrão 2). */
+  nivel?: 1 | 2 | 3;
+  /** Classe tipográfica: h1 | h2 (padrão) | h3 | display. */
+  tamanho?: 'h1' | 'h2' | 'h3' | 'display';
+  animar?: boolean;
+  class?: string;
+}
+
+const { texto, eyebrow, id, nivel = 2, tamanho, animar = true, class: classe } = Astro.props;
+const Tag = `h${nivel}` as 'h1' | 'h2' | 'h3';
+const tam = tamanho ?? (nivel === 1 ? 'h1' : nivel === 3 ? 'h3' : 'h2');
+const html = animar ? dividirPalavras(texto) : italico(texto);
+---
+
+{eyebrow && <p class="eyebrow">{eyebrow}</p>}
+<Tag class:list={[tam, classe]} id={id} data-split={animar ? '' : undefined} set:html={html} />

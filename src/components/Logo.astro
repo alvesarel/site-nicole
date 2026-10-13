@@ -1,0 +1,38 @@
+---
+/**
+ * Logo SVG inline (fill = currentColor).
+ * - variant "horizontal" usa o sprite do Base (<use href="#lg-h">): zero bytes repetidos.
+ *   Com `recorte`, mostra só uma letra desconstruída (grafismo decorativo).
+ * - "completo" e "monograma" são inseridos inline a partir do arquivo (import ?raw).
+ * Sem `titulo`, o SVG é decorativo (aria-hidden); com `titulo`, vira role="img".
+ */
+import { LOGOS, LETRAS, SPRITE_LOGO_ID, type Letra, type VarianteLogo } from '../lib/logo';
+
+interface Props {
+  variant?: VarianteLogo;
+  class?: string;
+  titulo?: string;
+  recorte?: Letra;
+  /** força os paths inline também no horizontal (fora do Base, por exemplo). */
+  inline?: boolean;
+  style?: string;
+}
+
+const { variant = 'horizontal', class: classe, titulo, recorte, inline = false, style } = Astro.props;
+const logo = LOGOS[variant];
+const viewBox = recorte && variant === 'horizontal' ? LETRAS[recorte] : logo.viewBox;
+const usarSprite = variant === 'horizontal' && !inline;
+const a11y = titulo
+  ? { role: 'img' as const, 'aria-label': titulo }
+  : { 'aria-hidden': 'true' as const, focusable: 'false' as const };
+---
+
+{
+  usarSprite ? (
+    <svg class={classe} viewBox={viewBox} fill="currentColor" style={style} {...a11y}>
+      <use href={`#${SPRITE_LOGO_ID}`} />
+    </svg>
+  ) : (
+    <svg class={classe} viewBox={viewBox} fill="currentColor" style={style} {...a11y} set:html={logo.inner} />
+  )
+}

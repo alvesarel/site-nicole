@@ -1,0 +1,163 @@
+---
+/**
+ * /contato/ — "Contato e endereço": NAP (site.ts), horário, telefone, CTA, links de rota, mapa (facade +
+ * MapLibre sob demanda) e uma foto do consultório. Sem seção para quem vem de fora (pedido do cliente).
+ * JSON-LD: ContactPage (mainEntity = Dentist completo, já no Base) + BreadcrumbList.
+ */
+import Base from '../layouts/Base.astro';
+import CabecalhoPagina from '../components/CabecalhoPagina.astro';
+import SecaoTitulo from '../components/SecaoTitulo.astro';
+import MapaFacade from '../components/MapaFacade.astro';
+import CtaAgendar from '../components/CtaAgendar.astro';
+import { CONTATO, ENDERECO, HORARIO } from '../data/site';
+import { IDS } from '../lib/schema';
+import { enderecoLinhas, telHref } from '../lib/format';
+import { ehPlaceholder } from '../lib/format';
+import { preloadCabecalho } from '../lib/imagem';
+import foto from '../assets/fotos/consultorio-cambui-sala-de-espera-3.jpg';
+
+const path = '/contato/';
+const ORIGEM = 'Contato';
+const preload = await preloadCabecalho(foto);
+const [end1, end2] = enderecoLinhas();
+const temInstagram = !ehPlaceholder(CONTATO.instagramHandle);
+---
+
+<Base
+  title="Contato e endereço | Dra. Nicole Almeida, Cambuí, Campinas"
+  description="Endereço, horário e telefone do consultório da Dra. Nicole Almeida no Cambuí, Campinas. Rotas pelo Google Maps, Waze ou Apple Maps."
+  path={path}
+  origem={ORIGEM}
+  breadcrumbs={[{ nome: 'Contato', href: path }]}
+  preload={preload}
+  tipoPagina="ContactPage"
+  principal={IDS.consultorio}
+  semBarraMobile
+>
+  <CabecalhoPagina
+    eyebrow={`${ENDERECO.bairro} · ${ENDERECO.cidade} – ${ENDERECO.uf}`}
+    titulo="Contato e *endereço*"
+    lead="O agendamento é pelo WhatsApp: toque em “Click para agendar” e a conversa abre com uma mensagem pronta. Todas as consultas são com hora marcada."
+    origem={ORIGEM}
+    foto={foto}
+    fotoAlt="Nicho iluminado na sala de espera do consultório, com objetos de decoração e madeira clara"
+    legenda="Sala de espera"
+    posicao="50% 50%"
+  >
+    <dl class="ct-dl">
+      <div>
+        <dt>Endereço</dt>
+        <dd>
+          <address>
+            {end1}
+            <br />
+            {ENDERECO.predio}
+            <br />
+            {end2}
+          </address>
+        </dd>
+      </div>
+      <div>
+        <dt>Horário</dt>
+        <dd>
+          {HORARIO.texto}
+          <span class="ct-obs">{HORARIO.observacao}</span>
+        </dd>
+      </div>
+      <div>
+        <dt>Telefone</dt>
+        <dd>
+          <a href={telHref}>{CONTATO.telefone}</a>
+        </dd>
+      </div>
+    </dl>
+  </CabecalhoPagina>
+
+  <section class="sec ct-mapa" id="como-chegar" aria-labelledby="chegar-t">
+    <div class="wrap ct-grid">
+      <div class="ct-txt">
+        <SecaoTitulo texto="Como chegar ao *consultório*." eyebrow="Rotas" id="chegar-t" />
+        <p class="ct-p" data-r>
+          O consultório fica na {ENDERECO.ruaCompleta}, no {ENDERECO.predio}, no {ENDERECO.bairro}. Abra a rota no aplicativo que
+          você usa no dia a dia:
+        </p>
+        <ul class="ct-rotas" data-r>
+          <li>
+            <a class="ct-rota" href={ENDERECO.googleMapsUrl} target="_blank" rel="noopener" aria-label="Abrir rota no Google Maps (abre em nova aba)">
+              Google Maps
+              <svg class="i i-ne" viewBox="0 0 10 10" aria-hidden="true" focusable="false"><use href="#i-ne"></use></svg>
+            </a>
+          </li>
+          <li>
+            <a class="ct-rota" href={ENDERECO.wazeUrl} target="_blank" rel="noopener" aria-label="Abrir rota no Waze (abre em nova aba)">
+              Waze
+              <svg class="i i-ne" viewBox="0 0 10 10" aria-hidden="true" focusable="false"><use href="#i-ne"></use></svg>
+            </a>
+          </li>
+          <li>
+            <a class="ct-rota" href={ENDERECO.appleMapsUrl} target="_blank" rel="noopener" aria-label="Abrir rota no Apple Maps (abre em nova aba)">
+              Apple Maps
+              <svg class="i i-ne" viewBox="0 0 10 10" aria-hidden="true" focusable="false"><use href="#i-ne"></use></svg>
+            </a>
+          </li>
+        </ul>
+        <dl class="ct-dl ct-dl-2" data-r>
+          <div>
+            <dt>WhatsApp</dt>
+            <dd>
+              {CONTATO.telefone}
+              <span class="ct-obs">Toque em “Click para agendar” em qualquer página do site.</span>
+            </dd>
+          </div>
+          {
+            temInstagram && (
+              <div>
+                <dt>Instagram</dt>
+                <dd>
+                  <a href={CONTATO.instagramUrl} target="_blank" rel="noopener" aria-label={`Instagram ${CONTATO.instagramHandle} (abre em nova aba)`}>
+                    {CONTATO.instagramHandle}
+                  </a>
+                </dd>
+              </div>
+            )
+          }
+          <div>
+            <dt>Antes de ir</dt>
+            <dd>
+              Veja o que levar na primeira consulta em <a href="/perguntas-frequentes/#primeira-consulta">perguntas frequentes</a>.
+            </dd>
+          </div>
+        </dl>
+        <div class="acoes ct-acoes" data-r>
+          <CtaAgendar origem={ORIGEM} />
+        </div>
+      </div>
+      <MapaFacade class="ct-map" fig={2} links={false} />
+    </div>
+  </section>
+</Base>
+
+<style is:global>
+  .ct-dl{margin-top:32px;border-top:1px solid var(--rule)}
+  .ct-dl>div{display:grid;gap:2px;padding:14px 0;border-bottom:1px solid var(--rule)}
+  .ct-dl dt{font:400 .9375rem/1.5 var(--caps);letter-spacing:.06em;color:var(--verde-2)}
+  .ct-dl dd a{display:inline-flex;align-items:center;min-height:44px;text-decoration-color:rgb(61 66 10/.45)}
+  .ct-dl dd a:hover{text-decoration-color:currentColor}
+  .ct-obs{display:block;font-size:1rem;color:var(--verde-2)}
+  .ct-mapa{padding-top:clamp(24px,3vw,48px)}
+  .ct-grid{display:grid;gap:56px}
+  .ct-p{margin-top:28px}
+  .ct-rotas{display:grid;margin-top:20px;border-top:1px solid var(--rule-forte)}
+  .ct-rota{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:60px;border-bottom:1px solid var(--rule-forte);font:450 clamp(1.5rem,1.3rem + .6vw,1.85rem)/1.2 var(--serif);text-decoration:none}
+  .ct-rota .i-ne{width:12px;height:12px;transition:translate .4s var(--ease)}
+  .ct-rota:hover .i-ne{translate:3px -3px}
+  .ct-rota:hover{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.18em}
+  .ct-dl-2{margin-top:40px}
+  .ct-acoes{margin-top:36px}
+  @media (min-width:600px){.ct-dl>div{grid-template-columns:7.5rem minmax(0,1fr);gap:20px;align-items:baseline}}
+  @media (min-width:1024px){
+    .ct-grid{grid-template-columns:repeat(12,minmax(0,1fr));column-gap:24px;align-items:start}
+    .ct-txt{grid-column:1/6}
+    .ct-map{grid-column:7/13;position:sticky;top:calc(var(--hdr) + 28px)}
+  }
+</style>

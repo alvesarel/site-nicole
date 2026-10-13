@@ -1,0 +1,350 @@
+---
+/**
+ * Página de serviço (coleção "servicos"): /servicos/<slug>/
+ * Cabeçalho editorial + foto LCP · Indicado para (bloco Pólen) · corpo em Markdown com sumário ·
+ * Etapas · páginas filhas (categorias) · FAQ · Veja também · convite final.
+ * JSON-LD: WebSite + Dentist + Person + WebPage (Base) + BreadcrumbList + Service + FAQPage.
+ */
+import { getCollection, getEntry, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import CabecalhoPagina from '../../components/CabecalhoPagina.astro';
+import SecaoTitulo from '../../components/SecaoTitulo.astro';
+import Etapas from '../../components/Etapas.astro';
+import Faq from '../../components/Faq.astro';
+import Figura from '../../components/Figura.astro';
+import BlocoCta from '../../components/BlocoCta.astro';
+import Sumario from '../../components/Sumario.astro';
+import { PROFISSIONAL } from '../../data/site';
+import { CATEGORIAS } from '../../data/servicos';
+import { serviceNode, faqPageNode, urlAbsoluta } from '../../lib/schema';
+import { preloadCabecalho } from '../../lib/imagem';
+import { comItalico } from '../../lib/conteudo';
+import { dataCurta, dataIso } from '../../lib/format';
+
+export async function getStaticPaths() {
+  const servicos = await getCollection('servicos');
+  return servicos.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const d = entry.data;
+const slug = entry.id;
+const path = `/servicos/${slug}/`;
+const { Content, headings } = await render(entry);
+
+const cat = CATEGORIAS.find((c) => c.slug === d.categoria)!;
+const ehCategoria = d.tipo === 'categoria';
+
+/** Palavra do H1 em itálico (uma por título). */
+const ITALICO: Record<string, string> = {
+  'reabilitacao-oral': 'oral',
+  'protese-dentaria': 'dentária',
+  'implantes-dentarios': 'dentários',
+  'prevencao-e-manutencao': 'manutenção',
+  'estetica-dental': 'dental',
+  'lentes-e-facetas': 'facetas',
+  'clareamento-dental': 'dental',
+  'estetica-da-face': 'orofacial',
+};
+/** Enquadramento da foto do cabeçalho (object-position). */
+const POSICAO: Record<string, string> = {
+  'reabilitacao-oral': '50% 30%',
+  'protese-dentaria': '50% 30%',
+  'implantes-dentarios': '50% 50%',
+  'prevencao-e-manutencao': '50% 50%',
+  'estetica-dental': '50% 30%',
+  'lentes-e-facetas': '50% 30%',
+  'clareamento-dental': '50% 28%',
+  'estetica-da-face': '50% 0%',
+};
+
+const eyebrow = ehCategoria ? `Serviços · ${cat.numeral}` : `${cat.numeral} · ${cat.nome}`;
+const breadcrumbs = ehCategoria
+  ? [
+      { nome: 'Serviços', href: '/servicos/' },
+      { nome: d.nome, href: path },
+    ]
+  : [
+      { nome: 'Serviços', href: '/servicos/' },
+      { nome: cat.nome, href: `/servicos/${cat.slug}/` },
+      { nome: d.nome, href: path },
+    ];
+
+// páginas filhas (categoria) e relacionados (sem repetir as filhas)
+const filhos = ehCategoria
+  ? (await Promise.all(cat.paginas.map((p) => getEntry('servicos', p.slug)))).filter((e) => e !== undefined)
+  : [];
+const idsFilhos = new Set(filhos.map((f) => f.id));
+const relacionados = (await Promise.all(d.relacionados.filter((r) => !idsFilhos.has(r) && r !== slug).map((r) => getEntry('servicos', r)))).filter(
+  (e) => e !== undefined,
+);
+// a categoria-mãe entra em "Veja também" nas páginas específicas, se não estiver lá
+if (!ehCategoria && !relacionados.some((r) => r.id === cat.slug)) {
+  const mae = await getEntry('servicos', cat.slug);
+  if (mae) relacionados.unshift(mae);
+}
+
+const sumario = headings.filter((h) => h.depth === 2);
+const preload = await preloadCabecalho(d.imagem);
+const nomeDra = `${PROFISSIONAL.tratamento} ${PROFISSIONAL.nome}`;
+const servicoId = `${urlAbsoluta(path)}#servico`;
+const colunasEtapas = d.etapas.length === 4 ? 4 : d.etapas.length <= 2 ? 2 : 3;
+const nomeMin = d.nome.charAt(0).toLowerCase() + d.nome.slice(1);
+// Estética da face: página discreta (sem o bloco Pólen; Res. CFO-198/2019 em discussão judicial)
+const discreta = slug === 'estetica-da-face';
+
+const jsonLd = [
+  serviceNode({ nome: d.nome, path, descricao: d.description, categoria: ehCategoria ? undefined : cat.nome }),
+  ...(d.faq.length ? [faqPageNode(d.faq, path)] : []),
+];
+---
+
+<Base
+  title={d.seoTitle}
+  description={d.description}
+  path={path}
+  origem={d.nome}
+  breadcrumbs={breadcrumbs}
+  preload={preload}
+  jsonLd={jsonLd}
+  atualizadoEm={d.atualizadoEm}
+  tipoPagina="MedicalWebPage"
+  principal={servicoId}
+>
+  <CabecalhoPagina
+    eyebrow={eyebrow}
+    titulo={comItalico(d.titulo, ITALICO[slug])}
+    lead={d.resumo}
+    origem={d.nome}
+    foto={d.imagem}
+    fotoAlt={d.imagemAlt}
+    legenda={d.nome}
+    posicao={POSICAO[slug]}
+  />
+
+  {
+    (d.indicacoes.length > 0 || d.itens.length > 0) && (
+      <section class:list={['sec-sm', 'srv-ind', discreta && 'srv-ind-discreta']} aria-labelledby="ind-t">
+        <div class="wrap srv-ind-grid">
+          <div class="srv-ind-head">
+            <SecaoTitulo texto="Indicado *para*." eyebrow="Indicações" id="ind-t" />
+            <p class="srv-ind-nota" data-r>
+              A indicação é sempre confirmada na avaliação, depois do exame clínico e do escaneamento 3D.
+            </p>
+          </div>
+          <div class="srv-ind-body">
+            {d.indicacoes.length > 0 && (
+              <ul class="srv-ind-lista">
+                {d.indicacoes.map((it, i) => (
+                  <li data-r style={`--d:${Math.min(i, 5) * 60}ms`}>
+                    <span class="srv-ind-n" aria-hidden="true">
+                      {String(i + 1).padStart(2, '0')}
+                    </span>
+                    <span>{it}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
+            {d.itens.length > 1 && (
+              <div class="srv-inclui" data-r>
+                <p class="srv-inclui-t">O que inclui</p>
+                <ul>
+                  {d.itens.map((it) => (
+                    <li>{it}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <section class="sec srv-corpo" aria-label={`Sobre ${nomeMin}`}>
+    <div class="wrap leitura">
+      {sumario.length > 2 && <Sumario itens={sumario} />}
+      <article class="leitura-txt">
+        <div class="prose">
+          <Content />
+        </div>
+        <p class="revisao">
+          Conteúdo revisado por {nomeDra}, {PROFISSIONAL.cargo.toLowerCase()}, <span class="nw">{PROFISSIONAL.cro}</span> — atualizado em
+          <time datetime={dataIso(d.atualizadoEm)}>{dataCurta(d.atualizadoEm)}</time>
+        </p>
+      </article>
+    </div>
+  </section>
+
+  {
+    d.etapas.length > 0 && (
+      <section class="sec sec-creme2 srv-etapas" aria-labelledby="etapas-t">
+        <div class="wrap">
+          <div class="srv-etapas-head">
+            <SecaoTitulo texto="Uma etapa de cada *vez*." eyebrow="Como é o tratamento" id="etapas-t" />
+          </div>
+          <Etapas itens={d.etapas} colunas={colunasEtapas} />
+        </div>
+      </section>
+    )
+  }
+
+  {
+    filhos.length > 0 && (
+      <section class="sec srv-filhos" aria-labelledby="filhos-t">
+        <div class="wrap">
+          <div class="srv-filhos-head">
+            <SecaoTitulo texto={`${cat.nome}, em *detalhe*.`} eyebrow={`${cat.numeral} · Nesta área`} id="filhos-t" />
+            <p class="lead" data-r>
+              Cada tratamento desta área tem uma página própria, com as etapas, os cuidados e as perguntas mais comuns.
+            </p>
+          </div>
+          <ul class="cards">
+            {filhos.map((f, i) => (
+              <li class="card">
+                <Figura
+                  src={f.data.imagem}
+                  alt={f.data.imagemAlt}
+                  fig={i + 2}
+                  sizes="(min-width: 1440px) 590px, (min-width: 800px) 42vw, calc(100vw - 40px)"
+                  proporcao="5/4"
+                  posicao="50% 28%"
+                  atraso={i * 120}
+                />
+                <h3 class="card-t">
+                  <a href={`/servicos/${f.id}/`}>{f.data.nome}</a>
+                </h3>
+                <p>{f.data.description}</p>
+                <span class="lnk card-mais" aria-hidden="true">
+                  Ler sobre {f.data.nome.toLowerCase()}
+                  <svg class="i" viewBox="0 0 20 10" focusable="false">
+                    <use href="#i-ar" />
+                  </svg>
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    )
+  }
+
+  {
+    d.faq.length > 0 && (
+      <section class:list={['sec', 'srv-faq', filhos.length === 0 && d.etapas.length > 0 && 'srv-faq-rule']} id="perguntas" aria-labelledby="faq-t">
+        <div class="wrap srv-faq-grid">
+          <div class="srv-faq-head">
+            <SecaoTitulo texto={`Dúvidas sobre *${nomeMin}*.`} eyebrow="Perguntas frequentes" id="faq-t" />
+          </div>
+          <Faq
+            itens={d.faq}
+            class="srv-faq-list"
+            mais={{ href: '/perguntas-frequentes/', texto: 'Ver todas as perguntas frequentes' }}
+          />
+        </div>
+      </section>
+    )
+  }
+
+  {
+    relacionados.length > 0 && (
+      <section class="sec-sm srv-rel" aria-labelledby="rel-t">
+        <div class="wrap srv-rel-grid">
+          <div>
+            <SecaoTitulo texto="Veja *também*." eyebrow="Outros cuidados" id="rel-t" />
+          </div>
+          <ul class="rel">
+            {relacionados.map((r) => (
+              <li class="rel-row" data-r>
+                <h3 class="rel-t">
+                  <a href={`/servicos/${r.id}/`}>{r.data.nome}</a>
+                </h3>
+                <p>{r.data.description}</p>
+                <span class="rel-go" aria-hidden="true">
+                  <svg class="i" viewBox="0 0 20 10" focusable="false">
+                    <use href="#i-ar" />
+                  </svg>
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    )
+  }
+
+  <BlocoCta origem={d.nome} />
+</Base>
+
+<style is:global>
+  /* indicado para (bloco Pólen) */
+  .srv-ind{background:var(--polen);color:var(--verde-escuro)}
+  .srv-ind .eyebrow{color:var(--verde-escuro)}
+  .srv-ind .h2{color:var(--verde)}
+  .srv-ind-discreta{background:var(--creme-2);color:var(--verde)}
+  .srv-ind-discreta .eyebrow{color:var(--verde-2)}
+  .srv-ind-grid{display:grid;gap:36px}
+  .srv-ind-nota{margin-top:20px;font-size:1rem;max-width:34ch}
+  .srv-ind-lista{border-top:1px solid rgb(38 42 5/.3)}
+  .srv-ind-lista li{display:grid;grid-template-columns:2.6rem minmax(0,1fr);gap:10px;padding:16px 0;border-bottom:1px solid rgb(38 42 5/.3)}
+  .srv-ind-n{padding-top:.1em;font:italic 400 1.25rem/1.3 var(--serif)}
+  .srv-inclui{margin-top:32px}
+  .srv-inclui-t{margin-bottom:12px;font:400 1rem/1.3 var(--caps);letter-spacing:.08em}
+  .srv-inclui ul{display:flex;flex-wrap:wrap;gap:10px}
+  .srv-inclui li{padding:7px 12px 6px;border:1px solid rgb(38 42 5/.45);font-size:1rem;line-height:1.35}
+  @media (min-width:1024px){
+    .srv-ind-grid{grid-template-columns:repeat(12,minmax(0,1fr));column-gap:24px}
+    .srv-ind-head{grid-column:1/6}
+    .srv-ind-body{grid-column:6/13}
+  }
+
+  /* corpo */
+  .revisao{margin-top:56px;padding-top:20px;border-top:1px solid var(--rule);font-size:.9375rem;line-height:1.6;color:var(--verde-2);max-width:64ch}
+
+  /* etapas */
+  .srv-etapas-head{max-width:40rem;margin-bottom:clamp(40px,5vw,72px)}
+
+  /* páginas filhas */
+  .srv-filhos-head{max-width:44rem;margin-bottom:clamp(40px,5vw,72px)}
+  .srv-filhos-head .lead{margin-top:24px}
+  .cards{display:grid;gap:64px}
+  .card{position:relative;display:grid;align-content:start;gap:0}
+  .card-t{margin-top:28px;font:450 clamp(1.75rem,1.4rem + 1.1vw,2.4rem)/1.12 var(--serif);letter-spacing:-.01em}
+  .card-t a{text-decoration:none}
+  .card-t a::after{content:"";position:absolute;inset:0;z-index:1}
+  .card:focus-within{outline:2px solid var(--verde);outline-offset:8px}
+  .card-t a:focus-visible{outline:none}
+  .card p{margin-top:12px}
+  .card-mais{margin-top:10px}
+  @media (hover:hover){.card:hover .card-t a{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.15em}.card:hover .card-mais .i{translate:4px 0}}
+  @media (min-width:800px){.cards{grid-template-columns:1fr 1fr;column-gap:clamp(32px,5vw,80px)}.card:nth-child(2){margin-top:clamp(48px,8vw,120px)}}
+
+  /* perguntas frequentes */
+  .srv-faq-rule{border-top:1px solid var(--rule)}
+  .srv-faq-grid{display:grid;gap:8px}
+  @media (min-width:1024px){
+    .srv-faq-grid{grid-template-columns:repeat(12,minmax(0,1fr));column-gap:24px}
+    .srv-faq-head{grid-column:1/5}
+    .srv-faq-list{grid-column:6/13}
+    .srv-faq-list .faq-list{margin-top:0}
+  }
+
+  /* veja também */
+  .srv-rel{border-top:1px solid var(--rule)}
+  .srv-rel-grid{display:grid;gap:36px}
+  .rel{border-top:1px solid var(--rule-forte)}
+  .rel-row{position:relative;display:grid;grid-template-columns:minmax(0,1fr) 48px;gap:6px 20px;padding:24px 0;border-bottom:1px solid var(--rule-forte)}
+  .rel-t{font:450 clamp(1.5rem,1.25rem + .8vw,2rem)/1.15 var(--serif);letter-spacing:-.01em}
+  .rel-t a{text-decoration:none}
+  .rel-t a::after{content:"";position:absolute;inset:0;z-index:1}
+  .rel-t a:focus-visible{outline:none}
+  .rel-row:focus-within{outline:2px solid var(--verde);outline-offset:4px}
+  .rel-row p{grid-column:1;font-size:1rem;color:var(--verde-2)}
+  .rel-go{grid-column:2;grid-row:1/3;align-self:center;display:grid;place-items:center;width:48px;height:48px;border:1px solid var(--rule-forte);border-radius:50%;transition:background-color .4s,color .4s}
+  @media (hover:hover){.rel-row:hover .rel-go{background:var(--verde);color:var(--creme)}.rel-row:hover .rel-t a{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.15em}}
+  @media (min-width:1024px){
+    .srv-rel-grid{grid-template-columns:repeat(12,minmax(0,1fr));column-gap:24px}
+    .srv-rel-grid>div{grid-column:1/5}
+    .rel{grid-column:6/13}
+  }
+</style>

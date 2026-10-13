@@ -1,0 +1,41 @@
+---
+/**
+ * Protocolo "Um sorriso de cada vez" (01–04). Sem `itens`, usa as 4 etapas padrão.
+ * Nas páginas de serviço, passe `etapas` do frontmatter ({ titulo, texto }[]).
+ * colunas: 2 (padrão, grade 2×2), 3 (5–6 etapas) ou 4 (linha única no desktop largo).
+ */
+const ETAPAS_PADRAO = [
+  {
+    titulo: 'Escuta e escaneamento 3D',
+    texto:
+      'Uma conversa sobre a sua história e o que você espera, o exame clínico e o escaneamento intraoral, que gera um modelo digital da sua boca.',
+  },
+  { titulo: 'Planejamento', texto: 'O plano é explicado com calma e entregue por escrito, com etapas, prazos e alternativas.' },
+  { titulo: 'Tratamento', texto: 'No seu tempo, uma etapa de cada vez, com conforto e pausas sempre que você precisar.' },
+  { titulo: 'Acompanhamento', texto: 'Revisões e manutenção periódicas para cuidar do que foi construído junto.' },
+];
+
+interface Props {
+  itens?: { titulo: string; texto: string }[];
+  colunas?: 2 | 3 | 4;
+  /** Nível do heading de cada etapa (padrão 3). */
+  nivel?: 3 | 4;
+  class?: string;
+}
+const { itens = ETAPAS_PADRAO, colunas = 2, nivel = 3, class: classe } = Astro.props;
+const H = `h${nivel}` as 'h3' | 'h4';
+---
+
+<ol class:list={['passos', colunas === 4 && 'is-4col', colunas === 3 && 'is-3col', classe]}>
+  {
+    itens.map((e, i) => (
+      <li data-r style={i % (colunas === 2 ? 2 : colunas) ? `--d:${(i % (colunas === 2 ? 2 : colunas)) * 110}ms` : undefined}>
+        <span class="p-n" aria-hidden="true">
+          {String(i + 1).padStart(2, '0')}
+        </span>
+        <H>{e.titulo}</H>
+        <p>{e.texto}</p>
+      </li>
+    ))
+  }
+</ol>

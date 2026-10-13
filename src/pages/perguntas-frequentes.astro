@@ -1,0 +1,115 @@
+---
+/**
+ * /perguntas-frequentes/ — perguntas gerais (FAQ_GERAL, agrupadas por tema) + as perguntas de cada
+ * página de serviço (frontmatter `faq`), agrupadas por serviço com link para a página.
+ * Índice no topo. JSON-LD: FAQPage com todas as perguntas visíveis.
+ */
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import CabecalhoPagina from '../components/CabecalhoPagina.astro';
+import SecaoMd from '../components/SecaoMd.astro';
+import Faq from '../components/Faq.astro';
+import BlocoCta from '../components/BlocoCta.astro';
+import { FAQ_GERAL, TEMAS_FAQ, type PerguntaFrequente } from '../data/faq';
+import { TODAS_AS_PAGINAS, CATEGORIAS } from '../data/servicos';
+import { faqPageNode } from '../lib/schema';
+
+const path = '/perguntas-frequentes/';
+const ORIGEM = 'Perguntas frequentes';
+
+const temas = (Object.keys(TEMAS_FAQ) as PerguntaFrequente['tema'][])
+  .map((t) => ({ id: t, nome: TEMAS_FAQ[t], itens: FAQ_GERAL.filter((q) => q.tema === t) }))
+  .filter((t) => t.itens.length > 0);
+
+const servicos = await getCollection('servicos');
+const porServico = TODAS_AS_PAGINAS.map((p) => {
+  const e = servicos.find((s) => s.id === p.slug);
+  const cat = CATEGORIAS.find((c) => c.slug === p.categoria)!;
+  return { slug: p.slug, nome: e?.data.nome ?? p.nome, numeral: cat.numeral, itens: e?.data.faq ?? [] };
+}).filter((s) => s.itens.length > 0);
+
+const todas = [...FAQ_GERAL, ...porServico.flatMap((s) => s.itens)];
+const total = todas.length;
+const minusc = (s: string) => s.charAt(0).toLowerCase() + s.slice(1);
+---
+
+<Base
+  title="Perguntas frequentes sobre tratamentos | Dra. Nicole Almeida"
+  description="Primeira consulta, prótese, implantes, estética dental, conforto e valores: respostas da Dra. Nicole Almeida, cirurgiã-dentista no Cambuí, Campinas."
+  path={path}
+  origem={ORIGEM}
+  breadcrumbs={[{ nome: 'Perguntas frequentes', href: path }]}
+  jsonLd={[faqPageNode(todas, path)]}
+>
+  <CabecalhoPagina
+    eyebrow={`Dúvidas · ${total} perguntas`}
+    titulo="Perguntas *frequentes*"
+    lead="Respostas diretas sobre a primeira consulta, os tratamentos, o conforto e o consultório. Se a sua dúvida não estiver aqui, é só perguntar pelo WhatsApp."
+    origem={ORIGEM}
+    letra="co"
+  >
+    <nav class="faqp-idx" aria-label="Índice das perguntas frequentes" slot="depois">
+      <div>
+        <p class="faqp-idx-t">Gerais</p>
+        <ul>
+          {
+            temas.map((t) => (
+              <li>
+                <a href={`#${t.id}`}>
+                  {t.nome} <span class="faqp-n">{t.itens.length}</span>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <div>
+        <p class="faqp-idx-t">Por tratamento</p>
+        <ul>
+          {
+            porServico.map((s) => (
+              <li>
+                <a href={`#${s.slug}`}>
+                  {s.nome} <span class="faqp-n">{s.itens.length}</span>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </nav>
+  </CabecalhoPagina>
+
+  {
+    temas.map((t) => (
+      <SecaoMd id={t.id} titulo={t.nome} eyebrow="Perguntas gerais" class="faqp-sec">
+        <Faq itens={t.itens} />
+      </SecaoMd>
+    ))
+  }
+
+  {
+    porServico.map((s) => (
+      <SecaoMd id={s.slug} titulo={s.nome} eyebrow={`Por tratamento · ${s.numeral}`} class="faqp-sec">
+        <Faq itens={s.itens} mais={{ href: `/servicos/${s.slug}/`, texto: `Ler a página de ${minusc(s.nome)}` }} />
+      </SecaoMd>
+    ))
+  }
+
+  <BlocoCta
+    origem={ORIGEM}
+    titulo="Ficou alguma *dúvida*?"
+    texto="Pergunte pelo WhatsApp. Se a resposta depender do exame, a primeira consulta começa pela escuta, segue com o exame clínico e o escaneamento 3D e termina com o plano explicado com calma."
+  />
+</Base>
+
+<style is:global>
+  .faqp-idx{display:grid;gap:28px;margin-top:40px;padding-top:28px;border-top:1px solid var(--rule)}
+  .faqp-idx-t{margin-bottom:6px;font:400 1rem/1.3 var(--caps);letter-spacing:.08em;color:var(--verde-2)}
+  .faqp-idx ul{display:grid}
+  .faqp-idx a{display:inline-flex;align-items:center;gap:10px;min-height:44px;font-size:1.0625rem;text-decoration-color:rgb(61 66 10/.35)}
+  .faqp-idx a:hover{text-decoration-color:currentColor}
+  .faqp-n{font:400 .9375rem/1 var(--sans);color:var(--verde-2)}
+  .faqp-sec .tx-body .faq-list{margin-top:0}
+  @media (min-width:700px){.faqp-idx{grid-template-columns:1fr 1.4fr;column-gap:40px}}
+</style>

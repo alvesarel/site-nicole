@@ -1,0 +1,30 @@
+---
+/**
+ * CTA único do site: "Click para agendar" → WhatsApp com a origem da página na mensagem.
+ * variante: "primario" (padrão, 56px) · "sm" (header, 44px) · "inv" (Pólen, sobre verde) · "linha" (contorno)
+ * heroi: marca o CTA do topo da página; a barra fixa do mobile aparece quando ele sai da tela.
+ */
+import { whatsappUrl, CTA_TEXTO, CTA_ARIA } from '../data/site';
+
+interface Props {
+  origem: string;
+  variante?: 'primario' | 'sm' | 'inv' | 'linha';
+  class?: string;
+  heroi?: boolean;
+}
+
+const { origem, variante = 'primario', class: classe, heroi = false } = Astro.props;
+const classes = ['btn', variante !== 'primario' && `btn-${variante}`, classe].filter(Boolean).join(' ');
+---
+
+<a
+  class={classes}
+  href={whatsappUrl(origem)}
+  target="_blank"
+  rel="noopener"
+  aria-label={CTA_ARIA}
+  data-hero-cta={heroi ? '' : undefined}
+>
+  {CTA_TEXTO}
+  <svg class="i" viewBox="0 0 20 10" aria-hidden="true" focusable="false"><use href="#i-ar"></use></svg>
+</a>

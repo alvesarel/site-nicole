@@ -1,0 +1,105 @@
+---
+/**
+ * Rodapé Verde: padronagem sutil de letras do logo, logo, navegação, serviços, contato
+ * e a linha legal completa exigida pelo CFO (nome, cargo, CRO, atuação, responsável técnica, revisão).
+ * `data-bar-stop`: a barra fixa do mobile some quando o rodapé chega.
+ */
+import Logo from './Logo.astro';
+import CtaAgendar from './CtaAgendar.astro';
+import { SITE, PROFISSIONAL, CONTATO, HORARIO, NAV } from '../data/site';
+import { TODAS_AS_PAGINAS } from '../data/servicos';
+import { dataCurta, dataIso, enderecoLinhas, telHref } from '../lib/format';
+import { SPRITE_LOGO_ID } from '../lib/logo';
+
+interface Props {
+  origem: string;
+  /** Data de atualização desta página (padrão: SITE.revisadoEm). */
+  atualizadoEm?: Date | string;
+}
+const { origem, atualizadoEm = SITE.revisadoEm } = Astro.props;
+const [linha1, linha2] = enderecoLinhas();
+const nomeCompleto = `${PROFISSIONAL.tratamento} ${PROFISSIONAL.nome}`;
+const atual = Astro.url.pathname;
+const cargoMin = PROFISSIONAL.cargo.toLowerCase();
+const href = `#${SPRITE_LOGO_ID}`;
+---
+
+<footer class="rod" data-bar-stop>
+  <svg class="rod-pad" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <pattern id="pad" width="640" height="190" patternUnits="userSpaceOnUse">
+        <g fill="#DBCB79" fill-opacity=".26">
+          <g transform="rotate(-10 60 70)"><svg x="20" y="22" width="78" height="80" viewBox="0 0 126 128"><use href={href}></use></svg></g>
+          <g transform="rotate(8 190 90)"><svg x="130" y="52" width="128" height="74" viewBox="151 0 223 128"><use href={href}></use></svg></g>
+          <g transform="rotate(-6 330 60)"><svg x="292" y="18" width="70" height="82" viewBox="407 0 110 128"><use href={href}></use></svg></g>
+          <g transform="rotate(12 440 100)"><svg x="398" y="58" width="78" height="88" viewBox="658 0 113 128"><use href={href}></use></svg></g>
+          <g transform="rotate(-14 560 70)"><svg x="508" y="26" width="104" height="92" viewBox="797 0 144 128"><use href={href}></use></svg></g>
+          <g transform="rotate(4 260 160)"><svg x="214" y="128" width="104" height="60" viewBox="1077 0 222 128"><use href={href}></use></svg></g>
+        </g>
+      </pattern>
+      <pattern id="pad-s" href="#pad" patternTransform="scale(.5)"></pattern>
+    </defs>
+    <rect width="100%" height="100%" fill="url(#pad)"></rect>
+  </svg>
+
+  <div class="wrap rod-grid">
+    <div>
+      <a class="rod-logo" href="/" aria-label={`${SITE.nome}, página inicial`}><Logo /></a>
+      <p class="rod-tag">Transformação com leveza.</p>
+    </div>
+    <nav aria-label="Rodapé">
+      <p class="rod-h">Navegação</p>
+      <ul>
+        <li><a href="/" aria-current={atual === '/' ? 'page' : undefined}>Início</a></li>
+        {
+          NAV.map((item) => (
+            <li>
+              <a href={item.href} aria-current={atual === item.href ? 'page' : undefined}>
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+    <nav aria-label="Serviços" class="rod-serv">
+      <p class="rod-h">Serviços</p>
+      <ul>
+        {
+          TODAS_AS_PAGINAS.map((p) => (
+            <li class={p.tipo === 'servico' ? 'is-filho' : undefined}>
+              <a href={`/servicos/${p.slug}/`} aria-current={atual === `/servicos/${p.slug}/` ? 'page' : undefined}>
+                {p.nome}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+    <div class="rod-c">
+      <p class="rod-h">Contato</p>
+      <address>{linha1}<br />{linha2}</address>
+      <p><a href={telHref}>{CONTATO.telefone}</a></p>
+      <p>{HORARIO.texto}</p>
+      <p>
+        <a href={CONTATO.instagramUrl} target="_blank" rel="noopener" aria-label={`Instagram ${CONTATO.instagramHandle} (abre em nova aba)`}>
+          Instagram {CONTATO.instagramHandle}
+        </a>
+      </p>
+      <CtaAgendar origem={origem} variante="inv" />
+    </div>
+  </div>
+
+  <div class="wrap rod-legal">
+    <p class="strong">{nomeCompleto} · {PROFISSIONAL.cargo} · <span class="nw">{PROFISSIONAL.cro}</span> · {PROFISSIONAL.atuacao}</p>
+    <p>Responsável técnica: {nomeCompleto} — <span class="nw">{PROFISSIONAL.cro}</span></p>
+    <p>
+      Conteúdo revisado por {nomeCompleto}, {cargoMin}, <span class="nw">{PROFISSIONAL.cro}</span> — atualizado em
+      <time datetime={dataIso(atualizadoEm)}>{dataCurta(atualizadoEm)}</time>
+    </p>
+    <p class="links">
+      <a href="/privacidade/">Política de privacidade</a>
+      <a href={PROFISSIONAL.croConsultaUrl} target="_blank" rel="noopener" aria-label="Consultar inscrição no CRO-SP (abre em nova aba)">Consultar inscrição no CRO-SP</a>
+    </p>
+  </div>
+</footer>

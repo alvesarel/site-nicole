@@ -1,0 +1,146 @@
+---
+/**
+ * Bloco Pólen "Índice de cuidados" (I–IV) a partir de CATEGORIAS (src/data/servicos.ts).
+ * Cada linha inteira é um link para /servicos/<slug>/. Reutilizável na home e no hub /servicos/.
+ * - cabecalho={false}: só o índice (quando a página já tem o próprio título).
+ * - mostrarPaginas: lista também as páginas específicas de cada categoria (links internos).
+ * - revelar={false}: sem a abertura circular do fundo (use se o bloco estiver acima da dobra).
+ */
+import Logo from './Logo.astro';
+import SecaoTitulo from './SecaoTitulo.astro';
+import { CATEGORIAS } from '../data/servicos';
+
+interface Props {
+  titulo?: string;
+  eyebrow?: string;
+  lead?: string;
+  id?: string;
+  nivel?: 2 | 3;
+  cabecalho?: boolean;
+  mostrarPaginas?: boolean;
+  revelar?: boolean;
+  class?: string;
+}
+const {
+  titulo = 'Índice de *cuidados*.',
+  eyebrow = 'Serviços',
+  lead = 'A prótese e a reabilitação oral estão no centro do trabalho. Em volta delas, os cuidados que mantêm o sorriso saudável e em harmonia com o rosto.',
+  id = 'servicos',
+  nivel = 2,
+  cabecalho = true,
+  mostrarPaginas = false,
+  revelar = true,
+  class: classe,
+} = Astro.props;
+const tituloId = `${id}-t`;
+// categoria com um único item descrito na chamada (Estética da face): mostra a frase completa e regulada
+const itensDe = (c: (typeof CATEGORIAS)[number]) =>
+  c.itens.length === 1 && c.chamada.startsWith(c.itens[0]) ? [c.chamada.replace(/\.$/, '')] : c.itens;
+const H = (cabecalho ? `h${nivel + 1}` : `h${nivel}`) as 'h2' | 'h3' | 'h4';
+---
+
+<section
+  class:list={['sec', 'servicos', classe]}
+  id={id}
+  aria-labelledby={cabecalho ? tituloId : undefined}
+  aria-label={cabecalho ? undefined : 'Índice de serviços'}
+  data-bloco={revelar ? '' : undefined}
+>
+  <div class="bloco-bg" aria-hidden="true"></div>
+  {cabecalho && <Logo recorte="M" class="g g-serv" />}
+  <div class="wrap">
+    {
+      cabecalho && (
+        <div class="serv-head">
+          <SecaoTitulo texto={titulo} eyebrow={eyebrow} id={tituloId} nivel={nivel} />
+          {lead && (
+            <p class="lead" data-r>
+              {lead}
+            </p>
+          )}
+        </div>
+      )
+    }
+    <ol class="idx">
+      {
+        CATEGORIAS.map((c, i) => (
+          <li class:list={['idx-row', i === CATEGORIAS.length - 1 && 'is-quiet']} data-r>
+            <span class="idx-n" aria-hidden="true">
+              {c.numeral}
+            </span>
+            <H class="idx-t">
+              <a class="idx-a" href={`/servicos/${c.slug}/`}>
+                <span class="idx-tt">{c.nome}</span>
+              </a>
+            </H>
+            <div class="idx-body">
+              <ul class="idx-items">
+                {itensDe(c).map((it) => (
+                  <li>{it}</li>
+                ))}
+              </ul>
+              {mostrarPaginas && c.paginas.length > 0 && (
+                <p class="idx-sub">
+                  <span class="sr">Páginas de {c.nome}: </span>
+                  {c.paginas.map((p) => (
+                    <a href={`/servicos/${p.slug}/`}>{p.nome}</a>
+                  ))}
+                </p>
+              )}
+            </div>
+            <span class="idx-go" aria-hidden="true">
+              <svg class="i" viewBox="0 0 20 10" focusable="false">
+                <use href="#i-ar" />
+              </svg>
+            </span>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style is:global>
+  .servicos{isolation:isolate;overflow:clip;color:var(--verde-escuro)}
+  .servicos .h2,.servicos .eyebrow{color:var(--verde)}
+  .servicos :focus-visible{outline-color:var(--verde-escuro)}
+  .bloco-bg{position:absolute;inset:0;z-index:-2;background:var(--polen)}
+  .g-serv{display:none;z-index:-1;top:calc(var(--sec) - 24px);right:-3vw;height:clamp(240px,24vw,360px);width:auto;aspect-ratio:144/128;fill:var(--verde);opacity:.1}
+  .serv-head{max-width:44rem;margin-bottom:clamp(48px,6vw,80px)}
+  .serv-head .lead{margin-top:24px}
+  .idx{border-top:1px solid rgb(38 42 5/.3)}
+  .idx-row{position:relative;display:grid;grid-template-columns:2.75rem minmax(0,1fr) 48px;gap:10px 14px;align-items:start;padding:28px 0;border-bottom:1px solid rgb(38 42 5/.3)}
+  .idx-n{padding-top:.5em;font:400 1rem/1 var(--caps);letter-spacing:.08em}
+  .idx-t{font:450 clamp(2rem,1.55rem + 1.7vw,3rem)/1.08 var(--serif);letter-spacing:-.012em;color:var(--verde)}
+  .idx-tt{display:inline-block;transition:translate .6s var(--ease)}
+  .idx-a{text-decoration:none}
+  .idx-a::after{content:"";position:absolute;inset:0;z-index:1}
+  .idx-a:focus-visible{outline:none}
+  .idx-row:focus-within{outline:2px solid var(--verde-escuro);outline-offset:4px}
+  .idx-body{grid-column:2/4}
+  .idx-items{font-size:1.0625rem;line-height:1.55}
+  .idx-items li{position:relative;padding-left:20px}
+  .idx-items li::before{content:"";position:absolute;left:0;top:.8em;width:9px;height:1px;background:currentColor}
+  .idx-sub{position:relative;z-index:2;display:flex;flex-wrap:wrap;gap:0 22px;margin-top:10px}
+  .idx-sub a{display:inline-flex;align-items:center;min-height:44px;font:400 1rem/1.2 var(--caps);letter-spacing:.06em;text-underline-offset:.35em;text-decoration-color:rgb(38 42 5/.45)}
+  .idx-sub a:hover{text-decoration-color:currentColor}
+  .idx-sub a:focus-visible{outline:2px solid var(--verde-escuro);outline-offset:2px}
+  .idx-go{grid-column:3;grid-row:1;display:grid;place-items:center;width:48px;height:48px;border:1px solid rgb(38 42 5/.45);border-radius:50%;transition:background-color .4s,color .4s,border-color .4s}
+  .idx-go .i{width:18px}
+  .idx-row.is-quiet .idx-t{font-size:clamp(1.85rem,1.45rem + 1.3vw,2.5rem)}
+  @media (hover:hover){
+    .idx-row:hover .idx-tt{translate:14px 0}
+    .idx-row:hover .idx-go{background:var(--verde);border-color:var(--verde);color:var(--polen)}
+  }
+  @media (min-width:1024px){
+    .g-serv{display:block}
+    .idx-row{grid-template-columns:4.5rem minmax(0,1.15fr) minmax(0,1fr) 56px;align-items:center;gap:24px;padding:34px 0}
+    .idx-n{padding-top:0}
+    .idx-body{grid-column:3}
+    .idx-go{grid-column:4;justify-self:end}
+  }
+  @media (prefers-reduced-motion:no-preference){
+    .js [data-bloco] .bloco-bg{clip-path:circle(0% at 88% 10%);transition:clip-path 1.4s var(--ease-io)}
+    .js [data-bloco].is-in .bloco-bg{clip-path:circle(150% at 88% 10%)}
+  }
+</style>

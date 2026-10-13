@@ -49,7 +49,7 @@ for src, name, limits in JOBS:
         font = TTFont(buf)
     opts = subset.Options()
     opts.flavor = "woff2"
-    opts.layout_features = ["kern", "liga", "clig", "calt", "lnum", "pnum", "tnum", "onum", "ss01", "smcp", "c2sc"]
+    opts.layout_features = ["ccmp", "kern", "liga", "clig", "calt", "lnum", "pnum", "tnum", "onum", "ss01", "smcp", "c2sc"]
     opts.name_IDs = [1, 2, 3, 4, 6]
     opts.notdef_outline = True
     sub = subset.Subsetter(opts)

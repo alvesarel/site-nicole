@@ -1,0 +1,58 @@
+---
+/**
+ * Perguntas frequentes em <details>/<summary> (HTML visível, sem JS; abre/fecha animado onde há ::details-content).
+ * Para o FAQPage no JSON-LD use faqPageNode(itens, path) de src/lib/schema.ts com os MESMOS itens.
+ * Respostas aceitam links internos em Markdown ([texto](/caminho/)), convertidos por respostaHtml().
+ */
+import SecaoTitulo from './SecaoTitulo.astro';
+import { paragrafos } from '../lib/format';
+import { respostaHtml } from '../data/faq';
+
+interface Props {
+  itens: { pergunta: string; resposta: string }[];
+  /** Título com *itálico*. Omita para usar só a lista. */
+  titulo?: string;
+  eyebrow?: string;
+  id?: string;
+  nivel?: 2 | 3;
+  /** Link ao final (ex.: { href: '/perguntas-frequentes/', texto: 'Ver todas as perguntas' }). */
+  mais?: { href: string; texto: string };
+  /** Abre a primeira pergunta. */
+  abrirPrimeira?: boolean;
+  class?: string;
+}
+const { itens, titulo, eyebrow, id, nivel = 2, mais, abrirPrimeira = false, class: classe } = Astro.props;
+---
+
+<div class:list={['faq', classe]}>
+  {titulo && <SecaoTitulo texto={titulo} eyebrow={eyebrow} id={id} nivel={nivel} />}
+  <div class="faq-list">
+    {
+      itens.map((q, i) => (
+        <details open={abrirPrimeira && i === 0 ? true : undefined}>
+          <summary>
+            {q.pergunta}
+            <span class="pm" aria-hidden="true" />
+          </summary>
+          <div class="faq-a">
+            {paragrafos(q.resposta).map((p) => (
+              <p set:html={respostaHtml(p)} />
+            ))}
+          </div>
+        </details>
+      ))
+    }
+  </div>
+  {
+    mais && (
+      <p class="faq-mais">
+        <a class="lnk" href={mais.href}>
+          {mais.texto}
+          <svg class="i" viewBox="0 0 20 10" aria-hidden="true" focusable="false">
+            <use href="#i-ar" />
+          </svg>
+        </a>
+      </p>
+    )
+  }
+</div>

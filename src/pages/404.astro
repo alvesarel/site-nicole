@@ -1,0 +1,59 @@
+---
+/**
+ * 404 — página não encontrada (noindex). Links para a home, serviços e contato.
+ * Cloudflare (wrangler.jsonc, not_found_handling "404-page") serve este arquivo com status 404.
+ */
+import Base from '../layouts/Base.astro';
+import CabecalhoPagina from '../components/CabecalhoPagina.astro';
+import { CATEGORIAS } from '../data/servicos';
+
+const caminhos = [
+  { href: '/', nome: 'Página inicial', texto: 'O consultório, a Dra. Nicole e como agendar.' },
+  { href: '/servicos/', nome: 'Serviços', texto: 'Prótese, implantes, prevenção e estética, com indicações e etapas.' },
+  { href: '/contato/', nome: 'Contato e endereço', texto: 'Endereço no Cambuí, horário, telefone e rotas.' },
+  { href: '/perguntas-frequentes/', nome: 'Perguntas frequentes', texto: 'Primeira consulta, conforto, valores e tratamentos.' },
+];
+---
+
+<Base
+  title="Página não encontrada | Dra. Nicole Almeida"
+  description="O endereço que você abriu não existe ou mudou. Veja os serviços, o contato ou volte para a página inicial do site da Dra. Nicole Almeida."
+  path="/404/"
+  origem="Página não encontrada"
+  noindex
+>
+  <CabecalhoPagina
+    eyebrow="Erro 404"
+    titulo="Esta página não está *aqui*."
+    lead="O endereço pode ter mudado ou ter sido digitado com algum detalhe diferente. Os caminhos abaixo levam ao que você procura, e o WhatsApp continua a um toque."
+    origem="Página não encontrada"
+    letra="M"
+  >
+    <ul class="nf-links" slot="depois">
+      {
+        caminhos.map((c) => (
+          <li>
+            <a href={c.href}>
+              <span class="nf-t">{c.nome}</span>
+              <span class="nf-d">{c.texto}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <p class="nf-serv" slot="depois">
+      Áreas de atuação:
+      {CATEGORIAS.map((c) => <a href={`/servicos/${c.slug}/`}>{c.nome}</a>)}
+    </p>
+  </CabecalhoPagina>
+</Base>
+
+<style is:global>
+  .nf-links{margin-top:48px;border-top:1px solid var(--rule-forte);max-width:44rem}
+  .nf-links a{display:grid;gap:2px;padding:18px 0;border-bottom:1px solid var(--rule-forte);text-decoration:none}
+  .nf-t{font:450 clamp(1.5rem,1.3rem + .6vw,1.85rem)/1.2 var(--serif)}
+  .nf-d{font-size:1rem;color:var(--verde-2)}
+  .nf-links a:hover .nf-t{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.18em}
+  .nf-serv{display:flex;flex-wrap:wrap;align-items:center;gap:0 18px;margin-top:28px;font-size:1rem;color:var(--verde-2)}
+  .nf-serv a{display:inline-flex;align-items:center;min-height:44px;color:var(--verde);text-decoration-color:rgb(61 66 10/.45)}
+</style>

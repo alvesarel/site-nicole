@@ -1,0 +1,30 @@
+---
+/**
+ * Trilha de navegação visível. O último item é a página atual (aria-current="page").
+ * O Base.astro já renderiza este componente e o BreadcrumbList (JSON-LD) quando recebe `breadcrumbs`;
+ * use direto apenas se a página precisar de outra posição.
+ */
+interface Props {
+  itens: { nome: string; href: string }[];
+  class?: string;
+}
+const { itens, class: classe } = Astro.props;
+---
+
+<nav class:list={['trilha', classe]} aria-label="Trilha de navegação">
+  <ol>
+    {
+      itens.map((it, i) =>
+        i === itens.length - 1 ? (
+          <li>
+            <span aria-current="page">{it.nome}</span>
+          </li>
+        ) : (
+          <li>
+            <a href={it.href}>{it.nome}</a>
+          </li>
+        ),
+      )
+    }
+  </ol>
+</nav>

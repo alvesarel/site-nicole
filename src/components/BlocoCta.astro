@@ -1,0 +1,100 @@
+---
+/**
+ * Faixa de convite final para as páginas internas (antes do rodapé).
+ * Título com *itálico*, texto curto, CTA "Click para agendar", telefone, endereço, horário e link para /contato/.
+ * tom: "creme" (padrão, Creme 2) ou "nuvem" (Azul Nuvem, acento raro: no máximo uma por página).
+ * Marca data-bar-stop: a barra fixa do mobile some quando esta faixa aparece (o CTA já está nela).
+ */
+import SecaoTitulo from './SecaoTitulo.astro';
+import CtaAgendar from './CtaAgendar.astro';
+import { CONTATO, HORARIO } from '../data/site';
+import { enderecoLinhas, telHref } from '../lib/format';
+
+interface Props {
+  origem: string;
+  titulo?: string;
+  texto?: string;
+  eyebrow?: string;
+  id?: string;
+  tom?: 'creme' | 'nuvem';
+  /** Mostra endereço e horário ao lado do CTA (padrão: sim). */
+  detalhes?: boolean;
+  class?: string;
+}
+const {
+  origem,
+  titulo = 'Vamos conversar sobre o *seu sorriso*?',
+  texto = 'A primeira consulta começa pela escuta: a sua história, o que incomoda e o que você espera. Depois vêm o exame clínico e o escaneamento 3D, e só então o planejamento.',
+  eyebrow = 'Agendamento',
+  id = 'agendar',
+  tom = 'creme',
+  detalhes = true,
+  class: classe,
+} = Astro.props;
+const [l1, l2] = enderecoLinhas();
+---
+
+<section class:list={['sec-sm', 'convite', `convite-${tom}`, classe]} id={id} aria-labelledby={`${id}-t`} data-bar-stop>
+  <div class="wrap convite-grid">
+    <div class="convite-txt">
+      <SecaoTitulo texto={titulo} eyebrow={eyebrow} id={`${id}-t`} />
+      <p class="lead" data-r>{texto}</p>
+    </div>
+    <div class="convite-acao" data-r>
+      <div class="acoes">
+        <CtaAgendar origem={origem} />
+        <a class="tel" href={telHref}>ou ligue {CONTATO.telefone}</a>
+      </div>
+      {
+        detalhes && (
+          <dl class="convite-dl">
+            <div>
+              <dt>Endereço</dt>
+              <dd>
+                <address>
+                  {l1}
+                  <br />
+                  {l2}
+                </address>
+              </dd>
+            </div>
+            <div>
+              <dt>Horário</dt>
+              <dd>{HORARIO.texto}</dd>
+            </div>
+          </dl>
+        )
+      }
+      {
+        detalhes && (
+          <p class="convite-mais">
+            <a class="lnk" href="/contato/">
+              Endereço, horário e rotas
+              <svg class="i" viewBox="0 0 20 10" aria-hidden="true" focusable="false">
+                <use href="#i-ar" />
+              </svg>
+            </a>
+          </p>
+        )
+      }
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  .convite{position:relative}
+  .convite-creme{background:var(--creme-2)}
+  .convite-nuvem{background:var(--nuvem)}
+  .convite-grid{display:grid;gap:40px}
+  .convite-txt .lead{margin-top:24px}
+  .convite-dl{margin-top:32px;border-top:1px solid var(--rule)}
+  .convite-dl>div{display:grid;gap:2px;padding:14px 0;border-bottom:1px solid var(--rule)}
+  .convite-mais{margin-top:12px}
+  .convite-dl dt{font:400 .9375rem/1.5 var(--caps);letter-spacing:.06em;color:var(--verde-2)}
+  @media (min-width:600px){.convite-dl>div{grid-template-columns:7.5rem minmax(0,1fr);gap:20px;align-items:baseline}}
+  @media (min-width:1024px){
+    .convite-grid{grid-template-columns:repeat(12,minmax(0,1fr));column-gap:24px;align-items:end}
+    .convite-txt{grid-column:1/7}
+    .convite-acao{grid-column:8/13}
+  }
+</style>

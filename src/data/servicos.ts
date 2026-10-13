@@ -33,7 +33,7 @@ export const CATEGORIAS: Categoria[] = [
     numeral: 'II',
     nome: 'Prevenção e manutenção',
     chamada: 'A base que sustenta qualquer tratamento e mantém o que foi construído.',
-    itens: ['Limpeza especializada com Air Flow ou ultrassom', 'Consulta criteriosa com escaneamento 3D'],
+    itens: ['Limpeza profissional com Air Flow ou ultrassom', 'Consulta criteriosa com escaneamento intraoral 3D'],
     paginas: [],
   },
   {

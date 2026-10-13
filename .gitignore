@@ -21,3 +21,6 @@ desktop.ini
 # Capturas de QA e screenshots de sites de terceiros (pesquisa)
 design-options/*/_qa/
 pesquisa/refs/
+
+# Conteúdo em produção paralela (movido para src/ pelo integrador)
+conteudo-staging/

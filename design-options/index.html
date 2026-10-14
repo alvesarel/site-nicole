@@ -22,18 +22,22 @@
   .lead { max-width: 64ch; color: var(--verde-2); margin: 0; }
   .legend { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
   .legend span { font-family: "Arsenal SC", serif; font-size: 13px; letter-spacing: .1em; border: 1px solid var(--linha); border-radius: 99px; padding: 4px 12px; }
+  .rodada { padding: 56px 0 8px; }
+  .rodada h2 { font-weight: 400; font-size: 1.4rem; margin: 0 0 6px; }
+  .rodada p { margin: 0; color: var(--verde-2); max-width: 70ch; }
   .opt { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 40px; padding: 64px 0; border-bottom: 1px solid var(--linha); }
   .shots { position: relative; }
-  .shots .d { width: 100%; height: auto; aspect-ratio: 1440 / 900; display: block; border: 1px solid var(--linha); box-shadow: 0 24px 60px rgba(61,66,10,.12); }
+  .shots .d { width: 100%; height: auto; aspect-ratio: 1440 / 900; display: block; border: 1px solid var(--linha); box-shadow: 0 24px 60px rgba(61,66,10,.12); background: var(--creme-2); }
   .shots .m { aspect-ratio: 390 / 844; height: auto; position: absolute; right: -18px; bottom: -28px; width: 26%; min-width: 110px; border-radius: 18px; border: 6px solid var(--verde); background: var(--verde); box-shadow: 0 18px 40px rgba(61,66,10,.25); }
   .num { font-family: "Arsenal SC", serif; font-size: 64px; line-height: 1; color: var(--polen); -webkit-text-stroke: 1px var(--verde); }
-  h2 { font-weight: 400; font-size: 2rem; margin: 6px 0 12px; line-height: 1.1; }
+  .opt h2 { font-weight: 400; font-size: 2rem; margin: 6px 0 12px; line-height: 1.1; }
   .info p { margin: 0 0 14px; }
   dl { margin: 18px 0 24px; display: grid; gap: 10px; }
   dt { font-family: "Arsenal SC", serif; font-size: 12px; letter-spacing: .16em; color: var(--verde-2); }
   dd { margin: 0; font-size: 15px; line-height: 1.5; }
   .btn { display: inline-flex; align-items: center; gap: 10px; background: var(--verde); color: var(--creme); text-decoration: none; padding: 14px 22px; font-family: "Arsenal SC", serif; letter-spacing: .12em; font-size: 14px; }
   .novo { display: inline-block; margin: 4px 0 2px; font-family: "Arsenal SC", serif; font-size: 13px; letter-spacing: .1em; background: var(--polen); color: var(--verde); padding: 3px 10px; }
+  .aprovado { background: var(--nuvem); }
   .btn:hover { background: #262A05; }
   .btn:focus-visible { outline: 2px solid var(--verde); outline-offset: 3px; }
   footer { padding: 48px 0 80px; color: var(--verde-2); font-size: 15px; }
@@ -50,17 +54,112 @@
     <img class="logo" src="_shared/logo/logo-horizontal.svg" alt="Nicole Almeida" width="220" height="22">
     <h1>Caminhos para o site<br>da Dra. Nicole Almeida</h1>
     <p class="lead">Todos usam a paleta oficial, o logo, a Arsenal SC e o texto do brand book, e seguem as regras de publicidade do CFO. O que muda é a personalidade: cor dominante, tipografia, layout e animação. Abra cada um, role a página e veja também no celular.</p>
-    <div class="legend"><span>Paleta oficial</span><span>Click para agendar fixo</span><span>Mapa interativo</span><span>Avaliações · FAQ</span><span>~550–800 KB</span></div>
+    <div class="legend"><span>Paleta oficial</span><span>Click para agendar fixo</span><span>Mapa interativo</span><span>Avaliações · FAQ</span><span>≤ 6 seções</span></div>
   </div>
 </header>
 
 <main class="wrap">
 
+  <div class="rodada">
+    <h2>Rodada 2 — cinco direções novas</h2>
+    <p>Feitas a pedido da Dra. Nicole, com fotos diferentes das rodadas anteriores (só as 22 ainda não usadas), dados reais (CRO, telefone, endereço) e o botão de WhatsApp sempre visível.</p>
+  </div>
+
   <section class="opt">
-    <div class="shots"><img class="d" src="opcao-6-editorial-galeria/preview-desktop.jpg" alt="Conceito 6, Editorial Galeria, versão desktop" width="1440" height="900"><img class="m" src="opcao-6-editorial-galeria/preview-mobile.jpg" alt="Conceito 6 no celular" width="390" height="844"></div>
+    <div class="shots"><img class="d" src="opcao-7-polen/preview-desktop.jpg" alt="Conceito 7, Pólen, versão desktop" width="1440" height="900"><img class="m" src="opcao-7-polen/preview-mobile.jpg" alt="Conceito 7 no celular" width="390" height="844"></div>
+    <div class="info">
+      <div class="num">07</div>
+      <span class="novo">Rodada 2 · fotos novas</span>
+      <h2>Pólen</h2>
+      <p>A manhã de sol: pela primeira vez o Amarelo Pólen é o fundo, não o detalhe. Blocos grandes de amarelo com texto verde, geometria amigável e um "sol" de creme atrás da foto. A direção mais otimista: a página sorri primeiro.</p>
+      <dl>
+        <dt>Tema</dt><dd>Claro e solar: Amarelo Pólen e Pólen-claro dominantes, Verde Colina nos textos e botões</dd>
+        <dt>Tipografia</dt><dd>Gabarito (geométrica, com personalidade) + Arsenal SC</dd>
+        <dt>Assinatura</dt><dd>O "sol" atrás da foto e um ponto solar antes de cada seção; a página "amanhece" num degradê creme→amarelo e termina na "noite" verde do rodapé</dd>
+        <dt>Fotos</dt><dd>Sofá recostada (hero) e sofá sorrindo, as duas mais calorosas do ensaio</dd>
+      </dl>
+      <a class="btn" href="opcao-7-polen/" target="_blank" rel="noopener">Abrir conceito ↗</a>
+    </div>
+  </section>
+
+  <section class="opt">
+    <div class="shots"><img class="d" src="opcao-8-colina/preview-desktop.jpg" alt="Conceito 8, Colina, versão desktop" width="1440" height="900" loading="lazy"><img class="m" src="opcao-8-colina/preview-mobile.jpg" alt="Conceito 8 no celular" width="390" height="844" loading="lazy"></div>
+    <div class="info">
+      <div class="num">08</div>
+      <span class="novo">Rodada 2 · fotos novas</span>
+      <h2>Colina</h2>
+      <p>A paisagem que já está nos nomes da paleta: Verde Colina, Amarelo Pólen, Azul Nuvem, Creme Pérola. Uma caminhada de manhã por colinas com névoa: "não é uma consulta, é um caminho".</p>
+      <dl>
+        <dt>Tema</dt><dd>Claro e orgânico: creme com céu azul-nuvem e colinas verdes em três camadas</dd>
+        <dt>Tipografia</dt><dd>Newsreader (serifa humanista com itálico expressivo) + Arsenal SC</dd>
+        <dt>Assinatura</dt><dd>O horizonte de colinas em SVG que fecha cada seção e vira a borda do rodapé; foto recortada em forma de folha; uma folha que flutua</dd>
+        <dt>Fotos</dt><dd>Poltrona com galhos secos (hero), janela com a cidade ao fundo, mão no peito</dd>
+      </dl>
+      <a class="btn" href="opcao-8-colina/" target="_blank" rel="noopener">Abrir conceito ↗</a>
+    </div>
+  </section>
+
+  <section class="opt">
+    <div class="shots"><img class="d" src="opcao-9-mosaico/preview-desktop.jpg" alt="Conceito 9, Mosaico, versão desktop" width="1440" height="900" loading="lazy"><img class="m" src="opcao-9-mosaico/preview-mobile.jpg" alt="Conceito 9 no celular" width="390" height="844" loading="lazy"></div>
+    <div class="info">
+      <div class="num">09</div>
+      <span class="novo">Rodada 2 · fotos novas</span>
+      <h2>Mosaico</h2>
+      <p>Um painel claro e organizado, parecido com um app: cada informação num bloco da paleta, com cantos arredondados. Para quem chega pelo Instagram e quer saber em dez segundos quem é, o que faz, onde fica e como agendar.</p>
+      <dl>
+        <dt>Tema</dt><dd>Claro e modular: blocos creme, verde, azul-nuvem e amarelo sobre fundo creme-2</dd>
+        <dt>Tipografia</dt><dd>Schibsted Grotesk (grotesca moderna de jornal) + Arsenal SC</dd>
+        <dt>Assinatura</dt><dd>Etiquetas nos cantos das fotos, três dados sob o título e os serviços numa pilha que se empilha ao rolar</dd>
+        <dt>Fotos</dt><dd>Sofá com parede de concreto (hero), em pé de jeans, ripado de madeira escura</dd>
+      </dl>
+      <a class="btn" href="opcao-9-mosaico/" target="_blank" rel="noopener">Abrir conceito ↗</a>
+    </div>
+  </section>
+
+  <section class="opt">
+    <div class="shots"><img class="d" src="opcao-10-atelier/preview-desktop.jpg" alt="Conceito 10, Ateliê, versão desktop" width="1440" height="900" loading="lazy"><img class="m" src="opcao-10-atelier/preview-mobile.jpg" alt="Conceito 10 no celular" width="390" height="844" loading="lazy"></div>
+    <div class="info">
+      <div class="num">10</div>
+      <span class="novo">Rodada 2 · fotos novas</span>
+      <h2>Ateliê</h2>
+      <p>A prótese como ofício: "trabalho minucioso e manual". Papel com grão, fichas técnicas, anotações a lápis amarelo e a Nicole como autora e artesã. A calma de uma oficina, não de um laboratório.</p>
+      <dl>
+        <dt>Tema</dt><dd>Claro, papel: creme com grão, verde nos textos, amarelo só como "lápis"</dd>
+        <dt>Tipografia</dt><dd>Spectral (serifa de leitura) + monoespaçada nas fichas + Arsenal SC</dd>
+        <dt>Assinatura</dt><dd>Cada seção abre com uma ficha técnica e traz uma anotação à mão que se escreve sozinha; o "livro-razão" acompanha a rolagem</dd>
+        <dt>Fotos</dt><dd>À mesa olhando para a câmera (hero), detalhe das mãos, sentada pensativa</dd>
+      </dl>
+      <a class="btn" href="opcao-10-atelier/" target="_blank" rel="noopener">Abrir conceito ↗</a>
+    </div>
+  </section>
+
+  <section class="opt">
+    <div class="shots"><img class="d" src="opcao-11-silencio/preview-desktop.jpg" alt="Conceito 11, Silêncio, versão desktop" width="1440" height="900" loading="lazy"><img class="m" src="opcao-11-silencio/preview-mobile.jpg" alt="Conceito 11 no celular" width="390" height="844" loading="lazy"></div>
+    <div class="info">
+      <div class="num">11</div>
+      <span class="novo">Rodada 2 · fotos novas</span>
+      <h2>Silêncio</h2>
+      <p>Inspirado no "ma", o intervalo japonês: uma coisa por tela, muito ar, rótulos verticais, serifa fina e ritmo lento. A página respira como o consultório ao fim do dia; o manifesto vira quatro telas escuras com uma frase cada.</p>
+      <dl>
+        <dt>Tema</dt><dd>Claro e vazio, com uma cena escura: creme, verde-escuro no manifesto, azul-nuvem nas molduras</dd>
+        <dt>Tipografia</dt><dd>Source Serif 4 (fina nos títulos, sólida no texto) + Arsenal SC</dd>
+        <dt>Assinatura</dt><dd>Rótulos verticais na borda, navegação vertical com ponto amarelo que desliza, manifesto em quatro telas silenciosas</dd>
+        <dt>Fotos</dt><dd>Perfil de corpo inteiro com muito espaço (hero), movimento com desfoque, poltrona apoiada</dd>
+      </dl>
+      <a class="btn" href="opcao-11-silencio/" target="_blank" rel="noopener">Abrir conceito ↗</a>
+    </div>
+  </section>
+
+  <div class="rodada">
+    <h2>Rodada 1</h2>
+    <p>Os cinco primeiros caminhos e a mistura aprovada (opção 6), que hoje é a base do site em produção. Nesta rodada os dados ainda eram provisórios.</p>
+  </div>
+
+  <section class="opt">
+    <div class="shots"><img class="d" src="opcao-6-editorial-galeria/preview-desktop.jpg" alt="Conceito 6, Editorial Galeria, versão desktop" width="1440" height="900" loading="lazy"><img class="m" src="opcao-6-editorial-galeria/preview-mobile.jpg" alt="Conceito 6 no celular" width="390" height="844" loading="lazy"></div>
     <div class="info">
       <div class="num">06</div>
-      <span class="novo">Nova · mistura de 01 + 04</span>
+      <span class="novo aprovado">Aprovado · mistura de 01 + 04</span>
       <h2>Editorial Galeria</h2>
       <p>A elegância editorial da opção 1 com as letras do logo da opção 4. Mais enxuta e mais fácil de ler: 6 seções, no máximo 2 fotos por seção e mapa sem "Para quem vem de fora".</p>
       <dl>
@@ -156,12 +255,11 @@
 </main>
 
 <footer class="wrap">
-  <p><strong>Ainda são placeholders em todos os conceitos:</strong></p>
+  <p><strong>Observações</strong></p>
   <ul>
-    <li>CRO-SP, telefone/WhatsApp, Instagram, sala e horário</li>
-    <li>Endereço provável: R. Barreto Leme, 2281, Cambuí (Allevare Coworking Odontológico), a confirmar</li>
-    <li>Nota e trechos de avaliações (marcados "Exemplo de layout"; no site final só entram avaliações reais do Google, com autorização)</li>
-    <li>Páginas internas de cada serviço (serão criadas depois da escolha)</li>
+    <li>Rodada 2 (7–11): dados reais da Dra. Nicole. Só falta o horário de atendimento (mostram "com hora marcada") e os trechos de avaliações (mostram só o convite para ler no Google).</li>
+    <li>Rodada 1 (1–6): dados ainda provisórios nos protótipos; o site em produção, feito a partir da opção 6, já tem os dados reais.</li>
+    <li>A opção escolhida será aplicada ao site completo (páginas de serviço, sobre, consultório, perguntas, contato).</li>
   </ul>
 </footer>
 </body>

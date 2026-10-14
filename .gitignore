@@ -28,3 +28,4 @@ conteudo-staging/
 # Capturas de QA do site
 qa/
 !.env.previa
+design-options/_tmp-*/
